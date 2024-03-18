@@ -22,6 +22,7 @@ class DioHelper {
     dio.options.headers = {
       'Content-Type': 'application/json',
       'lang': '',
+      'User-Agent': 'Chrome/96.0.4664.110',
       if (bearerToken != null) "Authorization": "Bearer $bearerToken",
       'Accept': 'text/plain',
     };
@@ -38,6 +39,7 @@ class DioHelper {
     dio.options.headers = {
       'Content-Type': 'application/json',
       'lang': '',
+      'User-Agent': 'Chrome/96.0.4664.110',
       if (token != null) "Authorization": "Bearer $token",
       'Accept': 'text/plain',
     };
@@ -56,6 +58,7 @@ class DioHelper {
     dio.options.headers = {
       'Content-Type': 'application/json',
       'lang': '',
+      'User-Agent': 'Chrome/96.0.4664.110',
       if (token != null) "Authorization": "Bearer $token",
       'Accept': 'text/plain',
     };
@@ -71,6 +74,7 @@ class DioHelper {
   }) async {
     dio.options.headers = {
       'Content-Type': 'application/json',
+      'User-Agent': 'Chrome/96.0.4664.110',
       if (token != null) "Authorization": "Bearer $token",
       'Accept': 'text/plain',
     };

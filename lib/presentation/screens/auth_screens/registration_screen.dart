@@ -96,7 +96,7 @@ class RegistrationScreen extends StatelessWidget {
 
                 showDialog(
                   context: context,
-                  builder: (_) => OtpDialog(isUser: isUser,),
+                  builder: (_) => const OtpDialog(),
                 );
               },
               text: "ارسال الرمز",

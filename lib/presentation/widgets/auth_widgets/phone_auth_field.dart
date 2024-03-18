@@ -46,7 +46,7 @@ class _PhoneAuthFieldState extends State<PhoneAuthField> {
         ),
         counter: const SizedBox.shrink(),
       ),
-      initialCountryCode: "SA",
+      initialCountryCode: "EG",
       languageCode: "ar",
       validator: (value) async{
         return "صيغة غير صحيحة";

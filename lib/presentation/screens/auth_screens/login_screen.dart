@@ -1,30 +1,46 @@
-import 'package:car_wash/core/app_router/screens_name.dart';
-import 'package:car_wash/core/app_theme/custom_font_weights.dart';
-import 'package:car_wash/core/app_theme/custom_themes.dart';
-import 'package:car_wash/presentation/widgets/shared_widgets/custom_sized_box.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
+import '../../../business_logic/auth_cubit/auth_cubit.dart';
+import '../../../core/app_router/screens_name.dart';
 import '../../../core/app_theme/app_colors.dart';
+import '../../../core/app_theme/custom_font_weights.dart';
+import '../../../core/app_theme/custom_themes.dart';
 import '../../../core/assets_path/images_path.dart';
 import '../../../core/assets_path/svg_path.dart';
+import '../../../core/constants/constants.dart';
+import '../../../core/parameters/auth_parameters/login_parameters.dart';
 import '../../widgets/auth_widgets/phone_auth_field.dart';
 import '../../widgets/dialogs/auth_dialogs/otp_dialog.dart';
 import '../../widgets/shared_widgets/custom_elevated_button.dart';
-import '../../widgets/auth_widgets/otp_builder.dart';
+import '../../widgets/shared_widgets/custom_sized_box.dart';
 import '../../widgets/shared_widgets/custom_text_button.dart';
 import '../../widgets/shared_widgets/form_item_widget.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  late final AuthCubit cubit;
+
+  @override
+  void initState() {
+    cubit = AuthCubit.get(context);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: ListView(
-          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 32.h),
+          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 32.h,),
           children: [
             const CustomSizedBox(
               height: 49,
@@ -59,20 +75,56 @@ class LoginScreen extends StatelessWidget {
             const CustomSizedBox(
               height: 42,
             ),
-            const PhoneAuthField(),
+            PhoneAuthField(
+              textEditingController: cubit.loginPhoneController,
+            ),
+            // const CustomSizedBox(
+            //   height: 16,
+            // ),
+            FormItemWidget(
+              title: "",
+              hintText: "ادخل كلمة المرور",
+              controller: cubit.loginPasswordController,
+            ),
             const CustomSizedBox(
               height: 16,
             ),
-            CustomElevatedButton(
-                borderRadius: null,
-                onPressed: () {
+            BlocConsumer<AuthCubit, AuthState>(
+              listener: (context, state) {
+                if (state is LoginSuccessState) {
+                  Navigator.pop(context);
                   showDialog(
                     context: context,
-                    builder: (_) => OtpDialog(isUser: true,),
+                    builder: (_) => OtpDialog(
+                      phoneNumber: state.loginModel?.result?.mobile,
+                      otpCode: state.loginModel?.otpCode?.toString() ?? "",
+                      // isUser: true,
+                    ),
                   );
-                },
-                text: "ارسال الرمز",
-                height: 48),
+                }
+                if (state is LoginLoadingState) {
+                  showProgressIndicator(context);
+                }
+                if (state is LoginErrorState) {
+                  Navigator.pop(context);
+                }
+              },
+              builder: (context, state) {
+                return CustomElevatedButton(
+                  borderRadius: null,
+                  onPressed: () {
+                    cubit.login(
+                      loginParameters: LoginParameters(
+                        mobileNumber: cubit.loginPhoneController.text,
+                        password: cubit.loginPasswordController.text,
+                      ),
+                    );
+                  },
+                  text: "ارسال الرمز",
+                  height: 48,
+                );
+              },
+            ),
             const CustomSizedBox(
               height: 24,
             ),
@@ -87,14 +139,21 @@ class LoginScreen extends StatelessWidget {
                     child: CustomTextButton(
                       height: 26,
                       onPressed: () {
-                        Navigator.pushNamed(context, ScreenName.registerScreen,);
+                        Navigator.pushNamed(
+                          context,
+                          ScreenName.registerScreen,
+                        );
                       },
-                      child: Text("سجل الان",style: CustomThemes.primaryColorTextTheme(context).copyWith(
-                        fontWeight: CustomFontWeights.bold,
-                        fontSize: 16.sp,
-                        decoration: TextDecoration.underline,
-                        decorationColor: AppColors.primaryColor,
-                      ),),
+                      child: Text(
+                        "سجل الان",
+                        style: CustomThemes.primaryColorTextTheme(context)
+                            .copyWith(
+                          fontWeight: CustomFontWeights.bold,
+                          fontSize: 16.sp,
+                          decoration: TextDecoration.underline,
+                          decorationColor: AppColors.primaryColor,
+                        ),
+                      ),
                     ),
                   ),
                 ],

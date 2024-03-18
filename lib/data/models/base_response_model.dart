@@ -11,6 +11,13 @@ class BaseResponseModel<T> extends Equatable {
     this.result,
   });
 
+  factory BaseResponseModel.fromJson(Map<String, dynamic> json) {
+    return BaseResponseModel(
+      success: json["success"],
+      message: json["message"],
+    );
+  }
+
   @override
   // TODO: implement props
   List<Object?> get props => [
