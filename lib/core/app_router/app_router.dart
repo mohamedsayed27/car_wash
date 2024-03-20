@@ -46,8 +46,7 @@ class AppRouter {
         case ScreenName.notificationScreen:
           return SlideRightRoute(page: const NotificationScreen(),);
         case ScreenName.registerScreen:
-          final bool? isUser = settings.arguments as bool?;
-          return SlideRightRoute(page:RegistrationScreen(isUser: isUser??true,),);
+          return SlideRightRoute(page:const RegistrationScreen(),);
         case ScreenName.registerTypeScreen:
           return SlideRightRoute(page: const RegisterTypeScreen(),);
         case ScreenName.userConfirmOrderScreen:

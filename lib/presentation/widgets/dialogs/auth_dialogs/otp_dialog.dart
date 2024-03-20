@@ -78,9 +78,10 @@ class OtpDialog extends StatelessWidget {
               }
             },
             builder: (context, state) {
-
+              var cubit = AuthCubit.get(context);
               return CustomElevatedButton(
                 onPressed: () {
+                  cubit.sendOtp(code: otpCode??"");
                   // Navigator.pushNamed(
                   //   context,
                   //   ScreenName.userHomeScreen,

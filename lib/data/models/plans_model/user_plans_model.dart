@@ -40,7 +40,7 @@ class UserPlansModel extends Equatable {
 
   @override
   List<Object?> get props =>
-      [id, planId, planPrice, userId, washNumber, publish];
+      [id, planId, planPrice, userId, washNumber, publish,];
 
   factory UserPlansModel.fromJson(Map<String, dynamic> json) {
     return UserPlansModel(

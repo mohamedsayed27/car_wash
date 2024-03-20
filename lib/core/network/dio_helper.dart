@@ -1,3 +1,6 @@
+import 'package:car_wash/core/cache_helper/cache_keys.dart';
+import 'package:car_wash/core/cache_helper/shared_pref_methods.dart';
+import 'package:car_wash/core/constants/constants.dart';
 import 'package:dio/dio.dart';
 import 'api_end_points.dart';
 
@@ -13,17 +16,21 @@ class DioHelper {
     );
   }
 
+  void getToken(){
+
+    token = CacheHelper.getData(key: CacheKeys.token);
+  }
    Future<Response> getData({
     required String url,
     Map<String, dynamic>? query,
-    String? bearerToken,
     String lang = 'en',
   }) async {
+     getToken();
     dio.options.headers = {
       'Content-Type': 'application/json',
       'lang': '',
       'User-Agent': 'Chrome/96.0.4664.110',
-      if (bearerToken != null) "Authorization": "Bearer $bearerToken",
+      if (token != null) "Authorization": "Bearer $token",
       'Accept': 'text/plain',
     };
     return await dio.get(url, queryParameters: query,);
@@ -34,8 +41,10 @@ class DioHelper {
     dynamic query,
     dynamic data,
     String lang = 'en',
-    String? token,
+    Options? options,
   }) async {
+
+     getToken();
     dio.options.headers = {
       'Content-Type': 'application/json',
       'lang': '',
@@ -43,7 +52,7 @@ class DioHelper {
       if (token != null) "Authorization": "Bearer $token",
       'Accept': 'text/plain',
     };
-    return await dio.post(url, queryParameters: query, data: data);
+    return await dio.post(url, queryParameters: query, data: data,options: options);
 
     // return ;
   }
@@ -53,8 +62,8 @@ class DioHelper {
     dynamic query,
     dynamic data,
     String lang = 'en',
-    String? token,
   }) async {
+     getToken();
     dio.options.headers = {
       'Content-Type': 'application/json',
       'lang': '',
@@ -70,8 +79,8 @@ class DioHelper {
     dynamic query,
     dynamic data,
     String lang = 'en',
-    String? token,
   }) async {
+     getToken();
     dio.options.headers = {
       'Content-Type': 'application/json',
       'User-Agent': 'Chrome/96.0.4664.110',

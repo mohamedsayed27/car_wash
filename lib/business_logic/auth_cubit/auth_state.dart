@@ -3,7 +3,15 @@ part of 'auth_cubit.dart';
 abstract class AuthState {}
 
 class AuthInitial extends AuthState {}
+class GetPickedImageSuccessState extends AuthState {
 
+  final File? pickedImage;
+
+  GetPickedImageSuccessState({required this.pickedImage,});
+}
+
+
+class GetPickedImageErrorState extends AuthState {}
 
 class LoginLoadingState extends AuthState {}
 class LoginSuccessState extends AuthState {

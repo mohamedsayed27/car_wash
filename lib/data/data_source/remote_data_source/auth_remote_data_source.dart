@@ -46,13 +46,19 @@ class AuthRemoteDataSource {
   }) async {
     try {
       final response = await dioHelper.postData(
-        url: EndPoints.login,
+        url: EndPoints.otp,
+        options: Options(
+          followRedirects: false,
+          maxRedirects: 0,
+          validateStatus: (status) => status! < 500,
+        ),
         data: FormData.fromMap(
           {
             "code": otpCode,
           },
         ),
       );
+      print(response);
       return Right(
         BaseResponseModel.fromJson(
           response.data,
@@ -60,6 +66,7 @@ class AuthRemoteDataSource {
       );
     } catch (e) {
       if (e is DioException) {
+        print(e);
         return Left(
           ErrorException(
             baseErrorModel: BaseErrorModel.fromJson(
@@ -86,6 +93,7 @@ class AuthRemoteDataSource {
       return Right(RegisterModel.fromJson(response.data));
     } catch (e) {
       if (e is DioException) {
+        print(e);
         return Left(
           ErrorException(
             baseErrorModel: BaseErrorModel.fromJson(e.response!.data),

@@ -2,7 +2,7 @@ import 'package:car_wash/data/models/base_response_model.dart';
 import 'package:equatable/equatable.dart';
 
 class GetAllPlansModel extends BaseResponseModel<List<AllPlansModel>> {
-  GetAllPlansModel({
+  const GetAllPlansModel({
     required super.success,
     required super.message,
     super.result,

@@ -1,5 +1,26 @@
 import 'package:equatable/equatable.dart';
 
+import '../base_response_model.dart';
+
+class GetAddressesModel extends BaseResponseModel<List<AddressModel>> {
+  const GetAddressesModel({
+    required super.success,
+    required super.message,
+    super.result,
+  });
+
+  factory GetAddressesModel.fromJson(Map<String, dynamic> json) {
+    return GetAddressesModel(
+      success: json['success'],
+      message: json['message'],
+      result: json['result'] != null && json['result'].isNotEmpty
+          ? List<AddressModel>.from(
+        json['result'].map((e) => AddressModel.fromJson(e)).toList(),
+      )
+          : null,
+    );
+  }
+}
 class AddressModel extends Equatable {
   final int? id;
   final String? streetName;

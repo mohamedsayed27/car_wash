@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:car_wash/core/parameters/auth_parameters/login_parameters.dart';
 import 'package:car_wash/data/models/auth_models/register_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../core/cache_helper/cache_keys.dart';
 import '../../core/cache_helper/shared_pref_methods.dart';
@@ -27,7 +30,29 @@ class AuthCubit extends Cubit<AuthState> {
   RegisterModel? registerModel;
   final TextEditingController loginPhoneController = TextEditingController();
   final TextEditingController loginPasswordController = TextEditingController();
+  final TextEditingController registerFirstNameController = TextEditingController();
+  final TextEditingController registerLastNameController = TextEditingController();
+  final TextEditingController registerPhoneController = TextEditingController();
+  final TextEditingController registerPasswordController = TextEditingController();
+  final TextEditingController registerEmailController = TextEditingController();
 
+  String countryDialCode ="20";
+
+
+
+  final _picker = ImagePicker();
+
+  File? profileImage;
+  Future<void> getImagePick() async {
+    final pickedFile = await _picker.pickImage(
+      source: ImageSource.gallery,
+    );
+    if (pickedFile != null) {
+      emit(GetPickedImageSuccessState(pickedImage: File(pickedFile.path)));
+    } else {
+      emit(GetPickedImageErrorState());
+    }
+  }
 
   void login({
     required LoginParameters loginParameters,
