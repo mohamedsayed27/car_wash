@@ -28,7 +28,7 @@ class UserHomeScreen extends StatefulWidget {
 class _UserHomeScreenState extends State<UserHomeScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final Completer<GoogleMapController> _googleMapController =
-      Completer<GoogleMapController>();
+  Completer<GoogleMapController>();
   late final LatLng sourceLocation;
 
   final GoogleMapsServices googleMapsServices = GoogleMapsServices();
@@ -104,6 +104,13 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
   double zoomValue = 13.5;
 
   @override
+  void initState() {
+    getCurrentMarker();
+    getCurrentLocation();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
@@ -121,7 +128,8 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
               iconPath: SvgPath.personOutlined,
               title: "حسابى",
               onPressed: () {
-                Navigator.pushNamed(context, ScreenName.editProfileScreen);},
+                Navigator.pushNamed(context, ScreenName.editProfileScreen);
+              },
             ),
             CustomDrawerButton(
               iconPath: SvgPath.messageText,
@@ -154,37 +162,41 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
         children: [
           currentLocation == null
               ? const Center(
-                  child: CircularProgressIndicator.adaptive(),
-                )
-              : GoogleMap(
-                  myLocationButtonEnabled: false,
-                  onCameraMove: (CameraPosition cameraPosition) {
-                    setState(() {
-                      zoomValue = cameraPosition.zoom;
-                    });
-                  },
-                  onMapCreated: (controller) {
-                    _googleMapController.complete(controller);
-                  },
-                  markers: {
-                    Marker(
-                      markerId: const MarkerId("currentLocation"),
-                      icon: currentIcon,
-                      position: LatLng(
-                        currentLocation!.latitude,
-                        currentLocation!.longitude,
-                      ),
-                    ),
-                  },
-                  initialCameraPosition: CameraPosition(
-                    target: LatLng(
-                      currentLocation!.latitude,
-                      currentLocation!.longitude,
-                    ),
-                    zoom: zoomValue,
+            child: CircularProgressIndicator.adaptive(),
+          )
+              : CustomSizedBox(
+            height: double.infinity,
+            width: double.infinity,
+            child: GoogleMap(
+              myLocationButtonEnabled: false,
+              onCameraMove: (CameraPosition cameraPosition) {
+                setState(() {
+                  zoomValue = cameraPosition.zoom;
+                });
+              },
+              onMapCreated: (controller) {
+                _googleMapController.complete(controller);
+              },
+              markers: {
+                Marker(
+                  markerId: const MarkerId("currentLocation"),
+                  icon: currentIcon,
+                  position: LatLng(
+                    currentLocation!.latitude,
+                    currentLocation!.longitude,
                   ),
-                  mapType: MapType.normal,
                 ),
+              },
+              initialCameraPosition: CameraPosition(
+                target: LatLng(
+                  currentLocation!.latitude,
+                  currentLocation!.longitude,
+                ),
+                zoom: zoomValue,
+              ),
+              mapType: MapType.normal,
+            ),
+          ),
           PositionedDirectional(
             top: preferredSize.height,
             start: 16,
