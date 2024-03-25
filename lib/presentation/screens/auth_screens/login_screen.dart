@@ -106,7 +106,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   showProgressIndicator(context);
                 }
                 if (state is LoginErrorState) {
-                  Navigator.pop(context);
+                  Navigator.pop(context); 
                 }
               },
               builder: (context, state) {

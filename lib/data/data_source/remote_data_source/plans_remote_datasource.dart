@@ -1,8 +1,4 @@
-import 'package:car_wash/data/models/base_response_model.dart';
-import 'package:car_wash/data/models/base_response_model.dart';
-import 'package:car_wash/data/models/plans_model/all_plans_model.dart';
-import 'package:car_wash/data/models/plans_model/user_plans_model.dart';
-import 'package:car_wash/data/models/plans_model/user_plans_model.dart';
+
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 
@@ -11,11 +7,14 @@ import '../../../core/network/api_end_points.dart';
 import '../../../core/network/dio_helper.dart';
 import '../../../core/network/error_message_model.dart';
 import '../../../core/parameters/auth_parameters/login_parameters.dart';
+import '../../models/base_response_model.dart';
+import '../../models/plans_model/all_plans_model.dart';
+import '../../models/plans_model/user_plans_model.dart';
 
-class PlansRemoteDatasource{
+class PlansRemoteDatasource {
   final DioHelper dioHelper;
-  PlansRemoteDatasource({required this.dioHelper});
 
+  PlansRemoteDatasource({required this.dioHelper});
 
   Future<Either<ErrorException, GetAllPlansModel>> getAllPlans({
     required LoginParameters parameters,
@@ -24,7 +23,9 @@ class PlansRemoteDatasource{
       final response = await dioHelper.getData(
         url: EndPoints.plans,
       );
-      return Right(GetAllPlansModel.fromJson(response.data),);
+      return Right(
+        GetAllPlansModel.fromJson(response.data),
+      );
     } catch (e) {
       if (e is DioException) {
         return Left(
@@ -45,7 +46,9 @@ class PlansRemoteDatasource{
       final response = await dioHelper.getData(
         url: EndPoints.userPlans,
       );
-      return Right(GetUserPlansModel.fromJson(response.data),);
+      return Right(
+        GetUserPlansModel.fromJson(response.data),
+      );
     } catch (e) {
       if (e is DioException) {
         return Left(
@@ -67,7 +70,7 @@ class PlansRemoteDatasource{
         url: EndPoints.subscribePlan,
         data: FormData.fromMap(
           {
-            "plan_id":planId
+            "plan_id": planId,
           },
         ),
       );
@@ -93,7 +96,7 @@ class PlansRemoteDatasource{
         url: EndPoints.unSubscribePlan,
         data: FormData.fromMap(
           {
-            "plan_id":planId
+            "plan_id": planId,
           },
         ),
       );

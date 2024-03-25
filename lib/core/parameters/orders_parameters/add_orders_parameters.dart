@@ -5,21 +5,19 @@ class AddOrderParameters extends Equatable {
   final String serviceId;
   final String carTypeId;
   final String userAddressId;
-  final String orderDate;
-  final String orderTime;
+  final String orderTimeId;
 
   const AddOrderParameters({
     required this.userPlanId,
     required this.serviceId,
     required this.carTypeId,
     required this.userAddressId,
-    required this.orderDate,
-    required this.orderTime,
+    required this.orderTimeId,
   });
 
   @override
   List<Object?> get props =>
-      [userPlanId, serviceId, carTypeId, userAddressId, orderDate, orderTime];
+      [userPlanId, serviceId, carTypeId, userAddressId, orderTimeId,];
 
   Map<String, dynamic> toJson() {
     return {
@@ -27,8 +25,7 @@ class AddOrderParameters extends Equatable {
       'service_id': serviceId,
       'car_type_id': carTypeId,
       'user_address_id': userAddressId,
-      'order_date': orderDate,
-      'order_time': orderTime,
+      'order_schedule_time_id': orderTimeId,
     };
   }
 }

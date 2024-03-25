@@ -1,12 +1,3 @@
-import 'package:car_wash/core/parameters/address_parameters/add_address_parameters.dart';
-import 'package:car_wash/core/parameters/address_parameters/update_address_parameters.dart';
-import 'package:car_wash/data/models/address_model/address_model.dart';
-import 'package:car_wash/data/models/address_model/address_model.dart';
-import 'package:car_wash/data/models/base_response_model.dart';
-import 'package:car_wash/data/models/base_response_model.dart';
-import 'package:car_wash/data/models/plans_model/all_plans_model.dart';
-import 'package:car_wash/data/models/plans_model/user_plans_model.dart';
-import 'package:car_wash/data/models/plans_model/user_plans_model.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 
@@ -14,21 +5,43 @@ import '../../../core/error/error_exception.dart';
 import '../../../core/network/api_end_points.dart';
 import '../../../core/network/dio_helper.dart';
 import '../../../core/network/error_message_model.dart';
-import '../../../core/parameters/auth_parameters/login_parameters.dart';
+import '../../../core/parameters/orders_parameters/add_orders_parameters.dart';
+import '../../../core/parameters/orders_parameters/update_order_parameters.dart';
+import '../../models/base_response_model.dart';
 
 class OrdersRemoteDatasource{
   final DioHelper dioHelper;
-  OrdersRemoteDatasource({required this.dioHelper});
+  OrdersRemoteDatasource({required this.dioHelper,});
 
 
-  Future<Either<ErrorException, GetAddressesModel>> getAddress({
-    required LoginParameters parameters,
-  }) async {
+  Future<Either<ErrorException, BaseResponseModel>> getOrders() async {
     try {
       final response = await dioHelper.getData(
         url: EndPoints.orders,
       );
-      return Right(GetAddressesModel.fromJson(response.data),);
+      return Right(BaseResponseModel.fromJson(response.data,),);
+    } catch (e) {
+      if (e is DioException) {
+        return Left(
+          ErrorException(
+            baseErrorModel: BaseErrorModel.fromJson(e.response!.data,),
+          ),
+        );
+      } else {
+        rethrow;
+      }
+    }
+  }
+
+
+  Future<Either<ErrorException, BaseResponseModel>> getSingleOrder({
+    required int orderId,
+  }) async {
+    try {
+      final response = await dioHelper.getData(
+        url: "${EndPoints.singleOrders}/$orderId",
+      );
+      return Right(BaseResponseModel.fromJson(response.data),);
     } catch (e) {
       if (e is DioException) {
         return Left(
@@ -43,12 +56,12 @@ class OrdersRemoteDatasource{
   }
 
 
-  Future<Either<ErrorException, BaseResponseModel>> addAddress({
-    required AddAddressParameters parameters,
+  Future<Either<ErrorException, BaseResponseModel>> addOrder({
+    required AddOrderParameters parameters,
   }) async {
     try {
       final response = await dioHelper.postData(
-        url: EndPoints.addAddress,
+        url: EndPoints.makeOrders,
         data: FormData.fromMap(
           parameters.toJson(),
         ),
@@ -68,12 +81,12 @@ class OrdersRemoteDatasource{
   }
 
 
-  Future<Either<ErrorException, BaseResponseModel>> updateAddress({
-    required UpdateAddressParameters parameters,
+  Future<Either<ErrorException, BaseResponseModel>> updateOrder({
+    required UpdateOrderParameters parameters,
   }) async {
     try {
       final response = await dioHelper.postData(
-        url: EndPoints.updateAddress,
+        url: EndPoints.updateOrders,
         data: FormData.fromMap(
           parameters.toJson(),
         ),
@@ -93,15 +106,15 @@ class OrdersRemoteDatasource{
   }
 
 
-  Future<Either<ErrorException, BaseResponseModel>> deleteAddress({
-    required String addressId,
+  Future<Either<ErrorException, BaseResponseModel>> deleteOrder({
+    required String orderId,
   }) async {
     try {
       final response = await dioHelper.postData(
-        url: EndPoints.deleteAddress,
+        url: EndPoints.cancelOrders,
         data: FormData.fromMap(
           {
-            "address_id":addressId,
+            "order_id":orderId,
           },
         ),
       );

@@ -21,9 +21,7 @@ class AddressRemoteDatasource{
   AddressRemoteDatasource({required this.dioHelper});
 
 
-  Future<Either<ErrorException, GetAddressesModel>> getAddress({
-    required LoginParameters parameters,
-  }) async {
+  Future<Either<ErrorException, GetAddressesModel>> getAddress() async {
     try {
       final response = await dioHelper.getData(
         url: EndPoints.addresses,
