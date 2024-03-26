@@ -167,8 +167,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   onPressed: () {
                     cubit.register(
                       registerParameters: RegisterParameters(
-                        name:
-                            "${cubit.registerFirstNameController.text} ${cubit.registerLastNameController.text}",
+                        name: "${cubit.registerFirstNameController.text} ${cubit.registerLastNameController.text}",
                         mobileNumber: cubit.registerPhoneController.text,
                         password: cubit.registerPasswordController.text,
                         avatar: cubit.profileImage!,
@@ -176,7 +175,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     );
                   },
                   text: "تسجيل",
-                  height: 48,
+                  width: double.infinity,
+                  padding: EdgeInsets.symmetric(vertical: 16.h),
                 ),
                 const CustomSizedBox(
                   height: 16,

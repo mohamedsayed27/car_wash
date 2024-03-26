@@ -73,7 +73,7 @@ class _LoginScreenState extends State<LoginScreen> {
               width: 203.w,
             ),
             const CustomSizedBox(
-              height: 32,
+              height: 24,
             ),
             PhoneAuthField(
               textEditingController: cubit.loginPhoneController,
@@ -92,7 +92,7 @@ class _LoginScreenState extends State<LoginScreen> {
               controller: cubit.loginPasswordController,
             ),
             const CustomSizedBox(
-              height: 24,
+              height: 32,
             ),
             BlocConsumer<AuthCubit, AuthState>(
               listener: (context, state) {
@@ -126,7 +126,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     );
                   },
                   text: "ارسال الرمز",
-                  height: 48,
+                  width: double.infinity,
+                  padding: EdgeInsets.symmetric(vertical: 16.h),
                 );
               },
             ),

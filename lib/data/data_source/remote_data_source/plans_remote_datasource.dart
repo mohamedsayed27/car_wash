@@ -16,9 +16,7 @@ class PlansRemoteDatasource {
 
   PlansRemoteDatasource({required this.dioHelper});
 
-  Future<Either<ErrorException, GetAllPlansModel>> getAllPlans({
-    required LoginParameters parameters,
-  }) async {
+  Future<Either<ErrorException, GetAllPlansModel>> getAllPlans() async {
     try {
       final response = await dioHelper.getData(
         url: EndPoints.plans,
@@ -39,9 +37,7 @@ class PlansRemoteDatasource {
     }
   }
 
-  Future<Either<ErrorException, GetUserPlansModel>> getUserPlans({
-    required LoginParameters parameters,
-  }) async {
+  Future<Either<ErrorException, GetUserPlansModel>> getUserPlans() async {
     try {
       final response = await dioHelper.getData(
         url: EndPoints.userPlans,

@@ -1,3 +1,4 @@
+import 'package:car_wash/data/models/car_types_model/car_types_model.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 
@@ -8,6 +9,7 @@ import '../../../core/network/error_message_model.dart';
 import '../../../core/parameters/orders_parameters/add_orders_parameters.dart';
 import '../../../core/parameters/orders_parameters/update_order_parameters.dart';
 import '../../models/base_response_model.dart';
+import '../../models/services_model/services_model.dart';
 
 class OrdersRemoteDatasource{
   final DioHelper dioHelper;
@@ -124,6 +126,48 @@ class OrdersRemoteDatasource{
         return Left(
           ErrorException(
             baseErrorModel: BaseErrorModel.fromJson(e.response!.data),
+          ),
+        );
+      } else {
+        rethrow;
+      }
+    }
+  }
+
+
+
+  Future<Either<ErrorException, GetCarTypesModel>> getCarTypes() async {
+    try {
+      final response = await dioHelper.getData(
+        url: EndPoints.carTypes,
+      );
+      return Right(GetCarTypesModel.fromJson(response.data,),);
+    } catch (e) {
+      if (e is DioException) {
+        return Left(
+          ErrorException(
+            baseErrorModel: BaseErrorModel.fromJson(e.response!.data,),
+          ),
+        );
+      } else {
+        rethrow;
+      }
+    }
+  }
+
+
+
+  Future<Either<ErrorException, GetServicesModel>> getServices() async {
+    try {
+      final response = await dioHelper.getData(
+        url: EndPoints.carTypes,
+      );
+      return Right(GetServicesModel.fromJson(response.data,),);
+    } catch (e) {
+      if (e is DioException) {
+        return Left(
+          ErrorException(
+            baseErrorModel: BaseErrorModel.fromJson(e.response!.data,),
           ),
         );
       } else {
