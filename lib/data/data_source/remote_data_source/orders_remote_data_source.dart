@@ -1,4 +1,6 @@
 import 'package:car_wash/data/models/car_types_model/car_types_model.dart';
+import 'package:car_wash/data/models/time_schedule/time_schedule.dart';
+import 'package:car_wash/data/models/time_schedule/time_schedule.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 
@@ -160,9 +162,28 @@ class OrdersRemoteDatasource{
   Future<Either<ErrorException, GetServicesModel>> getServices() async {
     try {
       final response = await dioHelper.getData(
-        url: EndPoints.carTypes,
+        url: EndPoints.services,
       );
       return Right(GetServicesModel.fromJson(response.data,),);
+    } catch (e) {
+      if (e is DioException) {
+        return Left(
+          ErrorException(
+            baseErrorModel: BaseErrorModel.fromJson(e.response!.data,),
+          ),
+        );
+      } else {
+        rethrow;
+      }
+    }
+  }
+
+  Future<Either<ErrorException, GetAllTimeScheduleModel>> getTimeSchedule() async {
+    try {
+      final response = await dioHelper.getData(
+        url: EndPoints.timeSchedule,
+      );
+      return Right(GetAllTimeScheduleModel.fromJson(response.data,),);
     } catch (e) {
       if (e is DioException) {
         return Left(

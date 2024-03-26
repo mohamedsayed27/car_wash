@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:phone_form_field/phone_form_field.dart';
 
 import '../../../business_logic/auth_cubit/auth_cubit.dart';
 import '../../../core/app_router/screens_name.dart';
@@ -29,6 +30,8 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   late final AuthCubit cubit;
 
+  final PhoneController loginPhoneController = PhoneController(initialValue: PhoneNumber(isoCode: IsoCode.EG, nsn: ""));
+  final TextEditingController loginPasswordController = TextEditingController();
   @override
   void initState() {
     cubit = AuthCubit.get(context);
@@ -40,7 +43,10 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       body: SafeArea(
         child: ListView(
-          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 32.h,),
+          padding: EdgeInsets.symmetric(
+            horizontal: 16.w,
+            vertical: 32.h,
+          ),
           children: [
             const CustomSizedBox(
               height: 24,
@@ -76,7 +82,7 @@ class _LoginScreenState extends State<LoginScreen> {
               height: 24,
             ),
             PhoneAuthField(
-              textEditingController: cubit.loginPhoneController,
+              textEditingController: loginPhoneController,
             ),
             // const CustomSizedBox(
             //   height: 16,
@@ -89,7 +95,7 @@ class _LoginScreenState extends State<LoginScreen> {
               // enabled: enabled,
               // filled: enabled == false ? true : null,
               // fillColor: enabled == false ? AppColors.greyColorB0 : null,
-              controller: cubit.loginPasswordController,
+              controller: loginPasswordController,
             ),
             const CustomSizedBox(
               height: 32,
@@ -98,30 +104,44 @@ class _LoginScreenState extends State<LoginScreen> {
               listener: (context, state) {
                 if (state is LoginSuccessState) {
                   Navigator.pop(context);
-                  showDialog(
-                    context: context,
-                    builder: (_) => OtpDialog(
-                      phoneNumber: state.loginModel?.result?.mobile,
-                      otpCode: state.loginModel?.otpCode?.toString() ?? "",
-                      // isUser: true,
-                    ),
-                  );
+                  if (state.loginModel?.otpCode != null) {
+                    showDialog(
+                      context: context,
+                      builder: (_) => OtpDialog(
+                        phoneNumber: state.loginModel?.result?.mobile,
+                        otpCode: state.loginModel?.otpCode?.toString() ?? "",
+                        // isUser: true,
+                      ),
+                    );
+                  } else {
+                    AuthCubit.get(context).handleCache(
+                      token: state.loginModel?.token,
+                      userId: state.loginModel?.result?.id,
+                    );
+                    Navigator.pushNamedAndRemoveUntil(
+                      context,
+                      ScreenName.userHomeScreen,
+                      (route) => false,
+                    );
+                  }
                 }
                 if (state is LoginLoadingState) {
                   showProgressIndicator(context);
                 }
                 if (state is LoginErrorState) {
-                  Navigator.pop(context); 
+                  Navigator.pop(context);
+
                 }
               },
               builder: (context, state) {
                 return CustomElevatedButton(
                   borderRadius: null,
                   onPressed: () {
+                    print(loginPhoneController.value.isoCode.name);
                     cubit.login(
                       loginParameters: LoginParameters(
-                        mobileNumber: cubit.loginPhoneController.text,
-                        password: cubit.loginPasswordController.text,
+                        mobileNumber: loginPhoneController.value.isoCode.name==IsoCode.EG.name?"0${loginPhoneController.value.nsn}":loginPhoneController.value.nsn,
+                        password: loginPasswordController.text,
                       ),
                     );
                   },

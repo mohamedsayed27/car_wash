@@ -1,11 +1,12 @@
 import 'dart:async';
-
+import 'dart:ui' as ui;
 import 'package:car_wash/core/app_router/screens_name.dart';
 import 'package:car_wash/core/app_theme/app_colors.dart';
 import 'package:car_wash/core/assets_path/svg_path.dart';
-import 'package:car_wash/core/constants/extensions.dart';
 import 'package:car_wash/presentation/widgets/shared_widgets/custom_sized_box.dart';
+import 'package:flutter/animation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -13,7 +14,6 @@ import '../../../core/assets_path/images_path.dart';
 import '../../../core/constants/constants.dart';
 import '../../../core/google_map/google_map_services.dart';
 import '../../widgets/choose_car_type_and_location_on_map_widgets/car_type_list.dart';
-import '../../widgets/choose_car_type_and_location_on_map_widgets/car_type_widget.dart';
 import '../../widgets/drawers/drawer_button.dart';
 import '../../widgets/shared_widgets/custom_elevated_button.dart';
 import '../vendor_home_screen/vendor_home_screen.dart';
@@ -28,7 +28,7 @@ class UserHomeScreen extends StatefulWidget {
 class _UserHomeScreenState extends State<UserHomeScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final Completer<GoogleMapController> _googleMapController =
-  Completer<GoogleMapController>();
+      Completer<GoogleMapController>();
   late final LatLng sourceLocation;
 
   final GoogleMapsServices googleMapsServices = GoogleMapsServices();
@@ -53,16 +53,18 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
   BitmapDescriptor currentIcon = BitmapDescriptor.defaultMarker;
   Position? currentLocation;
 
-  void getCurrentMarker() {
-    BitmapDescriptor.fromAssetImage(
-      ImageConfiguration.empty,
-      ImagesPath.locationOnMap,
-    ).then((value) {
-      currentIcon = value;
-    });
+  void getCurrentMarker() async{
+    final Uint8List? markerIcon = await getBytesFromAsset(ImagesPath.locationOnMap, 56);
+    currentIcon = BitmapDescriptor.fromBytes(markerIcon!,size: Size(56.w, 56.h),);
     setState(() {});
   }
 
+  Future<Uint8List?> getBytesFromAsset(String path, int width) async {
+    ByteData data = await rootBundle.load(path);
+    ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(), targetWidth: width);
+    ui.FrameInfo fi = await codec.getNextFrame();
+    return (await fi.image.toByteData(format: ui.ImageByteFormat.png))?.buffer.asUint8List();
+  }
   void getCurrentLocation() async {
     print("enter get location");
     googleMapsServices.getGeoLocationPosition().then((value) {
@@ -162,41 +164,41 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
         children: [
           currentLocation == null
               ? const Center(
-            child: CircularProgressIndicator.adaptive(),
-          )
+                  child: CircularProgressIndicator.adaptive(),
+                )
               : CustomSizedBox(
-            height: double.infinity,
-            width: double.infinity,
-            child: GoogleMap(
-              myLocationButtonEnabled: false,
-              onCameraMove: (CameraPosition cameraPosition) {
-                setState(() {
-                  zoomValue = cameraPosition.zoom;
-                });
-              },
-              onMapCreated: (controller) {
-                _googleMapController.complete(controller);
-              },
-              markers: {
-                Marker(
-                  markerId: const MarkerId("currentLocation"),
-                  icon: currentIcon,
-                  position: LatLng(
-                    currentLocation!.latitude,
-                    currentLocation!.longitude,
+                  height: double.infinity,
+                  width: double.infinity,
+                  child: GoogleMap(
+                    myLocationButtonEnabled: false,
+                    onCameraMove: (CameraPosition cameraPosition) {
+                      setState(() {
+                        zoomValue = cameraPosition.zoom;
+                      });
+                    },
+                    onMapCreated: (controller) {
+                      _googleMapController.complete(controller);
+                    },
+                    markers: {
+                      Marker(
+                        markerId: const MarkerId("currentLocation"),
+                        icon: currentIcon,
+                        position: LatLng(
+                          currentLocation!.latitude,
+                          currentLocation!.longitude,
+                        ),
+                      ),
+                    },
+                    initialCameraPosition: CameraPosition(
+                      target: LatLng(
+                        currentLocation!.latitude,
+                        currentLocation!.longitude,
+                      ),
+                      zoom: zoomValue,
+                    ),
+                    mapType: MapType.normal,
                   ),
                 ),
-              },
-              initialCameraPosition: CameraPosition(
-                target: LatLng(
-                  currentLocation!.latitude,
-                  currentLocation!.longitude,
-                ),
-                zoom: zoomValue,
-              ),
-              mapType: MapType.normal,
-            ),
-          ),
           PositionedDirectional(
             top: preferredSize.height,
             start: 16,

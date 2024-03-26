@@ -69,6 +69,7 @@ dependencies:
   geocoding: ^3.0.0
   flutter_polyline_points: ^2.0.0
   firebase_messaging: ^14.0.0
+  phone_form_field: ^9.1.0
 
 
 dev_dependencies:

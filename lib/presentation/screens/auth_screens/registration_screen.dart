@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:phone_form_field/phone_form_field.dart';
 
 import '../../../business_logic/auth_cubit/auth_cubit.dart';
 import '../../../core/app_router/screens_name.dart';
@@ -29,6 +30,11 @@ class RegistrationScreen extends StatefulWidget {
 class _RegistrationScreenState extends State<RegistrationScreen> {
   late final AuthCubit cubit;
 
+  final TextEditingController registerFirstNameController = TextEditingController();
+  final TextEditingController registerLastNameController = TextEditingController();
+  final PhoneController registerPhoneController = PhoneController();
+  final TextEditingController registerPasswordController = TextEditingController();
+  final TextEditingController registerEmailController = TextEditingController();
   @override
   void initState() {
     super.initState();
@@ -53,10 +59,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             if (state is RegisterSuccessState) {
               Navigator.pop(context);
               Navigator.pop(context);
-              cubit.registerFirstNameController.clear();
-              cubit.registerLastNameController.clear();
-              cubit.registerPhoneController.clear();
-              cubit.registerPasswordController.clear();
+
               cubit.profileImage=null;
               showToast(errorType: 0, message: "Registered Success Go Login");
             }
@@ -126,7 +129,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   height: 24,
                 ),
                 PhoneAuthField(
-                  textEditingController: cubit.registerPhoneController,
+                  textEditingController: registerPhoneController,
                 ),
                 const CustomSizedBox(
                   height: 16,
@@ -134,7 +137,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 FormItemWidget(
                   title: "الاسم الاول",
                   hintText: "الاسم الاول",
-                  controller: cubit.registerFirstNameController,
+                  controller: registerFirstNameController,
                 ),
                 const CustomSizedBox(
                   height: 16,
@@ -142,7 +145,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 FormItemWidget(
                   title: "الاسم الثاني",
                   hintText: "الاسم الثاني",
-                  controller: cubit.registerLastNameController,
+                  controller: registerLastNameController,
                 ),
                 const CustomSizedBox(
                   height: 16,
@@ -150,7 +153,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 FormItemWidget(
                   title: "البريد الالكتروني",
                   hintText: "البريد الالكتروني",
-                  controller: cubit.registerEmailController,
+                  controller: registerEmailController,
                 ),
                 const CustomSizedBox(
                   height: 16,
@@ -158,7 +161,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 FormItemWidget(
                   title: "كلمة المرور",
                   hintText: "كلمة المرور",
-                  controller: cubit.registerPasswordController,
+                  controller: registerPasswordController,
                 ),
                 const CustomSizedBox(
                   height: 32,
@@ -167,9 +170,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   onPressed: () {
                     cubit.register(
                       registerParameters: RegisterParameters(
-                        name: "${cubit.registerFirstNameController.text} ${cubit.registerLastNameController.text}",
-                        mobileNumber: cubit.registerPhoneController.text,
-                        password: cubit.registerPasswordController.text,
+                        name: "${registerFirstNameController.text} ${registerLastNameController.text}",
+                        mobileNumber: registerPhoneController.initialValue.nsn,
+                        password: registerPasswordController.text,
                         avatar: cubit.profileImage!,
                       ),
                     );

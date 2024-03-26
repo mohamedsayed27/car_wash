@@ -4,6 +4,9 @@ import 'package:car_wash/core/app_router/screens_name.dart';
 import 'package:car_wash/core/app_theme/app_colors.dart';
 import 'package:car_wash/core/assets_path/images_path.dart';
 import 'package:car_wash/core/assets_path/svg_path.dart';
+import 'package:car_wash/core/cache_helper/cache_keys.dart';
+import 'package:car_wash/core/cache_helper/shared_pref_methods.dart';
+import 'package:car_wash/core/constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -22,9 +25,20 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
   }
 
-  _loading(){
-    Timer(const Duration(seconds: 2), () {Navigator.pushNamed(context, ScreenName.loginScreen);});
+  _loading() {
+    token = CacheHelper.getData(key: CacheKeys.token);
+    Timer(
+      const Duration(seconds: 2),
+      () {
+        if(token!=null){
+          Navigator.pushReplacementNamed(context, ScreenName.loginScreen);
+        }else {
+          Navigator.pushReplacementNamed(context, ScreenName.loginScreen);
+        }
+      },
+    );
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

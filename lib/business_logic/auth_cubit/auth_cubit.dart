@@ -5,6 +5,7 @@ import 'package:car_wash/data/models/auth_models/register_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:phone_form_field/phone_form_field.dart';
 
 import '../../core/cache_helper/cache_keys.dart';
 import '../../core/cache_helper/shared_pref_methods.dart';
@@ -28,11 +29,11 @@ class AuthCubit extends Cubit<AuthState> {
   BaseErrorModel? baseErrorModel;
   LoginModel? loginModel;
   RegisterModel? registerModel;
-  final TextEditingController loginPhoneController = TextEditingController();
+  final PhoneController loginPhoneController = PhoneController();
   final TextEditingController loginPasswordController = TextEditingController();
   final TextEditingController registerFirstNameController = TextEditingController();
   final TextEditingController registerLastNameController = TextEditingController();
-  final TextEditingController registerPhoneController = TextEditingController();
+  final PhoneController registerPhoneController = PhoneController();
   final TextEditingController registerPasswordController = TextEditingController();
   final TextEditingController registerEmailController = TextEditingController();
 
@@ -63,7 +64,7 @@ class AuthCubit extends Cubit<AuthState> {
     final response = await _authRemoteDataSource.login(
       parameters: LoginParameters(
         deviceToken: deviceToke,
-        mobileNumber: "0${loginParameters.mobileNumber}",
+        mobileNumber: "${loginParameters.mobileNumber}",
         password: loginParameters.password,
       ),
     );
@@ -141,10 +142,6 @@ class AuthCubit extends Cubit<AuthState> {
       },
       (r) async {
         registerModel = r;
-        handleCache(
-          token: r.token ,
-          userId: r.result!.id ,
-        );
         emit(RegisterSuccessState(loginModel: r,),);
       },
     );
