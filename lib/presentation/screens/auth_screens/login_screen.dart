@@ -17,7 +17,7 @@ import '../../widgets/dialogs/auth_dialogs/otp_dialog.dart';
 import '../../widgets/shared_widgets/custom_elevated_button.dart';
 import '../../widgets/shared_widgets/custom_sized_box.dart';
 import '../../widgets/shared_widgets/custom_text_button.dart';
-import '../../widgets/shared_widgets/form_item_widget.dart';
+import '../../widgets/shared_widgets/custom_text_form_field.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -43,7 +43,7 @@ class _LoginScreenState extends State<LoginScreen> {
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 32.h,),
           children: [
             const CustomSizedBox(
-              height: 49,
+              height: 24,
             ),
             Text(
               "تسجيل الدخول",
@@ -73,7 +73,7 @@ class _LoginScreenState extends State<LoginScreen> {
               width: 203.w,
             ),
             const CustomSizedBox(
-              height: 42,
+              height: 32,
             ),
             PhoneAuthField(
               textEditingController: cubit.loginPhoneController,
@@ -81,13 +81,18 @@ class _LoginScreenState extends State<LoginScreen> {
             // const CustomSizedBox(
             //   height: 16,
             // ),
-            FormItemWidget(
-              title: "",
+            const CustomSizedBox(
+              height: 16,
+            ),
+            CustomTextField(
               hintText: "ادخل كلمة المرور",
+              // enabled: enabled,
+              // filled: enabled == false ? true : null,
+              // fillColor: enabled == false ? AppColors.greyColorB0 : null,
               controller: cubit.loginPasswordController,
             ),
             const CustomSizedBox(
-              height: 16,
+              height: 24,
             ),
             BlocConsumer<AuthCubit, AuthState>(
               listener: (context, state) {
@@ -160,7 +165,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
             const CustomSizedBox(
-              height: 52,
+              height: 32,
             ),
             Image.asset(
               ImagesPath.loginLogo,
