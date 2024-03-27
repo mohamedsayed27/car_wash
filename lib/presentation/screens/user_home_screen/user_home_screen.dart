@@ -68,12 +68,15 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
   void getCurrentLocation() async {
     print("enter get location");
     googleMapsServices.getGeoLocationPosition().then((value) {
+      print(value);
       currentLocation = value;
       sourceLocation =
           LatLng(currentLocation!.latitude, currentLocation!.longitude);
       print(currentLocation);
       setState(() {});
       // getPolyLinePoints(currentLocation);
+    }).catchError((error){
+      print(error);
     });
 
     GoogleMapController controller = await _googleMapController.future;

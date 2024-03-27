@@ -71,6 +71,7 @@ class AuthCubit extends Cubit<AuthState> {
     response.fold(
       (l) {
         baseErrorModel = l.baseErrorModel;
+        print(baseErrorModel);
         emit(
           LoginErrorState(
             error: l.baseErrorModel.errors != null

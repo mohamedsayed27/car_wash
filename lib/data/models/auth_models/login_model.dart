@@ -7,6 +7,8 @@ class LoginModel extends BaseResponseModel<UserResult> {
   final int? otpCode;
   final String? otpExpire;
 
+
+
   const LoginModel({
     required super.success,
     required super.message,

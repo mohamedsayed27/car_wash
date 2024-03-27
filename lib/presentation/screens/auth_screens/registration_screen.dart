@@ -1,5 +1,3 @@
-import 'package:car_wash/core/app_theme/app_colors.dart';
-import 'package:car_wash/core/assets_path/svg_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,8 +6,10 @@ import 'package:phone_form_field/phone_form_field.dart';
 
 import '../../../business_logic/auth_cubit/auth_cubit.dart';
 import '../../../core/app_router/screens_name.dart';
+import '../../../core/app_theme/app_colors.dart';
 import '../../../core/app_theme/custom_font_weights.dart';
 import '../../../core/app_theme/custom_themes.dart';
+import '../../../core/assets_path/svg_path.dart';
 import '../../../core/constants/constants.dart';
 import '../../../core/parameters/auth_parameters/register_parameters.dart';
 import '../../widgets/auth_widgets/phone_auth_field.dart';
@@ -30,11 +30,20 @@ class RegistrationScreen extends StatefulWidget {
 class _RegistrationScreenState extends State<RegistrationScreen> {
   late final AuthCubit cubit;
 
-  final TextEditingController registerFirstNameController = TextEditingController();
-  final TextEditingController registerLastNameController = TextEditingController();
-  final PhoneController registerPhoneController = PhoneController();
-  final TextEditingController registerPasswordController = TextEditingController();
+  final TextEditingController registerFirstNameController =
+      TextEditingController();
+  final TextEditingController registerLastNameController =
+      TextEditingController();
+  final PhoneController registerPhoneController = PhoneController(
+    initialValue: const PhoneNumber(
+      isoCode: IsoCode.EG,
+      nsn: "",
+    ),
+  );
+  final TextEditingController registerPasswordController =
+      TextEditingController();
   final TextEditingController registerEmailController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
@@ -43,10 +52,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
   @override
   void dispose() {
-
-
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,15 +68,15 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               Navigator.pop(context);
               Navigator.pop(context);
 
-              cubit.profileImage=null;
-              showToast(errorType: 0, message: "Registered Success Go Login");
+              cubit.profileImage = null;
+              showToast(errorType: 0, message: "تم التسجيل بنجاح اذهب لتسجيل الدخول",);
             }
             if (state is RegisterLoadingState) {
               showProgressIndicator(context);
             }
             if (state is RegisterErrorState) {
               Navigator.pop(context);
-              showToast(errorType: 1, message: "Register Error");
+              showToast(errorType: 1, message: state.error,);
             }
           },
           builder: (context, state) {
@@ -82,7 +90,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   height: 49,
                 ),
                 Text(
-                  "تسجيل الدخول",
+                  "التسجيل",
                   textAlign: TextAlign.center,
                   style: CustomThemes.primaryColorTextTheme(context).copyWith(
                     fontSize: 18.sp,
@@ -95,7 +103,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 Container(
                   height: 136.h,
                   width: 136.w,
-                  alignment: cubit.profileImage == null?Alignment.bottomCenter:null,
+                  alignment: cubit.profileImage == null
+                      ? Alignment.bottomCenter
+                      : null,
                   clipBehavior: Clip.antiAlias,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
@@ -115,15 +125,16 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       cubit.getImagePick();
                     },
                     child: cubit.profileImage == null
-                      ? SvgPicture.asset(
-                    SvgPath.person,
-                    width: 71.w,
-                    height: 98.h,
-                  )
-                      : Image.file(
-                    cubit.profileImage!,
-                    fit: BoxFit.cover,
-                  ),),
+                        ? SvgPicture.asset(
+                            SvgPath.person,
+                            width: 71.w,
+                            height: 98.h,
+                          )
+                        : Image.file(
+                            cubit.profileImage!,
+                            fit: BoxFit.cover,
+                          ),
+                  ),
                 ),
                 const CustomSizedBox(
                   height: 24,
@@ -170,8 +181,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   onPressed: () {
                     cubit.register(
                       registerParameters: RegisterParameters(
-                        name: "${registerFirstNameController.text} ${registerLastNameController.text}",
-                        mobileNumber: registerPhoneController.initialValue.nsn,
+                        name:
+                            "${registerFirstNameController.text} ${registerLastNameController.text}",
+                        mobileNumber:
+                            registerPhoneController.value.isoCode.name ==
+                                    IsoCode.EG.name
+                                ? "0${registerPhoneController.value.nsn}"
+                                : registerPhoneController.value.nsn,
                         password: registerPasswordController.text,
                         avatar: cubit.profileImage!,
                       ),

@@ -30,8 +30,10 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   late final AuthCubit cubit;
 
-  final PhoneController loginPhoneController = PhoneController(initialValue: PhoneNumber(isoCode: IsoCode.EG, nsn: ""));
+  final PhoneController loginPhoneController =
+      PhoneController(initialValue: PhoneNumber(isoCode: IsoCode.EG, nsn: ""));
   final TextEditingController loginPasswordController = TextEditingController();
+
   @override
   void initState() {
     cubit = AuthCubit.get(context);
@@ -118,6 +120,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       token: state.loginModel?.token,
                       userId: state.loginModel?.result?.id,
                     );
+                    showToast(errorType: 0, message: state.loginModel?.message??"",);
                     Navigator.pushNamedAndRemoveUntil(
                       context,
                       ScreenName.userHomeScreen,
@@ -130,17 +133,19 @@ class _LoginScreenState extends State<LoginScreen> {
                 }
                 if (state is LoginErrorState) {
                   Navigator.pop(context);
-
+                  showToast(errorType: 1, message: state.error,);
                 }
               },
               builder: (context, state) {
                 return CustomElevatedButton(
                   borderRadius: null,
                   onPressed: () {
-                    print(loginPhoneController.value.isoCode.name);
                     cubit.login(
                       loginParameters: LoginParameters(
-                        mobileNumber: loginPhoneController.value.isoCode.name==IsoCode.EG.name?"0${loginPhoneController.value.nsn}":loginPhoneController.value.nsn,
+                        mobileNumber: loginPhoneController.value.isoCode.name ==
+                                IsoCode.EG.name
+                            ? "0${loginPhoneController.value.nsn}"
+                            : loginPhoneController.value.nsn,
                         password: loginPasswordController.text,
                       ),
                     );

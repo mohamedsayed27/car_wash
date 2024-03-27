@@ -31,7 +31,7 @@ class _SplashScreenState extends State<SplashScreen> {
       const Duration(seconds: 2),
       () {
         if(token!=null){
-          Navigator.pushReplacementNamed(context, ScreenName.loginScreen);
+          Navigator.pushReplacementNamed(context, ScreenName.userHomeScreen);
         }else {
           Navigator.pushReplacementNamed(context, ScreenName.loginScreen);
         }

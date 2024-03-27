@@ -14,6 +14,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'core/app_theme/app_theme.dart';
 import 'firebase_options.dart';
 
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   DioHelper.init();
@@ -25,8 +26,14 @@ void main() async {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +48,7 @@ class MyApp extends StatelessWidget {
           ],
           child: MaterialApp(
             title: 'Car Wash',
+            navigatorKey: navigatorKey,
             theme: AppTheme.lightTheme,
             localizationsDelegates: const [
               GlobalCupertinoLocalizations.delegate,
