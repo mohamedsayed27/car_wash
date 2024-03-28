@@ -8,20 +8,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../shared_widgets/cached_network_image_widget.dart';
+
 class CarServicesCheckButton extends StatelessWidget {
   final bool isSelected;
   final void Function()? onPressed;
-  final String svgPath;
+  final String imagePath;
   final String title;
-  final String price;
+  final bool isSvg;
+  final String? price;
 
   const CarServicesCheckButton({
     super.key,
     required this.isSelected,
     this.onPressed,
-    required this.svgPath,
+    required this.imagePath,
     required this.title,
-    required this.price,
+    this.price, this.isSvg = false,
   });
 
   @override
@@ -30,7 +33,9 @@ class CarServicesCheckButton extends StatelessWidget {
       borderColor: isSelected ? AppColors.primaryColor : AppColors.greyColorB0,
       borderRadius: 8,
       onPressed: onPressed,
-      backgroundColor: isSelected ? AppColors.primaryColor.withOpacity(0.08) : AppColors.whiteColor,
+      backgroundColor: isSelected
+          ? AppColors.primaryColor.withOpacity(0.08)
+          : AppColors.whiteColor,
       foregroundColor: AppColors.primaryColor,
       padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 14.h),
       child: Row(
@@ -38,15 +43,14 @@ class CarServicesCheckButton extends StatelessWidget {
           Expanded(
             child: Row(
               children: [
-                SvgPicture.asset(
-                  svgPath,
-                  width: 40.w,
+                if(!isSvg)CachedNetworkImageWidget(
+                  imagePath: imagePath,
                   height: 40.h,
-                  colorFilter: ColorFilter.mode(
-                    isSelected ? AppColors.primaryColor : AppColors.greyColorB0,
-                    BlendMode.srcIn,
-                  ),
+                  width: 40.w,
                 ),
+                if(isSvg)SvgPicture.asset(imagePath,
+                  height: 40.h,
+                  width: 40.w,),
                 const CustomSizedBox(
                   width: 16,
                 ),
@@ -63,18 +67,19 @@ class CarServicesCheckButton extends StatelessWidget {
                         ),
                 ),
                 const Spacer(),
-                Text(
-                  price,
-                  style: isSelected
-                      ? CustomThemes.primaryColorTextTheme(context).copyWith(
-                          fontSize: 16.sp,
-                          fontWeight: CustomFontWeights.w500,
-                        )
-                      : CustomThemes.greyColorB0TextTheme(context).copyWith(
-                          fontSize: 16.sp,
-                          fontWeight: CustomFontWeights.w500,
-                        ),
-                ),
+                if (price != null)
+                  Text(
+                    "$price",
+                    style: isSelected
+                        ? CustomThemes.primaryColorTextTheme(context).copyWith(
+                            fontSize: 16.sp,
+                            fontWeight: CustomFontWeights.w500,
+                          )
+                        : CustomThemes.greyColorB0TextTheme(context).copyWith(
+                            fontSize: 16.sp,
+                            fontWeight: CustomFontWeights.w500,
+                          ),
+                  ),
               ],
             ),
           ),

@@ -3,6 +3,8 @@ part of 'plans_cubit.dart';
 sealed class PlansState {}
 
 final class PlansInitial extends PlansState {}
+final class ChangeUserPlansState extends PlansState {}
+final class ChangePlansState extends PlansState {}
 
 
 final class GetAllPlansLoadingState extends PlansState {}

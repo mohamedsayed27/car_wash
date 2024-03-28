@@ -19,12 +19,22 @@ class OrdersCubit extends Cubit<OrdersState> {
   GetContentImageModel? carTypesModel;
   GetContentImageModel? servicesModel;
   ContentImageModel? carContentImageModel;
-  int? currentIndex;
-  void changeCarType(int index,ContentImageModel contentImageModel){
-    currentIndex = index;
+  int? carCurrentIndex;
+  ContentImageModel? servicesContentImageModel;
+  int? servicesCurrentIndex;
+
+  void changeCarType(int index, ContentImageModel contentImageModel) {
+    carCurrentIndex = index;
     carContentImageModel = contentImageModel;
     emit(ChangeCarType());
   }
+
+  void changeServicesType(int index, ContentImageModel contentImageModel) {
+    servicesCurrentIndex = index;
+    servicesContentImageModel = contentImageModel;
+    emit(ChangeCarType());
+  }
+
   void getCarTypes() async {
     emit(GetCarTypesLoadingStates());
     final response = await _ordersRemoteDatasource.getCarTypes();
@@ -41,17 +51,22 @@ class OrdersCubit extends Cubit<OrdersState> {
     );
   }
 
+  bool getServicesLoading = false;
+
   void getServices() async {
+    getServicesLoading = true;
     emit(GetServicesLoadingStates());
     final response = await _ordersRemoteDatasource.getServices();
 
     response.fold(
       (l) {
         baseErrorModel = l.baseErrorModel;
+        getServicesLoading = false;
         emit(GetServicesErrorStates(error: l.baseErrorModel.message));
       },
       (r) {
         servicesModel = r;
+        getServicesLoading = false;
         emit(GetServicesSuccessStates());
       },
     );

@@ -34,7 +34,7 @@ class _CarTypeListState extends State<CarTypeList> {
             padding: EdgeInsets.zero,
             itemBuilder: (_, index) {
               return CarTypeWidget(
-                isSelected: cubit.currentIndex == index,
+                isSelected: cubit.carCurrentIndex == index,
                 imagesPath: cubit.carTypesModel?.result?[index].image ?? "",
                 title: cubit.carTypesModel?.result?[index].name ?? "",
                 description: cubit.carTypesModel?.result?[index].content ?? "",

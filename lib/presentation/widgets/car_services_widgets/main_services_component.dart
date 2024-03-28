@@ -1,12 +1,13 @@
-import 'package:car_wash/core/constants/extensions.dart';
-import 'package:car_wash/presentation/widgets/car_services_widgets/car_services_check_button.dart';
-import 'package:car_wash/presentation/widgets/shared_widgets/custom_sized_box.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../business_logic/orders_cubit/orders_cubit.dart';
 import '../../../core/app_theme/custom_font_weights.dart';
 import '../../../core/app_theme/custom_themes.dart';
-import '../../../core/assets_path/svg_path.dart';
+import '../../../core/constants/extensions.dart';
+import '../shared_widgets/custom_sized_box.dart';
+import 'car_services_check_button.dart';
 
 class MainServicesComponent extends StatefulWidget {
   const MainServicesComponent({super.key});
@@ -16,19 +17,13 @@ class MainServicesComponent extends StatefulWidget {
 }
 
 class _MainServicesComponentState extends State<MainServicesComponent> {
-  List<Map<String, dynamic>> itemsList = [
-    {
-      "svgPath": SvgPath.innerWash,
-      "title": "غسيل داخلي",
-      "price": "70 ريال",
-    },
-    {
-      "svgPath": SvgPath.outerWash,
-      "title": "غسيل خارجي",
-      "price": "120 ريال",
-    },
-  ];
-  int currentIndex = 0;
+  @override
+  void initState() {
+    if(OrdersCubit.get(context).servicesModel==null){
+      OrdersCubit.get(context).getServices();
+    }
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,31 +35,45 @@ class _MainServicesComponentState extends State<MainServicesComponent> {
           style: CustomThemes.primaryColorTextTheme(context).copyWith(
             fontSize: 16.sp,
             fontWeight: CustomFontWeights.bold,
-          )
+          ),
         ),
-        const CustomSizedBox(height: 16,),
-        ListView.separated(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemBuilder: (_, index) {
-            return CarServicesCheckButton(
-              isSelected: index == currentIndex,
-              svgPath: itemsList[index]['svgPath'],
-              title: itemsList[index]['title'],
-              price: itemsList[index]['price'],
-              onPressed: () {
-                setState(() {
-                  currentIndex = index;
-                });
-              },
-            );
+        const CustomSizedBox(
+          height: 16,
+        ),
+        BlocConsumer<OrdersCubit, OrdersState>(
+          listener: (context, state) {
+            // TODO: implement listener
           },
-          separatorBuilder: (_, index) {
-            return const CustomSizedBox(
-              height: 8,
-            );
+          builder: (context, state) {
+            var cubit = OrdersCubit.get(context);
+            return cubit.getServicesLoading
+                ? const Center(
+                    child: CircularProgressIndicator.adaptive(),
+                  )
+                : ListView.separated(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemBuilder: (_, index) {
+                      return CarServicesCheckButton(
+                        isSelected: index == cubit.servicesCurrentIndex,
+                        imagePath: cubit.servicesModel!.result![index].image!,
+                        title: cubit.servicesModel!.result![index].name!,
+                        onPressed: () {
+                          cubit.changeServicesType(
+                            index,
+                            cubit.servicesModel!.result![index],
+                          );
+                        },
+                      );
+                    },
+                    separatorBuilder: (_, index) {
+                      return const CustomSizedBox(
+                        height: 8,
+                      );
+                    },
+                    itemCount: cubit.servicesModel!.result?.length ?? 0,
+                  );
           },
-          itemCount: itemsList.length,
         ),
       ],
     ).symmetricPadding(horizontal: 16);

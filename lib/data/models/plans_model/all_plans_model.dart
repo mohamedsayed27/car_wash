@@ -25,27 +25,17 @@ class AllPlansModel extends Equatable {
   final int? id;
   final double? price;
   final String? subscriptionType;
-  final int? status;
   final int? washNumber;
-  final String? createdBy;
-  final String? createdAt;
-  final String? updatedAt;
   final String? name;
   final String? content;
-  final List<PlanTranslation>? translations;
 
   const AllPlansModel({
     this.id,
     this.price,
     this.subscriptionType,
-    this.status,
     this.washNumber,
-    this.createdBy,
-    this.createdAt,
-    this.updatedAt,
     this.name,
     this.content,
-    this.translations,
   });
 
   @override
@@ -53,57 +43,30 @@ class AllPlansModel extends Equatable {
         id,
         price,
         subscriptionType,
-        status,
         washNumber,
-        createdBy,
-        createdAt,
-        updatedAt,
         name,
         content,
-        translations,
       ];
 
   factory AllPlansModel.fromJson(Map<String, dynamic> json) {
-    List<PlanTranslation>? translations;
-    if (json['translations'] != null) {
-      translations = [];
-      json['translations'].forEach((translationJson) {
-        translations?.add(PlanTranslation.fromJson(translationJson));
-      });
-    }
     return AllPlansModel(
       id: json['id'],
       price: json['price']?.toDouble(),
       subscriptionType: json['subscription_type'],
-      status: json['status'],
       washNumber: json['wash_number'],
-      createdBy: json['created_by'],
-      createdAt: json['created_at'],
-      updatedAt: json['updated_at'],
       name: json['name'],
       content: json['content'],
-      translations: translations,
     );
   }
 
   Map<String, dynamic> toJson() {
-    List<Map<String, dynamic>>? translationsJson;
-    if (translations != null) {
-      translationsJson =
-          translations!.map((translation) => translation.toJson()).toList();
-    }
     return {
       'id': id,
       'price': price,
       'subscription_type': subscriptionType,
-      'status': status,
       'wash_number': washNumber,
-      'created_by': createdBy,
-      'created_at': createdAt,
-      'updated_at': updatedAt,
       'name': name,
       'content': content,
-      'translations': translationsJson,
     };
   }
 }
@@ -129,7 +92,7 @@ class PlanTranslation extends Equatable {
 
   @override
   List<Object?> get props =>
-      [id, planId, locale, name, content, createdAt, updatedAt];
+      [id, planId, locale, name, content, createdAt, updatedAt,];
 
   factory PlanTranslation.fromJson(Map<String, dynamic> json) {
     return PlanTranslation(

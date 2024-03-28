@@ -12,7 +12,6 @@ part 'plans_state.dart';
 class PlansCubit extends Cubit<PlansState> {
   PlansCubit() : super(PlansInitial());
 
-
   final PlansRemoteDatasource _plansRemoteDatasource = sl();
 
   static PlansCubit get(context) => BlocProvider.of(context);
@@ -21,12 +20,26 @@ class PlansCubit extends Cubit<PlansState> {
   BaseResponseModel? baseResponseModel;
   GetAllPlansModel? getAllPlansModel;
   GetUserPlansModel? getUserPlansModel;
+  AllPlansModel? userPlansModel;
+  List<AllPlansModel> userPlansList = [];
+  int? userPlansCurrentIndex;
+
+  void changeServicesType(int index, AllPlansModel userPlansModel) {
+    userPlansCurrentIndex = index;
+    this.userPlansModel = userPlansModel;
+    emit(ChangeUserPlansState());
+  }
+
+  bool getUserPlansLoading = false;
+
   void getAllPlans() async {
+    getUserPlansLoading = true;
     emit(GetAllPlansLoadingState());
     final response = await _plansRemoteDatasource.getAllPlans();
     response.fold(
-          (l) {
+      (l) {
         baseErrorModel = l.baseErrorModel;
+        getUserPlansLoading = false;
         emit(
           GetAllPlansErrorState(
             error: l.baseErrorModel.errors != null
@@ -35,19 +48,20 @@ class PlansCubit extends Cubit<PlansState> {
           ),
         );
       },
-          (r) async {
-            getAllPlansModel = r;
+      (r) async {
+        getAllPlansModel = r;
+        getUserPlans();
+        getUserPlansLoading = false;
         emit(GetAllPlansSuccessState());
       },
     );
   }
 
-
   void getUserPlans() async {
     emit(GetUserPlansLoadingState());
     final response = await _plansRemoteDatasource.getUserPlans();
     response.fold(
-          (l) {
+      (l) {
         baseErrorModel = l.baseErrorModel;
         emit(
           GetUserPlansErrorState(
@@ -57,19 +71,23 @@ class PlansCubit extends Cubit<PlansState> {
           ),
         );
       },
-          (r) async {
-            getUserPlansModel = r;
+      (r) async {
+        getUserPlansModel = r;
+        for (var element in r.result!) {
+          if(!userPlansList.any((e) => e.id==element.planId!)){
+            userPlansList.add(getAllPlansModel!.result!.firstWhere((el) => el.id==element.planId));
+          }
+        }
         emit(GetUserPlansSuccessState());
       },
     );
   }
 
-
   void subscribePlan({required String planId}) async {
     emit(SubscribePlanLoadingState());
     final response = await _plansRemoteDatasource.subscribePlan(planId: planId);
     response.fold(
-          (l) {
+      (l) {
         baseErrorModel = l.baseErrorModel;
         emit(
           SubscribePlanErrorState(
@@ -79,19 +97,19 @@ class PlansCubit extends Cubit<PlansState> {
           ),
         );
       },
-          (r) async {
-            baseResponseModel = r;
+      (r) async {
+        baseResponseModel = r;
         emit(SubscribePlanSuccessState());
       },
     );
   }
 
-
   void unSubscribePlan({required String planId}) async {
     emit(UnSubscribePlanLoadingState());
-    final response = await _plansRemoteDatasource.unSubscribePlan(planId: planId);
+    final response =
+        await _plansRemoteDatasource.unSubscribePlan(planId: planId);
     response.fold(
-          (l) {
+      (l) {
         baseErrorModel = l.baseErrorModel;
         emit(
           UnSubscribePlanErrorState(
@@ -101,8 +119,8 @@ class PlansCubit extends Cubit<PlansState> {
           ),
         );
       },
-          (r) async {
-            baseResponseModel = r;
+      (r) async {
+        baseResponseModel = r;
         emit(UnSubscribePlanSuccessState());
       },
     );

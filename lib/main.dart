@@ -54,6 +54,9 @@ class _MyAppState extends State<MyApp> {
             BlocProvider(
               create: (_) => OrdersCubit(),
             ),
+            BlocProvider(
+              create: (_) => PlansCubit(),
+            ),
           ],
           child: MaterialApp(
             title: 'Car Wash',
