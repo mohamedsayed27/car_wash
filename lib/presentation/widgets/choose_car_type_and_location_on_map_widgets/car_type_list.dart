@@ -1,8 +1,9 @@
-import 'package:car_wash/core/assets_path/svg_path.dart';
-import 'package:car_wash/presentation/widgets/choose_car_type_and_location_on_map_widgets/car_type_widget.dart';
-import 'package:car_wash/presentation/widgets/shared_widgets/custom_sized_box.dart';
-import 'package:car_wash/presentation/widgets/shared_widgets/custom_sized_box.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../business_logic/orders_cubit/orders_cubit.dart';
+import '../shared_widgets/custom_sized_box.dart';
+import 'car_type_widget.dart';
 
 class CarTypeList extends StatefulWidget {
   const CarTypeList({super.key});
@@ -12,35 +13,48 @@ class CarTypeList extends StatefulWidget {
 }
 
 class _CarTypeListState extends State<CarTypeList> {
-  List<Map<String, dynamic>> itemsList = [
-    {
-      "svgPath": SvgPath.smallCar,
-      "title": "حجم صغير",
-      "description": "( 5 مقاعد )",
-    },
-    {
-      "svgPath": SvgPath.bigCar,
-      "title": "حجم كبير",
-      "description": "( مركبات البيك اب و ذات الـ 7 , 8 مقاعد )",
-    },
-  ];
-  int currentIndex = 0;
+  @override
+  void initState() {
+    OrdersCubit.get(context).getCarTypes();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-      shrinkWrap: true,
-      padding: EdgeInsets.zero,
-      itemBuilder: (_, index) {
-        return CarTypeWidget(isSelected: currentIndex == index, svgPath: itemsList[index]["svgPath"], title: itemsList[index]['title'], description: itemsList[index]['description'],onPressed: (){
-          setState(() {
-            currentIndex = index;
-          });
-        },);
+    return BlocConsumer<OrdersCubit, OrdersState>(
+      listener: (context, state) {
+        // TODO: implement listener
       },
-      separatorBuilder: (_, index) {
-        return const CustomSizedBox(height: 16,);
+      builder: (context, state) {
+        var cubit = OrdersCubit.get(context);
+        return CustomSizedBox(
+          height: 132,
+          child: ListView.separated(
+            // shrinkWrap: true,
+            padding: EdgeInsets.zero,
+            itemBuilder: (_, index) {
+              return CarTypeWidget(
+                isSelected: cubit.currentIndex == index,
+                imagesPath: cubit.carTypesModel?.result?[index].image ?? "",
+                title: cubit.carTypesModel?.result?[index].name ?? "",
+                description: cubit.carTypesModel?.result?[index].content ?? "",
+                onPressed: () {
+                  cubit.changeCarType(
+                    index,
+                    cubit.carTypesModel!.result![index],
+                  );
+                },
+              );
+            },
+            separatorBuilder: (_, index) {
+              return const CustomSizedBox(
+                height: 16,
+              );
+            },
+            itemCount: cubit.carTypesModel?.result?.length ?? 0,
+          ),
+        );
       },
-      itemCount: 2,
     );
   }
 }

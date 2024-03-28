@@ -138,12 +138,12 @@ class OrdersRemoteDatasource{
 
 
 
-  Future<Either<ErrorException, GetCarTypesModel>> getCarTypes() async {
+  Future<Either<ErrorException, GetContentImageModel>> getCarTypes() async {
     try {
       final response = await dioHelper.getData(
         url: EndPoints.carTypes,
       );
-      return Right(GetCarTypesModel.fromJson(response.data,),);
+      return Right(GetContentImageModel.fromJson(response.data,),);
     } catch (e) {
       if (e is DioException) {
         return Left(
@@ -159,12 +159,12 @@ class OrdersRemoteDatasource{
 
 
 
-  Future<Either<ErrorException, GetServicesModel>> getServices() async {
+  Future<Either<ErrorException, GetContentImageModel>> getServices() async {
     try {
       final response = await dioHelper.getData(
         url: EndPoints.services,
       );
-      return Right(GetServicesModel.fromJson(response.data,),);
+      return Right(GetContentImageModel.fromJson(response.data,),);
     } catch (e) {
       if (e is DioException) {
         return Left(
@@ -177,6 +177,27 @@ class OrdersRemoteDatasource{
       }
     }
   }
+
+  //
+  //
+  // Future<Either<ErrorException, GetServicesModel>> getServices() async {
+  //   try {
+  //     final response = await dioHelper.getData(
+  //       url: EndPoints.services,
+  //     );
+  //     return Right(GetServicesModel.fromJson(response.data,),);
+  //   } catch (e) {
+  //     if (e is DioException) {
+  //       return Left(
+  //         ErrorException(
+  //           baseErrorModel: BaseErrorModel.fromJson(e.response!.data,),
+  //         ),
+  //       );
+  //     } else {
+  //       rethrow;
+  //     }
+  //   }
+  // }
 
   Future<Either<ErrorException, GetAllTimeScheduleModel>> getTimeSchedule() async {
     try {

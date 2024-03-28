@@ -1,21 +1,21 @@
-import 'dart:async';
-import 'dart:ui' as ui;
-import 'package:car_wash/core/app_router/screens_name.dart';
-import 'package:car_wash/core/app_theme/app_colors.dart';
-import 'package:car_wash/core/assets_path/svg_path.dart';
-import 'package:car_wash/presentation/widgets/shared_widgets/custom_sized_box.dart';
-import 'package:flutter/animation.dart';
+import 'package:car_wash/business_logic/orders_cubit/orders_cubit.dart';
+import 'package:car_wash/presentation/screens/car_services_screen/car_services_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import '../../../business_logic/address_cubit/address_cubit.dart';
+import '../../../core/app_router/screens_name.dart';
+import '../../../core/app_theme/app_colors.dart';
 import '../../../core/assets_path/images_path.dart';
+import '../../../core/assets_path/svg_path.dart';
 import '../../../core/constants/constants.dart';
-import '../../../core/google_map/google_map_services.dart';
+import '../../../data/models/address_model/address_model.dart';
 import '../../widgets/choose_car_type_and_location_on_map_widgets/car_type_list.dart';
 import '../../widgets/drawers/drawer_button.dart';
+import '../../widgets/shared_widgets/custom_drop_down_button.dart';
 import '../../widgets/shared_widgets/custom_elevated_button.dart';
+import '../../widgets/shared_widgets/custom_sized_box.dart';
 import '../vendor_home_screen/vendor_home_screen.dart';
 
 class UserHomeScreen extends StatefulWidget {
@@ -27,93 +27,22 @@ class UserHomeScreen extends StatefulWidget {
 
 class _UserHomeScreenState extends State<UserHomeScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  final Completer<GoogleMapController> _googleMapController =
-      Completer<GoogleMapController>();
-  late final LatLng sourceLocation;
-
-  final GoogleMapsServices googleMapsServices = GoogleMapsServices();
-  List<LatLng> polyLineCoordinates = [];
-
-  // void getPolyLinePoints(Position? currentLocation) async {
-  //   print("object");
-  //   PolylinePoints polylinePoints = PolylinePoints();
-  //   PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
-  //       "AIzaSyCAOMyuhbP1CAJ1H4WnnMSXyC_xhpu72tE",
-  //       PointLatLng(currentLocation!.latitude, currentLocation.longitude),
-  //       PointLatLng(widget.destinationLocation.latitude, widget.destinationLocation.longitude));
-  //   if (result.points.isNotEmpty) {
-  //     for (var element in result.points) {
-  //       polyLineCoordinates.add(LatLng(element.latitude, element.longitude));
-  //       print(element);
-  //     }
-  //   }
-  //   setState(() {});
-  // }
-
-  BitmapDescriptor currentIcon = BitmapDescriptor.defaultMarker;
-  Position? currentLocation;
-
-  void getCurrentMarker() async{
-    final Uint8List? markerIcon = await getBytesFromAsset(ImagesPath.locationOnMap, 56);
-    currentIcon = BitmapDescriptor.fromBytes(markerIcon!,size: Size(56.w, 56.h),);
-    setState(() {});
-  }
-
-  Future<Uint8List?> getBytesFromAsset(String path, int width) async {
-    ByteData data = await rootBundle.load(path);
-    ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(), targetWidth: width);
-    ui.FrameInfo fi = await codec.getNextFrame();
-    return (await fi.image.toByteData(format: ui.ImageByteFormat.png))?.buffer.asUint8List();
-  }
-  void getCurrentLocation() async {
-    print("enter get location");
-    googleMapsServices.getGeoLocationPosition().then((value) {
-      print(value);
-      currentLocation = value;
-      sourceLocation =
-          LatLng(currentLocation!.latitude, currentLocation!.longitude);
-      print(currentLocation);
-      setState(() {});
-      // getPolyLinePoints(currentLocation);
-    }).catchError((error){
-      print(error);
-    });
-
-    GoogleMapController controller = await _googleMapController.future;
-    googleMapsServices
-        .streamLocation(googleMapsServices.locationSettings)
-        .then((value) {
-      print(value);
-      value.listen((event) {
-        print(event.latitude);
-        print(event.longitude);
-        currentLocation = event;
-        controller.animateCamera(
-          CameraUpdate.newCameraPosition(
-            CameraPosition(
-              target: LatLng(
-                currentLocation!.latitude,
-                currentLocation!.longitude,
-              ),
-              zoom: zoomValue,
-            ),
-          ),
-        );
-        setState(() {});
-      });
-    }).catchError((e) {
-      print(e);
-    });
-  }
-
-  double zoomValue = 13.5;
 
   @override
   void initState() {
-    getCurrentMarker();
-    getCurrentLocation();
+    AddressCubit.get(context).getCurrentMarker();
+    AddressCubit.get(context).getCurrentLocation();
+    AddressCubit.get(context).getAddress();
     super.initState();
   }
+
+  List<String> itemsList = [
+    "data1",
+    "data2",
+    "data3",
+    "data4",
+    "data5",
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -150,7 +79,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                 Navigator.pushNamed(context, ScreenName.walletScreen);
               },
             ),
-            CustomSizedBox(
+            const CustomSizedBox(
               height: 128,
             ),
             CustomDrawerButton(
@@ -165,43 +94,40 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
       body: Stack(
         alignment: Alignment.bottomCenter,
         children: [
-          currentLocation == null
-              ? const Center(
-                  child: CircularProgressIndicator.adaptive(),
-                )
-              : CustomSizedBox(
-                  height: double.infinity,
-                  width: double.infinity,
-                  child: GoogleMap(
-                    myLocationButtonEnabled: false,
-                    onCameraMove: (CameraPosition cameraPosition) {
-                      setState(() {
-                        zoomValue = cameraPosition.zoom;
-                      });
-                    },
-                    onMapCreated: (controller) {
-                      _googleMapController.complete(controller);
-                    },
-                    markers: {
-                      Marker(
-                        markerId: const MarkerId("currentLocation"),
-                        icon: currentIcon,
-                        position: LatLng(
-                          currentLocation!.latitude,
-                          currentLocation!.longitude,
+          BlocConsumer<AddressCubit, AddressState>(
+            listener: (context, state) {
+              // TODO: implement listener
+            },
+            builder: (context, state) {
+              var cubit = AddressCubit.get(context);
+              return cubit.getCurrentLocationLoading
+                  ? const Center(child: CircularProgressIndicator.adaptive())
+                  : CustomSizedBox(
+                      height: double.infinity,
+                      width: double.infinity,
+                      child: GoogleMap(
+                        myLocationButtonEnabled: false,
+                        onCameraMove: (CameraPosition cameraPosition) {
+                          setState(() {
+                            cubit.zoomValue = cameraPosition.zoom;
+                          });
+                        },
+                        onMapCreated: (controller) {
+                          cubit.googleMapController.complete(controller);
+                        },
+                        markers: cubit.markers,
+                        initialCameraPosition: CameraPosition(
+                          target: LatLng(
+                            cubit.currentLocation!.latitude,
+                            cubit.currentLocation!.longitude,
+                          ),
+                          zoom: cubit.zoomValue,
                         ),
+                        mapType: MapType.normal,
                       ),
-                    },
-                    initialCameraPosition: CameraPosition(
-                      target: LatLng(
-                        currentLocation!.latitude,
-                        currentLocation!.longitude,
-                      ),
-                      zoom: zoomValue,
-                    ),
-                    mapType: MapType.normal,
-                  ),
-                ),
+                    );
+            },
+          ),
           PositionedDirectional(
             top: preferredSize.height,
             start: 16,
@@ -216,7 +142,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                     _scaffoldKey.currentState?.openDrawer();
                   },
                 ),
-                SizedBox(),
+                const SizedBox(),
                 // CustomIconButton(
                 //   assetName: SvgPath.notification,
                 //   isNotification: true,
@@ -232,7 +158,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
             width: double.infinity,
             padding: EdgeInsets.symmetric(
               horizontal: 48.w,
-              vertical: 48.h,
+              vertical: 32.h,
             ),
             decoration: BoxDecoration(
               color: AppColors.whiteColor,
@@ -251,14 +177,55 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                // CarTypeWidget(isSelected: true, svgPath: SvgPath.smallCar, title: "حجم صغير", description: "( 5 مقاعد )"),
+                BlocConsumer<AddressCubit, AddressState>(
+                  listener: (context, state) {
+                    // TODO: implement listener
+                  },
+                  builder: (context, state) {
+                    var cubit = AddressCubit.get(context);
+                    return cubit.getAddressLoading
+                        ? const Center(
+                            child: CircularProgressIndicator.adaptive(),
+                          )
+                        : CustomDropDownButton<AddressModel>(
+                            items: cubit.getAddressesModel!.result!
+                                .map(
+                                  (e) => DropdownMenuItem(
+                                    value: e,
+                                    child: Text(e.streetName ?? ""),
+                                  ),
+                                )
+                                .toList(),
+                            value: cubit.addressModel,
+                            borderColor: cubit.addressModel == null
+                                ? null
+                                : AppColors.primaryColor,
+                            hintText: "اختر المكان",
+                            onChanged: cubit.chooseSelectedAddress,
+                          );
+                  },
+                ),
+                const CustomSizedBox(
+                  height: 18,
+                ),
                 const CarTypeList(),
                 const CustomSizedBox(
                   height: 16,
                 ),
                 CustomElevatedButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, ScreenName.carServicesScreen);
+                    Navigator.pushNamed(
+                      context,
+                      ScreenName.carServicesScreen,
+                      arguments: CarServicesArgument(
+                        addressId: AddressCubit.get(context)
+                            .addressModel!
+                            .id!
+                            .toString(),
+                        contentImageModel:
+                            OrdersCubit.get(context).carContentImageModel,
+                      ),
+                    );
                   },
                   width: double.infinity,
                   text: "التالي",

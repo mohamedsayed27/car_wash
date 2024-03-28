@@ -1,3 +1,4 @@
+import 'package:car_wash/business_logic/address_cubit/address_cubit.dart';
 import 'package:car_wash/business_logic/auth_cubit/auth_cubit.dart';
 import 'package:car_wash/core/app_router/app_router.dart';
 import 'package:car_wash/core/app_router/screens_name.dart';
@@ -11,6 +12,8 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import 'business_logic/orders_cubit/orders_cubit.dart';
+import 'business_logic/plans_cubit/plans_cubit.dart';
 import 'core/app_theme/app_theme.dart';
 import 'firebase_options.dart';
 
@@ -44,6 +47,12 @@ class _MyAppState extends State<MyApp> {
           providers: [
             BlocProvider(
               create: (_) => AuthCubit(),
+            ),
+            BlocProvider(
+              create: (_) => AddressCubit(),
+            ),
+            BlocProvider(
+              create: (_) => OrdersCubit(),
             ),
           ],
           child: MaterialApp(

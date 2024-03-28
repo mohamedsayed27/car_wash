@@ -4,4 +4,5 @@ class ImagesPath{
   static const dummyPersonImage = 'assets/images/dummyPersonImage.png';
   static const aboutUsDummy = 'assets/images/aboutUsDummy.png';
   static const locationOnMap = 'assets/images/locationOnMap.png';
+  static const locationMapIcon = 'assets/images/locationMapIcon.png';
 }

@@ -36,7 +36,8 @@ class AppRouter {
         case ScreenName.allChatsScreen:
           return SlideRightRoute(page: const AllChatsScreen(),);
         case ScreenName.carServicesScreen:
-          return SlideRightRoute(page: const CarServicesScreen(),);
+          final CarServicesArgument carServicesArgument = settings.arguments as CarServicesArgument;
+          return SlideRightRoute(page: CarServicesScreen(carServicesArgument: carServicesArgument,),);
         case ScreenName.chatScreen:
           return SlideRightRoute(page: const ChatScreen(),);
         case ScreenName.userHomeScreen:

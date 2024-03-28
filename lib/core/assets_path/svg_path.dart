@@ -35,6 +35,7 @@ class SvgPath{
   static const send = "assets/svg/send.svg";
   static const locationOnMapSvg = "assets/svg/locationOnMapSvg.svg";
   static const logout = "assets/svg/logout.svg";
+  static const arrowDown = "assets/svg/arrowDown.svg";
   SvgPath._();
 }
 

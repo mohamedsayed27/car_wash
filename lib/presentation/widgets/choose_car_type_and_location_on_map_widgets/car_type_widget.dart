@@ -1,17 +1,18 @@
-import 'package:car_wash/core/app_theme/app_colors.dart';
-import 'package:car_wash/core/app_theme/custom_font_weights.dart';
-import 'package:car_wash/core/app_theme/custom_themes.dart';
-import 'package:car_wash/presentation/widgets/shared_widgets/custom_check_box.dart';
-import 'package:car_wash/presentation/widgets/shared_widgets/custom_outlined_button.dart';
-import 'package:car_wash/presentation/widgets/shared_widgets/custom_sized_box.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+
+import '../../../core/app_theme/app_colors.dart';
+import '../../../core/app_theme/custom_font_weights.dart';
+import '../../../core/app_theme/custom_themes.dart';
+import '../order_widgets/stepper_widget.dart';
+import '../shared_widgets/cached_network_image_widget.dart';
+import '../shared_widgets/custom_outlined_button.dart';
+import '../shared_widgets/custom_sized_box.dart';
 
 class CarTypeWidget extends StatelessWidget {
   final bool isSelected;
   final void Function()? onPressed;
-  final String svgPath;
+  final String imagesPath;
   final String title;
   final String description;
 
@@ -19,7 +20,7 @@ class CarTypeWidget extends StatelessWidget {
     super.key,
     required this.isSelected,
     this.onPressed,
-    required this.svgPath,
+    required this.imagesPath,
     required this.title,
     required this.description,
   });
@@ -31,7 +32,9 @@ class CarTypeWidget extends StatelessWidget {
       borderRadius: 8,
       onPressed: onPressed,
       foregroundColor: AppColors.primaryColor,
-      backgroundColor: isSelected ? AppColors.primaryColor.withOpacity(0.08) : AppColors.whiteColor,
+      backgroundColor: isSelected
+          ? AppColors.primaryColor.withOpacity(0.08)
+          : AppColors.whiteColor,
       padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 4.h),
       child: Row(
         children: [
@@ -41,16 +44,10 @@ class CarTypeWidget extends StatelessWidget {
                 children: [
                   WidgetSpan(
                     alignment: PlaceholderAlignment.middle,
-                    child: SvgPicture.asset(
-                      svgPath,
-                      width: 40.w,
+                    child: CachedNetworkImageWidget(
+                      imagePath: imagesPath,
                       height: 40.h,
-                      colorFilter: ColorFilter.mode(
-                        isSelected
-                            ? AppColors.primaryColor
-                            : AppColors.greyColorB0,
-                        BlendMode.srcIn,
-                      ),
+                      width: 40.w,
                     ),
                   ),
                   TextSpan(
@@ -81,7 +78,9 @@ class CarTypeWidget extends StatelessWidget {
               ),
             ),
           ),
-          CustomSizedBox(width: 16,),
+          const CustomSizedBox(
+            width: 16,
+          ),
           CustomCheckBox(
             isChecked: isSelected,
           ),
