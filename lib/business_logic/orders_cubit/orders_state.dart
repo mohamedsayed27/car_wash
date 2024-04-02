@@ -6,6 +6,7 @@ sealed class OrdersState {}
 final class OrdersInitial extends OrdersState {}
 
 final class ChangeCarType extends OrdersState {}
+final class ChangeSelectedTimeSchedule extends OrdersState {}
 final class GetCarTypesLoadingStates extends OrdersState {}
 final class GetCarTypesSuccessStates extends OrdersState {
 
@@ -24,4 +25,14 @@ final class GetServicesErrorStates extends OrdersState {
   final String? error;
 
   GetServicesErrorStates({this.error,});
+}
+
+final class GetTimeScheduleLoadingStates extends OrdersState {}
+final class GetTimeScheduleSuccessStates extends OrdersState {
+
+}
+final class GetTimeScheduleErrorStates extends OrdersState {
+  final String? error;
+
+  GetTimeScheduleErrorStates({this.error,});
 }

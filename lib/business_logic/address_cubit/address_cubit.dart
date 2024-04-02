@@ -32,6 +32,7 @@ class AddressCubit extends Cubit<AddressState> {
 
   void chooseSelectedAddress(AddressModel? addressModel) {
     this.addressModel = addressModel;
+    print(addressModel);
     currentLocation = LatLng(double.parse(addressModel!.lat.toString()),
         double.parse(addressModel.long.toString()));
     moveCameraPosition();

@@ -95,9 +95,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
         alignment: Alignment.bottomCenter,
         children: [
           BlocConsumer<AddressCubit, AddressState>(
-            listener: (context, state) {
-              // TODO: implement listener
-            },
+            listener: (context, state) {},
             builder: (context, state) {
               var cubit = AddressCubit.get(context);
               return cubit.getCurrentLocationLoading
@@ -178,9 +176,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 BlocConsumer<AddressCubit, AddressState>(
-                  listener: (context, state) {
-                    // TODO: implement listener
-                  },
+                  listener: (context, state) {},
                   builder: (context, state) {
                     var cubit = AddressCubit.get(context);
                     return cubit.getAddressLoading
@@ -214,18 +210,25 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                 ),
                 CustomElevatedButton(
                   onPressed: () {
-                    Navigator.pushNamed(
-                      context,
-                      ScreenName.carServicesScreen,
-                      arguments: CarServicesArgument(
-                        addressId: AddressCubit.get(context)
-                            .addressModel!
-                            .id!
-                            .toString(),
-                        contentImageModel:
-                            OrdersCubit.get(context).carContentImageModel,
-                      ),
-                    );
+                    if (AddressCubit.get(context).addressModel != null &&
+                        OrdersCubit.get(context).carContentImageModel != null) {
+                      Navigator.pushNamed(
+                        context,
+                        ScreenName.carServicesScreen,
+                        arguments: CarServicesArgument(
+                          addressId: AddressCubit.get(context)
+                              .addressModel!
+                              .id!
+                              .toString(),
+                          contentImageModel:
+                              OrdersCubit.get(context).carContentImageModel,
+                        ),
+                      );
+                    } else {
+                      showToast(
+                          errorType: 1,
+                          message: "من فضلك بأختيار العنوان ونوع السيارة");
+                    }
                   },
                   width: double.infinity,
                   text: "التالي",

@@ -31,7 +31,7 @@ class _LoginScreenState extends State<LoginScreen> {
   late final AuthCubit cubit;
 
   final PhoneController loginPhoneController =
-      PhoneController(initialValue: PhoneNumber(isoCode: IsoCode.EG, nsn: ""));
+      PhoneController(initialValue: const PhoneNumber(isoCode: IsoCode.EG, nsn: ""));
   final TextEditingController loginPasswordController = TextEditingController();
 
   @override

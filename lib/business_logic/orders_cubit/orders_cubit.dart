@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../core/network/error_message_model.dart';
 import '../../core/services/services_locator.dart';
+import '../../data/models/time_schedule/time_schedule.dart';
 
 part 'orders_state.dart';
 
@@ -35,17 +36,26 @@ class OrdersCubit extends Cubit<OrdersState> {
     emit(ChangeCarType());
   }
 
+  void changeSelectedTimeScheduleModel(TimeScheduleModel timeScheduleModel) {
+    selectedTimeScheduleModel = timeScheduleModel;
+    emit(ChangeSelectedTimeSchedule());
+  }
+
+  bool getCarTypesLoading = false;
   void getCarTypes() async {
+    getCarTypesLoading = true;
     emit(GetCarTypesLoadingStates());
     final response = await _ordersRemoteDatasource.getCarTypes();
 
     response.fold(
       (l) {
         baseErrorModel = l.baseErrorModel;
+        getCarTypesLoading = false;
         emit(GetCarTypesErrorStates(error: l.baseErrorModel.message));
       },
       (r) {
         carTypesModel = r;
+        getCarTypesLoading = false;
         emit(GetCarTypesSuccessStates());
       },
     );
@@ -68,6 +78,31 @@ class OrdersCubit extends Cubit<OrdersState> {
         servicesModel = r;
         getServicesLoading = false;
         emit(GetServicesSuccessStates());
+      },
+    );
+  }
+
+
+  bool getTimeScheduleLoading = false;
+  List<TimeScheduleModel> timeList = [];
+  TimeScheduleModel? selectedTimeScheduleModel;
+  void getTimeSchedule() async {
+    getTimeScheduleLoading = true;
+    emit(GetTimeScheduleLoadingStates());
+    final response = await _ordersRemoteDatasource.getTimeSchedule();
+
+    response.fold(
+      (l) {
+        baseErrorModel = l.baseErrorModel;
+        print(baseErrorModel);
+        getTimeScheduleLoading = false;
+        emit(GetTimeScheduleErrorStates(error: l.baseErrorModel.message));
+      },
+      (r) {
+        timeList = r.result??<TimeScheduleModel>[];
+        getTimeScheduleLoading = false;
+        print(timeList);
+        emit(GetTimeScheduleSuccessStates());
       },
     );
   }

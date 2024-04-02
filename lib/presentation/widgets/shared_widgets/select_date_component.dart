@@ -1,10 +1,14 @@
+
 import 'package:car_wash/core/app_theme/app_colors.dart';
 import 'package:car_wash/core/constants/extensions.dart';
 import 'package:car_wash/presentation/widgets/shared_widgets/custom_outlined_button.dart';
 import 'package:car_wash/presentation/widgets/shared_widgets/custom_sized_box.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:jiffy/jiffy.dart';
 
+import '../../../business_logic/orders_cubit/orders_cubit.dart';
 import '../../../core/app_theme/custom_font_weights.dart';
 import '../../../core/app_theme/custom_themes.dart';
 
@@ -50,6 +54,10 @@ class _SelectDateComponentState extends State<SelectDateComponent> {
   int? currentIndex;
 
   @override
+  void initState() {
+    super.initState();
+  }
+  @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -60,33 +68,46 @@ class _SelectDateComponentState extends State<SelectDateComponent> {
             fontSize: 16.sp,
             fontWeight: CustomFontWeights.bold,
           ),
-        ).symmetricPadding(horizontal: 16),const CustomSizedBox(
+        ).symmetricPadding(horizontal: 16),
+        const CustomSizedBox(
           height: 16,
         ),
-        CustomSizedBox(
-          height: 56,
-          width: double.infinity,
-          child: ListView.separated(
-              scrollDirection: Axis.horizontal,
-              padding: EdgeInsets.symmetric(
-                horizontal: 16.w,
-              ),
-              itemBuilder: (_, index) {
-                return SelectDateButton(
-                  day: datesList(index: index)[index]["day"],
-                  date: datesList(index: index)[index]["date"],
-                  isSelected: currentIndex == index,
-                  onPressed: () {
-                    setState(() {
-                      currentIndex = index;
-                    });
-                  },
-                );
-              },
-              separatorBuilder: (_, index) {
-                return const CustomSizedBox(width: 8,);
-              },
-              itemCount: datesList().length),
+        BlocConsumer<OrdersCubit, OrdersState>(
+          listener: (context, state) {
+            // TODO: implement listener
+          },
+          builder: (context, state) {
+            OrdersCubit cubit = OrdersCubit.get(context);
+            return CustomSizedBox(
+              height: 56,
+              width: double.infinity,
+              child: cubit.getTimeScheduleLoading
+                  ? const Center(
+                      child: CircularProgressIndicator.adaptive(),
+                    )
+                  : ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 16.w,
+                      ),
+                      itemBuilder: (_, index) {
+                        return SelectDateButton(
+                          day: Jiffy.parse(cubit.timeList[index].date??"").EEEE ,
+                          date: Jiffy.parse(cubit.timeList[index].date??"").yMEd,
+                          isSelected: cubit.timeList.any((element) => element.id == cubit.selectedTimeScheduleModel?.id!),
+                          onPressed: () {
+                            cubit.changeSelectedTimeScheduleModel(cubit.timeList[index]);
+                          },
+                        );
+                      },
+                      separatorBuilder: (_, index) {
+                        return const CustomSizedBox(
+                          width: 8,
+                        );
+                      },
+                      itemCount: cubit.timeList.length),
+            );
+          },
         ),
       ],
     );
@@ -113,7 +134,9 @@ class SelectDateButton extends StatelessWidget {
       borderColor: isSelected ? AppColors.primaryColor : AppColors.greyColorB0,
       onPressed: onPressed,
       foregroundColor: AppColors.primaryColor,
-      backgroundColor: isSelected ? AppColors.primaryColor.withOpacity(0.08) : AppColors.whiteColor,
+      backgroundColor: isSelected
+          ? AppColors.primaryColor.withOpacity(0.08)
+          : AppColors.whiteColor,
       borderRadius: 8,
       padding: EdgeInsets.symmetric(
         horizontal: 11.w,

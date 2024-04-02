@@ -29,30 +29,36 @@ class _CarTypeListState extends State<CarTypeList> {
         var cubit = OrdersCubit.get(context);
         return CustomSizedBox(
           height: 132,
-          child: ListView.separated(
-            // shrinkWrap: true,
-            padding: EdgeInsets.zero,
-            itemBuilder: (_, index) {
-              return CarTypeWidget(
-                isSelected: cubit.carCurrentIndex == index,
-                imagesPath: cubit.carTypesModel?.result?[index].image ?? "",
-                title: cubit.carTypesModel?.result?[index].name ?? "",
-                description: cubit.carTypesModel?.result?[index].content ?? "",
-                onPressed: () {
-                  cubit.changeCarType(
-                    index,
-                    cubit.carTypesModel!.result![index],
-                  );
-                },
-              );
-            },
-            separatorBuilder: (_, index) {
-              return const CustomSizedBox(
-                height: 16,
-              );
-            },
-            itemCount: cubit.carTypesModel?.result?.length ?? 0,
-          ),
+          child: cubit.getCarTypesLoading
+              ? const Center(
+                  child: CircularProgressIndicator.adaptive(),
+                )
+              : ListView.separated(
+                  // shrinkWrap: true,
+                  padding: EdgeInsets.zero,
+                  itemBuilder: (_, index) {
+                    return CarTypeWidget(
+                      isSelected: cubit.carCurrentIndex == index,
+                      imagesPath:
+                          cubit.carTypesModel?.result?[index].image ?? "",
+                      title: cubit.carTypesModel?.result?[index].name ?? "",
+                      description:
+                          cubit.carTypesModel?.result?[index].content ?? "",
+                      onPressed: () {
+                        cubit.changeCarType(
+                          index,
+                          cubit.carTypesModel!.result![index],
+                        );
+                      },
+                    );
+                  },
+                  separatorBuilder: (_, index) {
+                    return const CustomSizedBox(
+                      height: 16,
+                    );
+                  },
+                  itemCount: cubit.carTypesModel?.result?.length ?? 0,
+                ),
         );
       },
     );

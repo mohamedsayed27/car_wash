@@ -1,3 +1,4 @@
+import 'package:car_wash/bloc_observer.dart';
 import 'package:car_wash/business_logic/address_cubit/address_cubit.dart';
 import 'package:car_wash/business_logic/auth_cubit/auth_cubit.dart';
 import 'package:car_wash/core/app_router/app_router.dart';
@@ -23,6 +24,7 @@ void main() async {
   DioHelper.init();
   CacheHelper.init();
   ServicesLocators().init();
+  Bloc.observer = MyBlocObserver();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -52,7 +54,7 @@ class _MyAppState extends State<MyApp> {
               create: (_) => AddressCubit(),
             ),
             BlocProvider(
-              create: (_) => OrdersCubit(),
+              create: (_) => OrdersCubit()..getTimeSchedule(),
             ),
             BlocProvider(
               create: (_) => PlansCubit(),
