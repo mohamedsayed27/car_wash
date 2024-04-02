@@ -74,8 +74,30 @@ class PlansCubit extends Cubit<PlansState> {
       (r) async {
         getUserPlansModel = r;
         for (var element in r.result!) {
-          if(!userPlansList.any((e) => e.id==element.planId!)){
-            userPlansList.add(getAllPlansModel!.result!.firstWhere((el) => el.id==element.planId));
+          if (!userPlansList.any((e) => e.id == element.planId!)) {
+            userPlansList.add(
+              AllPlansModel(
+                name: getAllPlansModel!.result!
+                    .firstWhere((el) => el.id == element.planId)
+                    .name,
+                id: getAllPlansModel!.result!
+                    .firstWhere((el) => el.id == element.planId)
+                    .id,
+                content: getAllPlansModel!.result!
+                    .firstWhere((el) => el.id == element.planId)
+                    .content,
+                price: getAllPlansModel!.result!
+                    .firstWhere((el) => el.id == element.planId)
+                    .price,
+                subscriptionType: getAllPlansModel!.result!
+                    .firstWhere((el) => el.id == element.planId)
+                    .subscriptionType,
+                userPlanId: element.planId,
+                washNumber: getAllPlansModel!.result!
+                    .firstWhere((el) => el.id == element.planId)
+                    .washNumber,
+              ),
+            );
           }
         }
         emit(GetUserPlansSuccessState());

@@ -17,7 +17,7 @@ class BaseErrorModel extends Equatable {
       message: json['message'],
       code: json['code'],
       success: json['success'],
-      errors: json['errors']!=null?List<String>.from(json['errors']?.map((e) => e)):null,
+      errors: null,
     );
   }
 

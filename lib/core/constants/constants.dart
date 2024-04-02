@@ -20,12 +20,15 @@ void showProgressIndicator(BuildContext context) {
     elevation: 0,
     content: Center(
       child: Container(
-        padding: EdgeInsets.all(32.sp,),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12.r),
-            color: AppColors.whiteColor,
-          ),
-          child: CircularProgressIndicator.adaptive(),),
+        padding: EdgeInsets.all(
+          32.sp,
+        ),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12.r),
+          color: AppColors.whiteColor,
+        ),
+        child: const CircularProgressIndicator.adaptive(),
+      ),
     ),
   );
   showDialog(

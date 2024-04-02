@@ -2,17 +2,17 @@ part of "car_services_screen.dart";
 
 class CarServicesArgument extends Equatable {
   final ContentImageModel? contentImageModel;
-  final String addressId;
+  final AddressModel addressModel;
 
   const CarServicesArgument({
     this.contentImageModel,
-    required this.addressId,
+    required this.addressModel,
   });
 
   @override
   // TODO: implement props
   List<Object?> get props => [
         contentImageModel,
-        addressId,
+    addressModel,
       ];
 }

@@ -1,3 +1,5 @@
+import 'package:car_wash/presentation/screens/confirm_order_screen/user_confirm_order_arguments.dart';
+import 'package:car_wash/presentation/screens/confirm_order_screen/user_confirm_order_arguments.dart';
 import 'package:flutter/material.dart';
 
 import '../../presentation/screens/auth_screens/login_screen.dart';
@@ -51,7 +53,8 @@ class AppRouter {
         case ScreenName.registerTypeScreen:
           return SlideRightRoute(page: const RegisterTypeScreen(),);
         case ScreenName.userConfirmOrderScreen:
-          return SlideRightRoute(page: const UserConfirmOrderScreen(),);
+          final UserConfirmOrderArguments userConfirmOrderArguments = settings.arguments as UserConfirmOrderArguments;
+          return SlideRightRoute(page: UserConfirmOrderScreen(userConfirmOrderArguments: userConfirmOrderArguments,),);
         case ScreenName.userOrderProgressScreen:
           return SlideRightRoute(page: const UserOrderProgressScreen(),);
         case ScreenName.vendorConfirmOrderScreen:

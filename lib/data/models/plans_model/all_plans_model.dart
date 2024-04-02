@@ -23,6 +23,7 @@ class GetAllPlansModel extends BaseResponseModel<List<AllPlansModel>> {
 
 class AllPlansModel extends Equatable {
   final int? id;
+  final int? userPlanId;
   final double? price;
   final String? subscriptionType;
   final int? washNumber;
@@ -33,6 +34,7 @@ class AllPlansModel extends Equatable {
     this.id,
     this.price,
     this.subscriptionType,
+    this.userPlanId,
     this.washNumber,
     this.name,
     this.content,
@@ -45,6 +47,7 @@ class AllPlansModel extends Equatable {
         subscriptionType,
         washNumber,
         name,
+    userPlanId,
         content,
       ];
 

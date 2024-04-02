@@ -1,6 +1,5 @@
 import 'package:car_wash/data/models/car_types_model/car_types_model.dart';
 import 'package:car_wash/data/models/time_schedule/time_schedule.dart';
-import 'package:car_wash/data/models/time_schedule/time_schedule.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 
@@ -63,6 +62,7 @@ class OrdersRemoteDatasource{
   Future<Either<ErrorException, BaseResponseModel>> addOrder({
     required AddOrderParameters parameters,
   }) async {
+    print(parameters.toJson());
     try {
       final response = await dioHelper.postData(
         url: EndPoints.makeOrders,
@@ -73,6 +73,7 @@ class OrdersRemoteDatasource{
       return Right(BaseResponseModel.fromJson(response.data));
     } catch (e) {
       if (e is DioException) {
+        print(e);
         return Left(
           ErrorException(
             baseErrorModel: BaseErrorModel.fromJson(e.response!.data),

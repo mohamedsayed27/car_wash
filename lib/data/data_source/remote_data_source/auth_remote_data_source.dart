@@ -27,6 +27,7 @@ class AuthRemoteDataSource {
           parameters.toJson(),
         ),
       );
+      print(response);
       return Right(LoginModel.fromJson(response.data));
     } catch (e) {
       if (e is DioException) {

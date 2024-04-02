@@ -36,3 +36,15 @@ final class GetTimeScheduleErrorStates extends OrdersState {
 
   GetTimeScheduleErrorStates({this.error,});
 }
+
+final class MakeOrderLoadingState extends OrdersState {}
+final class MakeOrderSuccessState extends OrdersState {
+  final BaseResponseModel baseResponseModel;
+
+  MakeOrderSuccessState({required this.baseResponseModel});
+}
+final class MakeOrderErrorState extends OrdersState {
+  final String? error;
+
+  MakeOrderErrorState({this.error,});
+}

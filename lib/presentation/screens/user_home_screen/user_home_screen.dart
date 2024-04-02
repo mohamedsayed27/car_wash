@@ -216,10 +216,8 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                         context,
                         ScreenName.carServicesScreen,
                         arguments: CarServicesArgument(
-                          addressId: AddressCubit.get(context)
-                              .addressModel!
-                              .id!
-                              .toString(),
+                          addressModel: AddressCubit.get(context)
+                              .addressModel!,
                           contentImageModel:
                               OrdersCubit.get(context).carContentImageModel,
                         ),

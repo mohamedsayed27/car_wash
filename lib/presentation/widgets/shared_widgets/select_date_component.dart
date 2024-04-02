@@ -1,4 +1,3 @@
-
 import 'package:car_wash/core/app_theme/app_colors.dart';
 import 'package:car_wash/core/constants/extensions.dart';
 import 'package:car_wash/presentation/widgets/shared_widgets/custom_outlined_button.dart';
@@ -20,43 +19,8 @@ class SelectDateComponent extends StatefulWidget {
 }
 
 class _SelectDateComponentState extends State<SelectDateComponent> {
-  List<Map<String, dynamic>> datesList({int index = 0}) => [
-        {
-          "day": "السبت",
-          "date": "October 1$index",
-        },
-        {
-          "day": "الاحد",
-          "date": "October 1$index",
-        },
-        {
-          "day": "الاثنين",
-          "date": "October 1$index",
-        },
-        {
-          "day": "الثلاثاء",
-          "date": "October 1$index",
-        },
-        {
-          "day": "الاربعاء",
-          "date": "October 1$index",
-        },
-        {
-          "day": "الخميس",
-          "date": "October 1$index",
-        },
-        {
-          "day": "الجمعه",
-          "date": "October 1$index",
-        },
-      ];
 
-  int? currentIndex;
 
-  @override
-  void initState() {
-    super.initState();
-  }
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -92,11 +56,17 @@ class _SelectDateComponentState extends State<SelectDateComponent> {
                       ),
                       itemBuilder: (_, index) {
                         return SelectDateButton(
-                          day: Jiffy.parse(cubit.timeList[index].date??"").EEEE ,
-                          date: Jiffy.parse(cubit.timeList[index].date??"").yMEd,
-                          isSelected: cubit.timeList.any((element) => element.id == cubit.selectedTimeScheduleModel?.id!),
+                          day: Jiffy.parse(cubit.timeList[index].date ?? "")
+                              .EEEE,
+                          date: Jiffy.parse(cubit.timeList[index].date ?? "")
+                              .yMEd,
+                          isSelected: cubit.timeList.indexWhere((element) =>
+                                  element.id ==
+                                  cubit.selectedDateScheduleModel?.id) ==
+                              index,
                           onPressed: () {
-                            cubit.changeSelectedTimeScheduleModel(cubit.timeList[index]);
+                            cubit.changeSelectedDateScheduleModel(
+                                cubit.timeList[index]);
                           },
                         );
                       },
@@ -105,7 +75,8 @@ class _SelectDateComponentState extends State<SelectDateComponent> {
                           width: 8,
                         );
                       },
-                      itemCount: cubit.timeList.length),
+                      itemCount: cubit.timeList.length,
+                    ),
             );
           },
         ),
