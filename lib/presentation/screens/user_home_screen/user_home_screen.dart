@@ -110,11 +110,11 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                       width: double.infinity,
                       child: GoogleMap(
                         myLocationButtonEnabled: false,
-                        onCameraMove: (CameraPosition cameraPosition) {
-                          setState(() {
-                            cubit.zoomValue = cameraPosition.zoom;
-                          });
-                        },
+                        // onCameraMove: (CameraPosition cameraPosition) {
+                        //   setState(() {
+                        //     cubit.zoomValue = cameraPosition.zoom;
+                        //   });
+                        // },
                         onMapCreated: (controller) {
                           cubit.googleMapController.complete(controller);
                         },
