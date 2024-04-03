@@ -98,8 +98,12 @@ class WalletScreen extends StatelessWidget {
                 separatorBuilder: (_, index) => const CustomSizedBox(
                   height: 16,
                 ),
-                itemBuilder: (_, index) => InkWell(onTap: (){
-                  Navigator.pushNamed(context, ScreenName.userOrderProgressScreen);},child: const ServiceTypeAndTimeWidget()),
+                itemBuilder: (_, index) => InkWell(
+                    onTap: () {
+                      Navigator.pushNamed(
+                          context, ScreenName.userOrderProgressScreen);
+                    },
+                    child: const ServiceTypeAndTimeWidget()),
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: 4,

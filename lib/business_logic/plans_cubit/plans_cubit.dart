@@ -92,7 +92,7 @@ class PlansCubit extends Cubit<PlansState> {
                 subscriptionType: getAllPlansModel!.result!
                     .firstWhere((el) => el.id == element.planId)
                     .subscriptionType,
-                userPlanId: element.planId,
+                userPlanId: element.id,
                 washNumber: getAllPlansModel!.result!
                     .firstWhere((el) => el.id == element.planId)
                     .washNumber,

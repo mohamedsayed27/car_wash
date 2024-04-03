@@ -200,7 +200,9 @@ class AddressCubit extends Cubit<AddressState> {
   void getCurrentLocation() async {
     getCurrentLocationLoading = true;
     emit(GetLocationLoading());
+    print("entered");
     googleMapsServices.getGeoLocationPosition().then((value) {
+      print(value);
       currentLocation = LatLng(value.latitude, value.longitude);
       sourceLocation =
           LatLng(currentLocation!.latitude, currentLocation!.longitude);
@@ -209,7 +211,9 @@ class AddressCubit extends Cubit<AddressState> {
       emit(GetCurrentLocation());
       // setState(() {});
       // getPolyLinePoints(currentLocation);
-    }).catchError((error) {});
+    }).catchError((error) {
+      print(error);
+    });
     GoogleMapController controller = await googleMapController.future;
     controller.animateCamera(
       CameraUpdate.newCameraPosition(
