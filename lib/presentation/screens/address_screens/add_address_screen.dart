@@ -82,6 +82,7 @@ class AddAddressScreen extends StatelessWidget {
                         hintText: "الدور",
                       ),
                     ),
+
                     CustomSizedBox(
                       width: 8,
                     ),
