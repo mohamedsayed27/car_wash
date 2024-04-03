@@ -1,5 +1,9 @@
 import 'package:car_wash/business_logic/orders_cubit/orders_cubit.dart';
+import 'package:car_wash/core/app_theme/custom_themes.dart';
 import 'package:car_wash/presentation/screens/car_services_screen/car_services_screen.dart';
+import 'package:car_wash/presentation/widgets/bottom_sheets/add_address_bottom_sheet.dart';
+import 'package:car_wash/presentation/widgets/shared_widgets/custom_text_button.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,6 +11,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../../business_logic/address_cubit/address_cubit.dart';
 import '../../../core/app_router/screens_name.dart';
 import '../../../core/app_theme/app_colors.dart';
+import '../../../core/app_theme/custom_font_weights.dart';
 import '../../../core/assets_path/images_path.dart';
 import '../../../core/assets_path/svg_path.dart';
 import '../../../core/constants/constants.dart';
@@ -155,7 +160,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
           Container(
             width: double.infinity,
             padding: EdgeInsets.symmetric(
-              horizontal: 48.w,
+              horizontal: 16.w,
               vertical: 32.h,
             ),
             decoration: BoxDecoration(
@@ -183,21 +188,54 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                         ? const Center(
                             child: CircularProgressIndicator.adaptive(),
                           )
-                        : CustomDropDownButton<AddressModel>(
-                            items: cubit.getAddressesModel!.result!
-                                .map(
-                                  (e) => DropdownMenuItem(
-                                    value: e,
-                                    child: Text(e.streetName ?? ""),
+                        : Row(
+                            children: [
+                              Expanded(
+                                child: cubit.getAddressesModel!.result != null?CustomDropDownButton<AddressModel>(
+                                  items: cubit.getAddressesModel!.result != null
+                                      ? cubit.getAddressesModel!.result!
+                                          .map(
+                                            (e) => DropdownMenuItem(
+                                              value: e,
+                                              child: Text(e.streetName ?? ""),
+                                            ),
+                                          )
+                                          .toList()
+                                      : [],
+                                  value: cubit.addressModel,
+                                  borderColor: cubit.addressModel == null
+                                      ? null
+                                      : AppColors.primaryColor,
+                                  hintText: "اختر المكان",
+                                  onChanged: cubit.chooseSelectedAddress,
+                                ):Text(
+                                  "لم تقم باضافة عنوان",
+                                  textAlign: TextAlign.start,
+                                  style:
+                                  CustomThemes.greyColor71TextTheme(context).copyWith(
+                                    fontSize: 14.sp,
+                                    fontWeight: CustomFontWeights.w500,
                                   ),
-                                )
-                                .toList(),
-                            value: cubit.addressModel,
-                            borderColor: cubit.addressModel == null
-                                ? null
-                                : AppColors.primaryColor,
-                            hintText: "اختر المكان",
-                            onChanged: cubit.chooseSelectedAddress,
+                                ),
+                              ),
+                              CustomSizedBox(
+                                width: 16,
+                              ),
+                              CustomTextButton(
+                                title: "اضافة عنوان",
+                                onPressed: () {
+                                  Navigator.pushNamed(context, ScreenName.addAddressScreen);
+                                },
+                                style:
+                                    CustomThemes.primaryColorTextTheme(context)
+                                        .copyWith(
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w700,
+                                  decoration: TextDecoration.underline,
+                                  decorationColor: AppColors.primaryColor,
+                                ),
+                              ),
+                            ],
                           );
                   },
                 ),
@@ -216,8 +254,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                         context,
                         ScreenName.carServicesScreen,
                         arguments: CarServicesArgument(
-                          addressModel: AddressCubit.get(context)
-                              .addressModel!,
+                          addressModel: AddressCubit.get(context).addressModel!,
                           contentImageModel:
                               OrdersCubit.get(context).carContentImageModel,
                         ),

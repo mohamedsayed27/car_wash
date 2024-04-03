@@ -20,97 +20,93 @@ class AddAddressBottomSheet extends StatelessWidget {
       padding: EdgeInsets.only(
         bottom: MediaQuery.of(context).viewInsets.bottom,
       ),
-      child: SingleChildScrollView(
-        physics: NeverScrollableScrollPhysics(),
-        child: SafeArea(
-          child: Column(
-            children: [
-              const CustomSizedBox(
-                height: 16,
-              ),
-              BottomSheetHeaderBar(
-                title: title,
-              ),
-              const CustomDivider(),
-              const CustomSizedBox(
-                height: 16,
-              ),
-               Container(
-                height: 325.h,
-                width: double.infinity,
-                clipBehavior: Clip.antiAliasWithSaveLayer,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16.r),
-                ),
-                child: const GoogleMap(
-                  myLocationButtonEnabled: false,
-                  mapType: MapType.normal,
-                  initialCameraPosition: CameraPosition(
-                    target: LatLng(23.61108120291162, 45.286281856525534),
-                    zoom: 11.5,
-                  ),
-                ),
-              ),
-              const CustomSizedBox(
-                height: 16,
-              ),
-              const FormItemWidget(
-                title: "اسم الشارع",
-                hintText: "نص تلقائي",
-              ),
-              const CustomSizedBox(
-                height: 16,
-              ),
-              const Row(
-                children: [
-                  Expanded(
-                    child: FormItemWidget(
-                      title: "رقم المبنى",
-                      hintText: "نص تلقائي",
-                    ),
-                  ),
-                  CustomSizedBox(
-                    width: 8,
-                  ),
-                  Expanded(
-                    child: FormItemWidget(
-                      title: "الدور",
-                      hintText: "نص تلقائي",
-                    ),
-                  ),
-                  CustomSizedBox(
-                    width: 8,
-                  ),
-                  Expanded(
-                    child: FormItemWidget(
-                      title: "رقم الشقة",
-                      hintText: "نص تلقائي",
-                    ),
-                  ),
-                ],
-              ),
-              const CustomSizedBox(
-                height: 16,
-              ),
-              const FormItemWidget(
-                title: "اسم العنوان",
-                hintText: "نص تلقائي",
-              ),
-              const CustomSizedBox(
-                height: 16,
-              ),
-              CustomElevatedButton(
-                onPressed: () {
+      child: ListView(
 
-                },
-                text: "حفظ",
-                width: double.infinity,
-                height: 48,
+        children: [
+          const CustomSizedBox(
+            height: 16,
+          ),
+          BottomSheetHeaderBar(
+            title: title,
+          ),
+          const CustomDivider(),
+          const CustomSizedBox(
+            height: 16,
+          ),
+           Container(
+            height: 325.h,
+            width: double.infinity,
+            clipBehavior: Clip.antiAliasWithSaveLayer,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16.r),
+            ),
+            child: const GoogleMap(
+              myLocationButtonEnabled: false,
+              mapType: MapType.normal,
+              initialCameraPosition: CameraPosition(
+                target: LatLng(23.61108120291162, 45.286281856525534),
+                zoom: 11.5,
+              ),
+            ),
+          ),
+          const CustomSizedBox(
+            height: 16,
+          ),
+          const FormItemWidget(
+            title: "اسم الشارع",
+            hintText: "نص تلقائي",
+          ),
+          const CustomSizedBox(
+            height: 16,
+          ),
+          const Row(
+            children: [
+              Expanded(
+                child: FormItemWidget(
+                  title: "رقم المبنى",
+                  hintText: "نص تلقائي",
+                ),
+              ),
+              CustomSizedBox(
+                width: 8,
+              ),
+              Expanded(
+                child: FormItemWidget(
+                  title: "الدور",
+                  hintText: "نص تلقائي",
+                ),
+              ),
+              CustomSizedBox(
+                width: 8,
+              ),
+              Expanded(
+                child: FormItemWidget(
+                  title: "رقم الشقة",
+                  hintText: "نص تلقائي",
+                ),
               ),
             ],
           ),
-        ).symmetricPadding(horizontal: 16),
-      ),
+          const CustomSizedBox(
+            height: 16,
+          ),
+          const FormItemWidget(
+            title: "اسم العنوان",
+            hintText: "نص تلقائي",
+          ),
+          const CustomSizedBox(
+            height: 16,
+          ),
+          CustomElevatedButton(
+            onPressed: () {
+
+            },
+            text: "حفظ",
+            width: double.infinity,
+            height: 48,
+          ),
+        ],
+      ).symmetricPadding(horizontal: 16),
     );
   }
 }

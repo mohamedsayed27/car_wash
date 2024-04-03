@@ -2,6 +2,7 @@ import 'package:car_wash/presentation/screens/confirm_order_screen/user_confirm_
 import 'package:car_wash/presentation/screens/confirm_order_screen/user_confirm_order_arguments.dart';
 import 'package:flutter/material.dart';
 
+import '../../presentation/screens/address_screens/add_address_screen.dart';
 import '../../presentation/screens/auth_screens/login_screen.dart';
 import '../../presentation/screens/auth_screens/register_type_screen.dart';
 import '../../presentation/screens/auth_screens/registration_screen.dart';
@@ -71,6 +72,8 @@ class AppRouter {
           return SlideRightRoute(page: const TermsAndConditions(),);
         case ScreenName.aboutUsScreen:
           return SlideRightRoute(page: const AboutUsScreen(),);
+        case ScreenName.addAddressScreen:
+          return SlideRightRoute(page: const AddAddressScreen(title: 'اضافة عنوان',),);
         case ScreenName.editProfileScreen:
           return SlideRightRoute(page: const EditProfileScreen(),);
         case ScreenName.profileScreen:
@@ -124,10 +127,7 @@ class SlideRightRoute extends PageRouteBuilder {
                 begin: const Offset(1, 0),
                 end: Offset.zero,
               ).animate(animation),
-              child: FadeTransition(
-                opacity: Tween<double>(begin: 0.5, end: 1).animate(animation),
-                child: child,
-              ),
+              child: child,
             );
           },
           transitionDuration: const Duration(milliseconds: 250),

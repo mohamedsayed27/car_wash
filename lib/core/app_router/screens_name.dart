@@ -22,4 +22,5 @@ class ScreenName{
   static const profileScreen = "profileScreen";
   static const choosePaymentScreen = "choosePaymentScreen";
   static const myCardsScreen = "myCardsScreen";
+  static const addAddressScreen = "addAddressScreen";
 }
