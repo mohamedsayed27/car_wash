@@ -18,7 +18,7 @@ class CustomTextField extends StatelessWidget {
   final TextAlignVertical? textAlignVertical;
   final int? maxLines;
   final int? minLines;
-
+  final String? Function(String?)? validator;
   const CustomTextField({
     super.key,
     this.enabled = true,
@@ -32,7 +32,7 @@ class CustomTextField extends StatelessWidget {
     this.filled,
     this.textAlignVertical,
     this.maxLines,
-    this.minLines,
+    this.minLines, this.validator,
   });
 
   @override
@@ -69,7 +69,7 @@ class CustomTextField extends StatelessWidget {
         fontSize: 16.sp,
         fontWeight: CustomFontWeights.w500,
       ),
-
+      validator: validator,
       decoration: InputDecoration(
         border: border,
         focusedBorder: focusedBorder,

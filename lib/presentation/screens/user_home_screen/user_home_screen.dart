@@ -18,6 +18,7 @@ import '../../../core/constants/constants.dart';
 import '../../../data/models/address_model/address_model.dart';
 import '../../widgets/choose_car_type_and_location_on_map_widgets/car_type_list.dart';
 import '../../widgets/drawers/drawer_button.dart';
+import '../../widgets/shared_widgets/address_google_map_widget.dart';
 import '../../widgets/shared_widgets/custom_drop_down_button.dart';
 import '../../widgets/shared_widgets/custom_elevated_button.dart';
 import '../../widgets/shared_widgets/custom_sized_box.dart';
@@ -99,38 +100,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
       body: Stack(
         alignment: Alignment.bottomCenter,
         children: [
-          BlocConsumer<AddressCubit, AddressState>(
-            listener: (context, state) {},
-            builder: (context, state) {
-              var cubit = AddressCubit.get(context);
-              return cubit.getCurrentLocationLoading
-                  ? const Center(child: CircularProgressIndicator.adaptive())
-                  : CustomSizedBox(
-                      height: double.infinity,
-                      width: double.infinity,
-                      child: GoogleMap(
-                        myLocationButtonEnabled: false,
-                        // onCameraMove: (CameraPosition cameraPosition) {
-                        //   setState(() {
-                        //     cubit.zoomValue = cameraPosition.zoom;
-                        //   });
-                        // },
-                        onMapCreated: (controller) {
-                          cubit.googleMapController.complete(controller);
-                        },
-                        markers: cubit.markers,
-                        initialCameraPosition: CameraPosition(
-                          target: LatLng(
-                            cubit.currentLocation!.latitude,
-                            cubit.currentLocation!.longitude,
-                          ),
-                          zoom: cubit.zoomValue,
-                        ),
-                        mapType: MapType.normal,
-                      ),
-                    );
-            },
-          ),
+          AddressGoogleMapWidget(),
           PositionedDirectional(
             top: preferredSize.height,
             start: 16,

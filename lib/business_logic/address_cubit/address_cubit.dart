@@ -39,6 +39,11 @@ class AddressCubit extends Cubit<AddressState> {
     emit(ChangeSelectedAddress());
   }
 
+  void onMapTapped({required LatLng latLng,}){
+    currentLocation = latLng;
+    moveCameraPosition();
+    emit(OnMapTapped());
+  }
   void getAddress() async {
     getAddressLoading = true;
     emit(GetAllAddressLoadingState());

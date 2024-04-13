@@ -5,6 +5,7 @@ sealed class AddressState {}
 final class AddressInitial extends AddressState {}
 
 final class ChangeSelectedAddress extends AddressState {}
+final class OnMapTapped extends AddressState {}
 final class GetCurrentMarker extends AddressState {}
 final class GetCurrentLocation extends AddressState {}
 final class AddMarker extends AddressState {}

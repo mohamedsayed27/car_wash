@@ -3,10 +3,10 @@ import 'package:equatable/equatable.dart';
 class AddAddressParameters extends Equatable {
   final String streetName;
   final String buildingNo;
-  final int floorNo;
+  final String floorNo;
   final String addressType;
-  final double lat;
-  final double long;
+  final String lat;
+  final String long;
 
   const AddAddressParameters({
     required this.streetName,
