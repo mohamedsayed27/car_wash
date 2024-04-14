@@ -21,12 +21,20 @@ class PlansCubit extends Cubit<PlansState> {
   GetAllPlansModel? getAllPlansModel;
   GetUserPlansModel? getUserPlansModel;
   AllPlansModel? userPlansModel;
-  List<AllPlansModel> userPlansList = [];
+  AllPlansModel? selectedSubscribePlan;
+  List<AllPlansModel> userSubscribedPlansList = [];
+  List<AllPlansModel> userNotSubscribedPlansList = [];
   int? userPlansCurrentIndex;
+  int? selectedPlanIndex;
 
   void changeServicesType(int index, AllPlansModel userPlansModel) {
     userPlansCurrentIndex = index;
     this.userPlansModel = userPlansModel;
+    emit(ChangeUserPlansState());
+  }
+  void selectedSubscribePlanIndex(int index, AllPlansModel selectedSubscribePlan) {
+    selectedPlanIndex = index;
+    this.selectedSubscribePlan = selectedSubscribePlan;
     emit(ChangeUserPlansState());
   }
 
@@ -50,6 +58,7 @@ class PlansCubit extends Cubit<PlansState> {
       },
       (r) async {
         getAllPlansModel = r;
+        userNotSubscribedPlansList = r.result??[];
         getUserPlans();
         getUserPlansLoading = false;
         emit(GetAllPlansSuccessState());
@@ -58,6 +67,7 @@ class PlansCubit extends Cubit<PlansState> {
   }
 
   void getUserPlans() async {
+    userSubscribedPlansList.clear();
     emit(GetUserPlansLoadingState());
     final response = await _plansRemoteDatasource.getUserPlans();
     response.fold(
@@ -74,8 +84,9 @@ class PlansCubit extends Cubit<PlansState> {
       (r) async {
         getUserPlansModel = r;
         for (var element in r.result!) {
-          if (!userPlansList.any((e) => e.id == element.planId!)) {
-            userPlansList.add(
+          if (!userSubscribedPlansList.any((e) => e.id == element.planId!)) {
+
+            userSubscribedPlansList.add(
               AllPlansModel(
                 name: getAllPlansModel!.result!
                     .firstWhere((el) => el.id == element.planId)
@@ -98,8 +109,12 @@ class PlansCubit extends Cubit<PlansState> {
                     .washNumber,
               ),
             );
+            userNotSubscribedPlansList.remove(userNotSubscribedPlansList
+                .firstWhere((el) => el.id == element.planId));
           }
         }
+        print(userNotSubscribedPlansList);
+        print("userNotSubscribedPlansList");
         emit(GetUserPlansSuccessState());
       },
     );
@@ -121,6 +136,7 @@ class PlansCubit extends Cubit<PlansState> {
       },
       (r) async {
         baseResponseModel = r;
+        getAllPlans();
         emit(SubscribePlanSuccessState());
       },
     );

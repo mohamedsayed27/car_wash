@@ -15,6 +15,7 @@ import '../../presentation/screens/intro_screens/splash_screen.dart';
 import '../../presentation/screens/notification_screen/notification_screen.dart';
 import '../../presentation/screens/payment_screens/choose_payment_screen.dart';
 import '../../presentation/screens/payment_screens/my_cards_screen.dart';
+import '../../presentation/screens/plans_screen/plans_screen.dart';
 import '../../presentation/screens/profile_screens/about_us.dart';
 import '../../presentation/screens/profile_screens/edit_profile_screen.dart';
 import '../../presentation/screens/profile_screens/profile_screen.dart';
@@ -68,6 +69,8 @@ class AppRouter {
           return SlideRightRoute(page: const VendorInProgressOrderScreen(),);
         case ScreenName.walletScreen:
           return SlideRightRoute(page: const WalletScreen(),);
+        case ScreenName.plansScreen:
+          return SlideRightRoute(page: const PlansScreen(),);
         case ScreenName.termsAndConditionsScreen:
           return SlideRightRoute(page: const TermsAndConditions(),);
         case ScreenName.aboutUsScreen:

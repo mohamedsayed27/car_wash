@@ -1,3 +1,4 @@
+import 'package:car_wash/core/app_router/screens_name.dart';
 import 'package:car_wash/core/app_theme/app_colors.dart';
 import 'package:car_wash/core/assets_path/images_path.dart';
 import 'package:car_wash/core/assets_path/svg_path.dart';
@@ -92,7 +93,7 @@ class EditProfileScreen extends StatelessWidget {
           FormItemWidget(
             title: "الاسم",
             hintText: "الاسم",
-            controller: TextEditingController(text: "محمود سالم"),
+            controller: TextEditingController(text: name),
           ),
           const CustomSizedBox(
             height: 16,
@@ -108,7 +109,7 @@ class EditProfileScreen extends StatelessWidget {
             height: 8,
           ),
           PhoneAuthField(
-            textEditingController: PhoneController(initialValue: PhoneNumber(isoCode: IsoCode.AR, nsn: "12345678")),
+            textEditingController: PhoneController(initialValue: PhoneNumber(isoCode: IsoCode.EG, nsn:phone!)),
           ),
           const CustomSizedBox(
             height: 8,
@@ -116,7 +117,7 @@ class EditProfileScreen extends StatelessWidget {
            FormItemWidget(
             title: "الايميل",
             hintText: "الايميل",
-            controller: TextEditingController(text: "info@gmail.com"),
+            controller: TextEditingController(text: email),
           ),
           const CustomSizedBox(
             height: 24,
@@ -140,14 +141,7 @@ class EditProfileScreen extends StatelessWidget {
             backgroundColor: AppColors.whiteColor,
             borderRadius: 6,
             onPressed: () {
-              showModalBottomSheet(
-                context: context,
-                isScrollControlled: true,
-                isDismissible: false,
-                builder: (_) {
-                  return const AddAddressBottomSheet(title: 'اضافة عنوان',);
-                },
-              );
+              Navigator.pushNamed(context, ScreenName.addAddressScreen);
             },
             foregroundColor: AppColors.primaryColor,
             padding: EdgeInsets.symmetric(

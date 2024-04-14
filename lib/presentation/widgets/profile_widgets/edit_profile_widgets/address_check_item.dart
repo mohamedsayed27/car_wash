@@ -1,3 +1,4 @@
+import 'package:car_wash/business_logic/address_cubit/address_cubit.dart';
 import 'package:car_wash/core/app_theme/app_colors.dart';
 import 'package:car_wash/core/app_theme/custom_font_weights.dart';
 import 'package:car_wash/core/app_theme/custom_themes.dart';
@@ -17,13 +18,14 @@ class AddressCheckButtonWidget extends StatelessWidget {
   final void Function()? onPressed;
   final String title;
   final String description;
+  final String addressId;
 
   const AddressCheckButtonWidget({
     super.key,
     required this.isSelected,
     this.onPressed,
     required this.title,
-    required this.description,
+    required this.description, required this.addressId,
   });
 
   @override
@@ -33,13 +35,17 @@ class AddressCheckButtonWidget extends StatelessWidget {
         Expanded(
           child: CustomOutlinedButton(
             borderColor:
-                isSelected ? AppColors.primaryColor : AppColors.greyColorB0,
+                // isSelected ?
+                AppColors.primaryColor ,
+                    // : AppColors.greyColorB0,
             borderRadius: 6,
             onPressed: onPressed,
             foregroundColor: AppColors.primaryColor,
-            backgroundColor: isSelected
-                ? AppColors.primaryColor.withOpacity(0.08)
-                : AppColors.whiteColor,
+            backgroundColor:
+            // isSelected ?
+            AppColors.primaryColor.withOpacity(0.08),
+                // :
+            // AppColors.whiteColor,
             padding: EdgeInsets.symmetric(horizontal: 32.w, vertical: 12.5.h),
             child: Row(
               children: [
@@ -48,7 +54,9 @@ class AddressCheckButtonWidget extends StatelessWidget {
                   width: 24.w,
                   height: 24.h,
                   colorFilter: ColorFilter.mode(
-                    isSelected ? AppColors.primaryColor : AppColors.greyColorB0,
+                    // isSelected ?
+                    AppColors.primaryColor ,
+                        // : AppColors.greyColorB0,
                     BlendMode.srcIn,
                   ),
                 ),
@@ -61,43 +69,39 @@ class AddressCheckButtonWidget extends StatelessWidget {
                     children: [
                       Text(
                         title,
-                        style: isSelected
-                            ? CustomThemes.primaryColorTextTheme(context)
+                        style:
+                        // isSelected ?
+                        CustomThemes.primaryColorTextTheme(context)
                                 .copyWith(
                                 fontSize: 14.sp,
                                 fontWeight: CustomFontWeights.bold,
                               )
-                            : CustomThemes.greyColorB0TextTheme(context)
-                                .copyWith(
-                                fontSize: 14.sp,
-                                fontWeight: CustomFontWeights.w500,
-                              ),
+                            // : CustomThemes.greyColorB0TextTheme(context)
+                            //     .copyWith(
+                            //     fontSize: 14.sp,
+                            //     fontWeight: CustomFontWeights.w500,
+                            //   ),
                       ),
                       const CustomSizedBox(
                         height: 4,
                       ),
                       Text(
                         description,
-                        style: isSelected
-                            ? CustomThemes.primaryColorTextTheme(context)
+                        style:
+                        // isSelected ?
+                        CustomThemes.primaryColorTextTheme(context)
                                 .copyWith(
                                 fontSize: 14.sp,
                                 fontWeight: CustomFontWeights.w500,
                               )
-                            : CustomThemes.greyColorB0TextTheme(context)
-                                .copyWith(
-                                fontSize: 14.sp,
-                                fontWeight: CustomFontWeights.w500,
-                              ),
+                            // : CustomThemes.greyColorB0TextTheme(context)
+                            //     .copyWith(
+                            //     fontSize: 14.sp,
+                            //     fontWeight: CustomFontWeights.w500,
+                            //   ),
                       ),
                     ],
                   ),
-                ),
-                const CustomSizedBox(
-                  width: 16,
-                ),
-                CustomCheckBox(
-                  isChecked: isSelected,
                 ),
               ],
             ),
@@ -111,14 +115,7 @@ class AddressCheckButtonWidget extends StatelessWidget {
           width: 20,
           child: IconButton(
             onPressed: () {
-              showModalBottomSheet(
-                context: context,
-                isScrollControlled: true,
-                isDismissible: false,
-                builder: (_) {
-                  return const AddAddressBottomSheet(title: 'تعديل عنوان',);
-                },
-              );
+
             },
             icon: SvgPicture.asset(
               SvgPath.edit,
@@ -139,7 +136,9 @@ class AddressCheckButtonWidget extends StatelessWidget {
           height: 20,
           width: 20,
           child: IconButton(
-            onPressed: () {},
+            onPressed: () {
+              AddressCubit.get(context).deleteAddress(addressId: addressId);
+            },
             icon: SvgPicture.asset(
               SvgPath.trash,
               width: 20.w,

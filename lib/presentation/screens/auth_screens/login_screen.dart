@@ -118,7 +118,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   } else {
                     AuthCubit.get(context).handleCache(
                       token: state.loginModel?.token,
-                      userId: state.loginModel?.result?.id,
+                      userId: state.loginModel?.result?.id, name: state.loginModel?.result?.name, email: state.loginModel?.result?.email, phone:  state.loginModel?.result?.mobile,
                     );
                     showToast(errorType: 0, message: state.loginModel?.message??"",);
                     Navigator.pushNamedAndRemoveUntil(

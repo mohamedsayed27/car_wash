@@ -137,32 +137,52 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                     ),
                     BlocConsumer<AddressCubit, AddressState>(
                       listener: (context, state) {
-                        // TODO: implement listener
+                        if (state is AddAddressSuccessState) {
+                          Navigator.pop(context);
+                          Navigator.pop(context);
+                          AddressCubit.get(context).getAddress();
+                          showToast(
+                            errorType: 0,
+                            message: "تم اضافة العنوان",
+                          );
+                        }
+                        if (state is AddAddressLoadingState) {
+                          showProgressIndicator(context);
+                        }
+                        if (state is AddAddressErrorState) {
+                          Navigator.pop(context);
+                          showToast(
+                            errorType: 1,
+                            message: state.error,
+                          );
+                        }
                       },
                       builder: (context, state) {
                         var cubit = AddressCubit.get(context);
                         return CustomElevatedButton(
                           onPressed: () {
-                            if(formKey.currentState!.validate()){
-                              if(cubit.currentLocation!=null) {
+                            if (formKey.currentState!.validate()) {
+                              if (cubit.currentLocation != null) {
                                 cubit.addAddress(
-                                addAddressParameters: AddAddressParameters(
-                                  streetName: streetNameController.text,
-                                  buildingNo: buildingNumberNameController.text,
-                                  floorNo: floorNumberNameController.text,
-                                  addressType: addressDetailsController.text,
-                                  lat: cubit.currentLocation!.latitude.toString(),
-                                  long:
-                                  cubit.currentLocation!.longitude.toString(),
-                                ),
-                              );
-                              }else{
-
-                                showToast(errorType: 0, message: "برجاء اختيار الموقع من الخريطة",);
+                                  addAddressParameters: AddAddressParameters(
+                                    streetName: streetNameController.text,
+                                    buildingNo:
+                                        buildingNumberNameController.text,
+                                    floorNo: floorNumberNameController.text,
+                                    addressType: addressDetailsController.text,
+                                    lat: cubit.currentLocation!.latitude
+                                        .toString(),
+                                    long: cubit.currentLocation!.longitude
+                                        .toString(),
+                                  ),
+                                );
+                              } else {
+                                showToast(
+                                  errorType: 0,
+                                  message: "برجاء اختيار الموقع من الخريطة",
+                                );
                               }
-
                             }
-
                           },
                           text: "حفظ",
                           width: double.infinity,

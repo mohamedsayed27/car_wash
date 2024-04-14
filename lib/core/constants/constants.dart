@@ -80,3 +80,15 @@ String? token = CacheHelper.getData(
 int? userId = CacheHelper.getData(
   key: CacheKeys.userId.toString(),
 );
+
+String? name = CacheHelper.getData(
+  key: CacheKeys.name.toString(),
+);
+
+String? phone = CacheHelper.getData(
+  key: CacheKeys.phone.toString(),
+);
+
+String? email = CacheHelper.getData(
+  key: CacheKeys.email.toString(),
+);

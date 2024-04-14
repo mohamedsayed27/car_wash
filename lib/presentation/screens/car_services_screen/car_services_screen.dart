@@ -12,7 +12,7 @@ import '../../../core/constants/constants.dart';
 import '../../../data/models/car_types_model/car_types_model.dart';
 import '../../widgets/car_services_widgets/car_type_services_widget.dart';
 import '../../widgets/car_services_widgets/main_services_component.dart';
-import '../../widgets/car_services_widgets/monthly_subscriptions_component.dart';
+import '../../widgets/car_services_widgets/user_subscriped_plans.dart';
 import '../../widgets/shared_widgets/custom_app_bar.dart';
 import '../../widgets/shared_widgets/custom_elevated_button.dart';
 import '../../widgets/shared_widgets/select_date_component.dart';

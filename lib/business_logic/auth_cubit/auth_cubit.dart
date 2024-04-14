@@ -31,19 +31,21 @@ class AuthCubit extends Cubit<AuthState> {
   RegisterModel? registerModel;
   final PhoneController loginPhoneController = PhoneController();
   final TextEditingController loginPasswordController = TextEditingController();
-  final TextEditingController registerFirstNameController = TextEditingController();
-  final TextEditingController registerLastNameController = TextEditingController();
+  final TextEditingController registerFirstNameController =
+      TextEditingController();
+  final TextEditingController registerLastNameController =
+      TextEditingController();
   final PhoneController registerPhoneController = PhoneController();
-  final TextEditingController registerPasswordController = TextEditingController();
+  final TextEditingController registerPasswordController =
+      TextEditingController();
   final TextEditingController registerEmailController = TextEditingController();
 
-  String countryDialCode ="20";
-
-
+  String countryDialCode = "20";
 
   final _picker = ImagePicker();
 
   File? profileImage;
+
   Future<void> getImagePick() async {
     final pickedFile = await _picker.pickImage(
       source: ImageSource.gallery,
@@ -83,11 +85,14 @@ class AuthCubit extends Cubit<AuthState> {
       (r) async {
         loginModel = r;
 
-        emit(LoginSuccessState(loginModel: r,),);
+        emit(
+          LoginSuccessState(
+            loginModel: r,
+          ),
+        );
       },
     );
   }
-
 
   void sendOtp({
     required String code,
@@ -109,10 +114,15 @@ class AuthCubit extends Cubit<AuthState> {
       },
       (r) async {
         handleCache(
-          token: loginModel?.token ,
-          userId: loginModel?.result?.id ,
+          token: loginModel?.token,
+          userId: loginModel?.result?.id,
+          name: loginModel?.result?.name,
+          email: loginModel?.result?.email,
+          phone: loginModel?.result?.mobile.toString(),
         );
-        emit(SendOtpSuccessState(),);
+        emit(
+          SendOtpSuccessState(),
+        );
       },
     );
   }
@@ -143,13 +153,20 @@ class AuthCubit extends Cubit<AuthState> {
       },
       (r) async {
         registerModel = r;
-        emit(RegisterSuccessState(loginModel: r,),);
+        emit(
+          RegisterSuccessState(
+            loginModel: r,
+          ),
+        );
       },
     );
   }
 
   void handleCache({
     required String? token,
+    required String? name,
+    required String? email,
+    required String? phone,
     required int? userId,
   }) async {
     await CacheHelper.saveData(
@@ -160,11 +177,32 @@ class AuthCubit extends Cubit<AuthState> {
       key: CacheKeys.userId,
       value: userId,
     );
+    await CacheHelper.saveData(
+      key: CacheKeys.name,
+      value: name,
+    );
+    await CacheHelper.saveData(
+      key: CacheKeys.email,
+      value: email,
+    );
+    await CacheHelper.saveData(
+      key: CacheKeys.phone,
+      value: phone,
+    );
     token = CacheHelper.getData(
       key: CacheKeys.token,
     );
     userId = CacheHelper.getData(
       key: CacheKeys.userId,
+    );
+    name = CacheHelper.getData(
+      key: CacheKeys.name,
+    );
+    email = CacheHelper.getData(
+      key: CacheKeys.email,
+    );
+    phone = CacheHelper.getData(
+      key: CacheKeys.phone,
     );
   }
 }

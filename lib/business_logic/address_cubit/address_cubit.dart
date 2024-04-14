@@ -132,6 +132,7 @@ class AddressCubit extends Cubit<AddressState> {
         );
       },
       (r) async {
+        getAddress();
         emit(DeleteAddressSuccessState());
       },
     );
