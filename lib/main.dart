@@ -1,11 +1,13 @@
 import 'package:car_wash/bloc_observer.dart';
 import 'package:car_wash/business_logic/address_cubit/address_cubit.dart';
 import 'package:car_wash/business_logic/auth_cubit/auth_cubit.dart';
+import 'package:car_wash/business_logic/pages_cubit/pages_cubit.dart';
 import 'package:car_wash/core/app_router/app_router.dart';
 import 'package:car_wash/core/app_router/screens_name.dart';
 import 'package:car_wash/core/cache_helper/shared_pref_methods.dart';
 import 'package:car_wash/core/network/dio_helper.dart';
 import 'package:car_wash/core/services/services_locator.dart';
+import 'package:car_wash/presentation/screens/terms_and_conditions/terms_and_conditions.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -59,6 +61,9 @@ class _MyAppState extends State<MyApp> {
             BlocProvider(
               create: (_) => PlansCubit(),
             ),
+            BlocProvider(
+              create: (_) => PagesCubit(),
+            ),
           ],
           child: MaterialApp(
             title: 'Car Wash',
@@ -77,7 +82,7 @@ class _MyAppState extends State<MyApp> {
             locale: const Locale(
               "ar",
             ),
-            // home: UserHomeScreen(),
+            // home: PageScreen(),
             initialRoute: ScreenName.splashScreen,
             onGenerateRoute: AppRouter.generateRoute,
           ),

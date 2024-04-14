@@ -16,13 +16,16 @@ class PagesCubit extends Cubit<PagesState> {
 
   BasePagesModel? basePagesModel;
   BaseErrorModel? baseErrorModel;
+  bool getPageLoading = false;
 
   void aboutUs() async {
+    getPageLoading = true;
     emit(AboutUsLoadingState());
     final response = await _pagesRemoteDataSource.aboutUs();
     response.fold(
       (l) {
         baseErrorModel = l.baseErrorModel;
+        getPageLoading = false;
         emit(
           AboutUsErrorState(
             error: l.baseErrorModel.errors != null
@@ -33,7 +36,7 @@ class PagesCubit extends Cubit<PagesState> {
       },
       (r) async {
         basePagesModel = r;
-
+        getPageLoading = false;
         emit(
           AboutUsSuccessState(),
         );
@@ -42,11 +45,13 @@ class PagesCubit extends Cubit<PagesState> {
   }
 
   void termsAndConditions() async {
+    getPageLoading = true;
     emit(TermsAndConditionsLoadingState());
     final response = await _pagesRemoteDataSource.termsAndConditions();
     response.fold(
       (l) {
         baseErrorModel = l.baseErrorModel;
+        getPageLoading = false;
         emit(
           TermsAndConditionsErrorState(
             error: l.baseErrorModel.errors != null
@@ -57,7 +62,7 @@ class PagesCubit extends Cubit<PagesState> {
       },
       (r) async {
         basePagesModel = r;
-
+        getPageLoading = false;
         emit(
           TermsAndConditionsSuccessState(),
         );
@@ -66,11 +71,13 @@ class PagesCubit extends Cubit<PagesState> {
   }
 
   void privacyPolicy() async {
+    getPageLoading = true;
     emit(PrivacyPolicyLoadingState());
     final response = await _pagesRemoteDataSource.privacyPolicy();
     response.fold(
       (l) {
         baseErrorModel = l.baseErrorModel;
+        getPageLoading = false;
         emit(
           PrivacyPolicyErrorState(
             error: l.baseErrorModel.errors != null
@@ -81,7 +88,7 @@ class PagesCubit extends Cubit<PagesState> {
       },
       (r) async {
         basePagesModel = r;
-
+        getPageLoading = false;
         emit(
           PrivacyPolicySuccessState(),
         );

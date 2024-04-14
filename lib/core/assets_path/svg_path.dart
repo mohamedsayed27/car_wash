@@ -35,7 +35,11 @@ class SvgPath{
   static const send = "assets/svg/send.svg";
   static const locationOnMapSvg = "assets/svg/locationOnMapSvg.svg";
   static const logout = "assets/svg/logout.svg";
+  static const logout1 = "assets/svg/logout1.svg";
   static const arrowDown = "assets/svg/arrowDown.svg";
+  static const termsAndConditions = "assets/svg/termsAndConditions.svg";
+  static const privacyPolicy = "assets/svg/privacyPolicy.svg";
+  static const aboutUs = "assets/svg/aboutUs.svg";
   SvgPath._();
 }
 

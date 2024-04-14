@@ -1,13 +1,12 @@
 import 'package:car_wash/business_logic/orders_cubit/orders_cubit.dart';
+import 'package:car_wash/business_logic/pages_cubit/pages_cubit.dart';
 import 'package:car_wash/core/app_theme/custom_themes.dart';
+import 'package:car_wash/core/cache_helper/shared_pref_methods.dart';
 import 'package:car_wash/presentation/screens/car_services_screen/car_services_screen.dart';
-import 'package:car_wash/presentation/widgets/bottom_sheets/add_address_bottom_sheet.dart';
 import 'package:car_wash/presentation/widgets/shared_widgets/custom_text_button.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../../business_logic/address_cubit/address_cubit.dart';
 import '../../../core/app_router/screens_name.dart';
 import '../../../core/app_theme/app_colors.dart';
@@ -85,13 +84,43 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                 Navigator.pushNamed(context, ScreenName.walletScreen);
               },
             ),
+            CustomDrawerButton(
+              iconPath: SvgPath.termsAndConditions,
+              title: "الشروط والاحكام",
+              onPressed: () {
+                PagesCubit.get(context).termsAndConditions();
+                Navigator.pushNamed(context, ScreenName.pageScreen,arguments: "الشروط والاحكام");
+              },
+            ),
+            CustomDrawerButton(
+              iconPath: SvgPath.privacyPolicy,
+              title: "سياسة الخصوصيه",
+              onPressed: () {
+                PagesCubit.get(context).privacyPolicy();
+                Navigator.pushNamed(context, ScreenName.pageScreen,arguments: "سياسة الخصوصيه");
+              },
+            ),
+            CustomDrawerButton(
+              iconPath: SvgPath.aboutUs,
+              title: "عن التطبيق",
+              onPressed: () {
+                PagesCubit.get(context).aboutUs();
+                Navigator.pushNamed(context, ScreenName.pageScreen,arguments: "عن التطبيق");
+              },
+            ),
             const CustomSizedBox(
               height: 128,
             ),
             CustomDrawerButton(
-              iconPath: SvgPath.myOrders,
-              title: "طلباتى",
-              onPressed: () {},
+              iconPath: SvgPath.logout,
+              title: "تسجيل الخروج",
+              onPressed: () {
+                showProgressIndicator(context);
+                CacheHelper.clearAllCache().then((value) {
+                  Navigator.pop(context);
+                  Navigator.pushNamedAndRemoveUntil(context, ScreenName.loginScreen, (route) => false);
+                });
+              },
             ),
             // Add more items as needed
           ],

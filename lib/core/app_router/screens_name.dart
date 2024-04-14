@@ -17,7 +17,7 @@ class ScreenName{
   static const vendorProfileScreen = "vendorProfileScreen";
   static const walletScreen = "walletScreen";
   static const plansScreen = "plansScreen";
-  static const termsAndConditionsScreen = "termsAndConditionsScreen";
+  static const pageScreen = "pageScreen";
   static const aboutUsScreen = "aboutUsScreen";
   static const editProfileScreen = "editProfileScreen";
   static const profileScreen = "profileScreen";

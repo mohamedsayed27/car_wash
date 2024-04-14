@@ -14,15 +14,15 @@ class PagesRemoteDataSource {
     required this.dioHelper,
   });
 
-  Future<Either<ErrorException, BasePagesModel>> aboutUs() async {
+  Future<Either<ErrorException, BasePagesModel?>> aboutUs() async {
     try {
       final response = await dioHelper.getData(
         url: EndPoints.aboutUs,
       );
       return Right(
-        BasePagesModel.fromJson(
+        response.data["result"]!=null?BasePagesModel.fromJson(
           response.data["result"],
-        ),
+        ):null,
       );
     } catch (e) {
       if (e is DioException) {
@@ -39,15 +39,16 @@ class PagesRemoteDataSource {
     }
   }
 
-  Future<Either<ErrorException, BasePagesModel>> termsAndConditions() async {
+  Future<Either<ErrorException, BasePagesModel?>> termsAndConditions() async {
     try {
       final response = await dioHelper.getData(
         url: EndPoints.termsConditions,
       );
+      print(response);
       return Right(
-        BasePagesModel.fromJson(
+        response.data["result"]!=null?BasePagesModel.fromJson(
           response.data["result"],
-        ),
+        ):null,
       );
     } catch (e) {
       if (e is DioException) {
@@ -64,15 +65,15 @@ class PagesRemoteDataSource {
     }
   }
 
-  Future<Either<ErrorException, BasePagesModel>> privacyPolicy() async {
+  Future<Either<ErrorException, BasePagesModel?>> privacyPolicy() async {
     try {
       final response = await dioHelper.getData(
         url: EndPoints.privacyPolicy,
       );
       return Right(
-        BasePagesModel.fromJson(
+        response.data["result"]!=null?BasePagesModel.fromJson(
           response.data["result"],
-        ),
+        ):null,
       );
     } catch (e) {
       if (e is DioException) {

@@ -71,8 +71,9 @@ class AppRouter {
           return SlideRightRoute(page: const WalletScreen(),);
         case ScreenName.plansScreen:
           return SlideRightRoute(page: const PlansScreen(),);
-        case ScreenName.termsAndConditionsScreen:
-          return SlideRightRoute(page: const TermsAndConditions(),);
+        case ScreenName.pageScreen:
+          final screenTitle = settings.arguments as String;
+          return SlideRightRoute(page:  PageScreen(screenTitle:screenTitle,),);
         case ScreenName.aboutUsScreen:
           return SlideRightRoute(page: const AboutUsScreen(),);
         case ScreenName.addAddressScreen:
