@@ -129,7 +129,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
       body: Stack(
         alignment: Alignment.bottomCenter,
         children: [
-          AddressGoogleMapWidget(),
+          const AddressGoogleMapWidget(),
           PositionedDirectional(
             top: preferredSize.height,
             start: 16,
@@ -246,6 +246,8 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                   height: 16,
                 ),
                 CustomElevatedButton(
+                  backgroundColor: AppColors.primaryColor,
+
                   onPressed: () {
                     if (AddressCubit.get(context).addressModel != null &&
                         OrdersCubit.get(context).carContentImageModel != null) {
@@ -261,7 +263,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                     } else {
                       showToast(
                           errorType: 1,
-                          message: "من فضلك بأختيار العنوان ونوع السيارة");
+                          message: "من فضلك بأختيار العنوان ونوع السيارة",);
                     }
                   },
                   width: double.infinity,

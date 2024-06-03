@@ -140,7 +140,7 @@ class AddressCubit extends Cubit<AddressState> {
 
   final Completer<GoogleMapController> googleMapController =
       Completer<GoogleMapController>();
-  late final LatLng sourceLocation;
+  LatLng? sourceLocation;
 
   final GoogleMapsServices googleMapsServices = GoogleMapsServices();
   List<LatLng> polyLineCoordinates = [];

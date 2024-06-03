@@ -5,6 +5,7 @@ import 'package:get_it/get_it.dart';
 
 import '../../data/data_source/remote_data_source/auth_remote_data_source.dart';
 import '../../data/data_source/remote_data_source/pages_remote_data_source.dart';
+import '../../data/data_source/remote_data_source/representitive_remote_data_source.dart';
 import '../network/dio_helper.dart';
 import 'firebase_messaging_services.dart';
 var sl = GetIt.instance;
@@ -17,6 +18,7 @@ class ServicesLocators{
     sl.registerLazySingleton(() => OrdersRemoteDatasource(dioHelper:sl(),),);
     sl.registerLazySingleton(() => PlansRemoteDatasource(dioHelper:sl(),),);
     sl.registerLazySingleton(() => PagesRemoteDataSource(dioHelper:sl(),),);
+    sl.registerLazySingleton(() => RepresentativeDatasource(dioHelper:sl(),),);
 
     /// Firebase Messaging
     sl.registerLazySingleton(() =>FirebaseMessagingService(),);

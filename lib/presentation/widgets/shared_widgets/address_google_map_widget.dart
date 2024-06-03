@@ -32,7 +32,9 @@ class AddressGoogleMapWidget extends StatelessWidget {
                         //   });
                         // },
                         onMapCreated: (controller) {
-                          cubit.googleMapController.complete(controller);
+                          if(!cubit.googleMapController.isCompleted){
+                            cubit.googleMapController.complete(controller);
+                          }
                         },
                         onTap: onTap,
                         markers: cubit.markers,

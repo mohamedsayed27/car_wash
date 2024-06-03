@@ -43,7 +43,7 @@ class _SelectDateComponentState extends State<SelectDateComponent> {
           builder: (context, state) {
             OrdersCubit cubit = OrdersCubit.get(context);
             return CustomSizedBox(
-              height: 56,
+              height: 64,
               width: double.infinity,
               child: cubit.getTimeScheduleLoading
                   ? const Center(
@@ -118,6 +118,8 @@ class SelectDateButton extends StatelessWidget {
         children: [
           Text(
             day,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
             style: isSelected
                 ? CustomThemes.primaryColorTextTheme(context).copyWith(
                     fontSize: 16.sp,
@@ -133,6 +135,8 @@ class SelectDateButton extends StatelessWidget {
           ),
           Text(
             date,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
             style: CustomThemes.greyColorB0TextTheme(context).copyWith(
               fontSize: 16.sp,
               fontWeight: CustomFontWeights.w500,

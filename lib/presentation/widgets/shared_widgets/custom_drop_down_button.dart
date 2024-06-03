@@ -15,12 +15,17 @@ class CustomDropDownButton<T> extends StatelessWidget {
   final Widget? prefixIcon;
   final TextStyle? style;
   final Color? borderColor;
+
   const CustomDropDownButton({
     super.key,
     this.items,
     this.onChanged,
     this.value,
-    this.hintText, this.hint, this.prefixIcon, this.style, this.borderColor,
+    this.hintText,
+    this.hint,
+    this.prefixIcon,
+    this.style,
+    this.borderColor,
   });
 
   @override
@@ -28,14 +33,14 @@ class CustomDropDownButton<T> extends StatelessWidget {
     InputBorder border = OutlineInputBorder(
       borderRadius: BorderRadius.circular(8.r),
       borderSide: BorderSide(
-        color: borderColor??AppColors.greyColorB0,
+        color: borderColor ?? AppColors.greyColorB0,
         width: 1.w,
       ),
     );
     InputBorder focusedBorder = OutlineInputBorder(
       borderRadius: BorderRadius.circular(8.r),
       borderSide: BorderSide(
-        color: borderColor??AppColors.greyColorB0,
+        color: borderColor ?? AppColors.greyColorB0,
         width: 1.w,
       ),
     );
@@ -57,7 +62,8 @@ class CustomDropDownButton<T> extends StatelessWidget {
       decoration: InputDecoration(
         hintText: hintText,
         prefixIcon: prefixIcon,
-        hintStyle: CustomThemes.greyColorB0TextTheme(context).copyWith(fontSize: 12.sp,fontWeight: FontWeight.w500),
+        hintStyle: CustomThemes.greyColorB0TextTheme(context)
+            .copyWith(fontSize: 12.sp, fontWeight: FontWeight.w500),
         border: border,
         contentPadding: EdgeInsetsDirectional.only(
           start: 12.w,
@@ -67,7 +73,6 @@ class CustomDropDownButton<T> extends StatelessWidget {
         ),
         focusedBorder: focusedBorder,
         enabledBorder: border,
-
         disabledBorder: border,
         errorBorder: errorBorderColor,
       ),
