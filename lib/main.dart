@@ -18,6 +18,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import 'business_logic/orders_cubit/orders_cubit.dart';
 import 'business_logic/plans_cubit/plans_cubit.dart';
+import 'business_logic/representative_cubit/representative_cubit.dart';
 import 'core/app_theme/app_theme.dart';
 import 'firebase_options.dart';
 
@@ -55,6 +56,9 @@ class _MyAppState extends State<MyApp> {
             ),
             BlocProvider(
               create: (_) => AddressCubit(),
+            ),
+            BlocProvider(
+              create: (_) => RepresentativeCubit(),
             ),
             BlocProvider(
               create: (_) => OrdersCubit()..getTimeSchedule(),

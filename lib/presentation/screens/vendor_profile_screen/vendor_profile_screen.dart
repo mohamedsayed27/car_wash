@@ -29,7 +29,7 @@ class VendorProfileScreen extends StatelessWidget {
         ),
       ),
       body: ListView(
-        padding: EdgeInsets.symmetric(horizontal: 16.w,vertical: 16.h),
+        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
         children: [
           Center(
             child: Stack(
@@ -41,7 +41,7 @@ class VendorProfileScreen extends StatelessWidget {
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     border:
-                    Border.all(color: AppColors.primaryColor, width: 1.w),
+                        Border.all(color: AppColors.primaryColor, width: 1.w),
                   ),
                   child: Image.asset(
                     ImagesPath.dummyPersonImage,
@@ -55,14 +55,16 @@ class VendorProfileScreen extends StatelessWidget {
                     height: 16.h,
                     width: 16.w,
                     decoration: BoxDecoration(
-                        color: AppColors.whiteColor,
-                        shape: BoxShape.circle,
-                        boxShadow: [
-                          BoxShadow(
-                              color: AppColors.shadowColor(value: .25),
-                              offset: Offset.zero,
-                              blurRadius: 1.r)
-                        ]),
+                      color: AppColors.whiteColor,
+                      shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppColors.shadowColor(value: .25),
+                          offset: Offset.zero,
+                          blurRadius: 1.r,
+                        )
+                      ],
+                    ),
                     alignment: Alignment.center,
                     child: SvgPicture.asset(
                       SvgPath.edit,
@@ -90,7 +92,15 @@ class VendorProfileScreen extends StatelessWidget {
           FormItemWidget(
             title: "الاسم",
             hintText: "الاسم",
-            controller: TextEditingController(text: "محمود سالم"),
+            controller: TextEditingController(text: name),
+          ),
+          const CustomSizedBox(
+            height: 8,
+          ),
+          FormItemWidget(
+            title: "الايميل",
+            hintText: "الايميل",
+            controller: TextEditingController(text: email),
           ),
           const CustomSizedBox(
             height: 16,
@@ -106,14 +116,15 @@ class VendorProfileScreen extends StatelessWidget {
             height: 8,
           ),
           PhoneAuthField(
-            textEditingController: PhoneController(initialValue: PhoneNumber(isoCode: IsoCode.AR, nsn: "12345678")),
+            textEditingController: PhoneController(initialValue: PhoneNumber(isoCode: IsoCode.EG, nsn:phone!)),
           ),
           const CustomSizedBox(
             height: 16,
           ),
           CustomElevatedButton(
             onPressed: () {
-              Navigator.pushNamedAndRemoveUntil(context, ScreenName.vendorHomeScreen, (route) => false);
+              Navigator.pushNamedAndRemoveUntil(
+                  context, ScreenName.vendorHomeScreen, (route) => false);
             },
             text: "حفظ",
             width: double.infinity,

@@ -4,115 +4,118 @@ import 'package:car_wash/core/constants/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../../core/app_theme/app_colors.dart';
 import '../../../core/app_theme/custom_font_weights.dart';
 import '../../../core/app_theme/custom_themes.dart';
+import '../../../data/models/review_model/review_model.dart';
 import 'custom_sized_box.dart';
 
 class RatingContainerWidget extends StatelessWidget {
-  final double rating;
-  final String comment;
+  final ReviewModel? reviewModel;
 
   const RatingContainerWidget({
     super.key,
-    required this.rating,
-    required this.comment,
+    required this.reviewModel,
   });
 
   @override
   Widget build(BuildContext context) {
+    var format = DateFormat.yMMMEd();
     return Container(
       width: double.infinity,
+      height: 146.h,
       padding: EdgeInsets.all(16.r),
       decoration: BoxDecoration(
         color: const Color(0xffFAFAFA),
         borderRadius: BorderRadius.circular(16.r),
       ),
       child: Column(
-        mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              Container(
-                height: 40.h,
-                width: 40.w,
-                clipBehavior: Clip.antiAliasWithSaveLayer,
-                decoration: const BoxDecoration(shape: BoxShape.circle),
-                child: Image.asset(
-                  ImagesPath.dummyPersonImage,
-                  fit: BoxFit.cover,
-                ),
-              ),
-              const CustomSizedBox(
-                width: 10,
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "احمد خالد",
-                    style: CustomThemes.greyColor71TextTheme(context).copyWith(
-                      fontSize: 16.sp,
-                      fontWeight: CustomFontWeights.bold,
-                    ),
+          Expanded(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  height: 40.h,
+                  width: 40.w,
+                  clipBehavior: Clip.antiAliasWithSaveLayer,
+                  decoration: const BoxDecoration(shape: BoxShape.circle),
+                  child: Image.asset(
+                    ImagesPath.dummyPersonImage,
+                    fit: BoxFit.cover,
                   ),
-                  const CustomSizedBox(
-                    height: 8,
-                  ),
-                  Text(
-                    "18-11-2022",
-                    style: CustomThemes.greyColorB0TextTheme(context).copyWith(
-                      fontSize: 14.sp,
-                      fontWeight: CustomFontWeights.bold,
-                    ),
-                  ),
-                ],
-              ),
-              const Spacer(),
-              RatingBar.builder(
-                initialRating: rating,
-                minRating: 1,
-                direction: Axis.horizontal,
-                allowHalfRating: true,
-                ignoreGestures: true,
-                itemCount: 5,
-                itemSize: 18.r,
-                itemPadding: EdgeInsets.zero,
-                itemBuilder: (context, _) => const Icon(
-                  Icons.star,
-                  color: AppColors.secondaryColor,
                 ),
-                onRatingUpdate: (rating) {
-                  print(rating);
-                },
-              ),
-              const CustomSizedBox(
-                width: 14,
-              ),
-              Text(
-                "($rating)",
-                style: CustomThemes.greyColor71TextTheme(context).copyWith(
-                  fontSize: 16.sp,
-                  fontWeight: CustomFontWeights.w500,
+                const CustomSizedBox(
+                  width: 10,
                 ),
-              ),
-            ],
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        reviewModel?.client??"",
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: CustomThemes.greyColor71TextTheme(context).copyWith(
+                          fontSize: 16.sp,
+                          fontWeight: CustomFontWeights.bold,
+                        ),
+                      ),
+                      const CustomSizedBox(
+                        height: 8,
+                      ),
+                      Text(
+                        format.format(DateTime.parse(reviewModel?.rateAt.toString()??"")),
+                        style: CustomThemes.greyColorB0TextTheme(context).copyWith(
+                          fontSize: 14.sp,
+                          fontWeight: CustomFontWeights.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                RatingBar.builder(
+                  initialRating: reviewModel?.rate?.toDouble()??0.0,
+                  minRating: 1,
+                  direction: Axis.horizontal,
+                  allowHalfRating: true,
+                  ignoreGestures: true,
+                  itemCount: 5,
+                  itemSize: 18.r,
+                  itemPadding: EdgeInsets.zero,
+                  itemBuilder: (context, _) => const Icon(
+                    Icons.star,
+                    color: AppColors.secondaryColor,
+                  ),
+                  onRatingUpdate: (rating) {
+                    print(rating);
+                  },
+                ),
+                const CustomSizedBox(
+                  width: 14,
+                ),
+                Text(
+                  "(${reviewModel?.rate?.toDouble()})",
+                  style: CustomThemes.greyColor71TextTheme(context).copyWith(
+                    fontSize: 16.sp,
+                    fontWeight: CustomFontWeights.w500,
+                  ),
+                ),
+              ],
+            ),
           ),
-          const CustomSizedBox(
-            height: 7,
-          ),
-          Text(
-            comment,
-            overflow: TextOverflow.ellipsis,
-            maxLines: 3,
-            style: CustomThemes.greyColor71TextTheme(context)
-                .copyWith(fontSize: 16.sp, height: 1.49.h),
-          ),
-          const CustomSizedBox(
-            height: 5,
+          Expanded(
+            child: Text(
+              reviewModel?.review??"",
+              overflow: TextOverflow.ellipsis,
+              maxLines: 3,
+              style: CustomThemes.greyColor71TextTheme(context)
+                  .copyWith(fontSize: 16.sp, height: 1.49.h),
+            ),
           ),
         ],
       ),

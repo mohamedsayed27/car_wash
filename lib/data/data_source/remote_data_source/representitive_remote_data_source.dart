@@ -1,3 +1,4 @@
+import 'package:car_wash/core/enums/order_progress_enum.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 
@@ -9,6 +10,7 @@ import '../../../core/network/api_end_points.dart';
 import '../../../core/network/dio_helper.dart';
 import '../../../core/network/error_message_model.dart';
 import '../../models/base_response_model.dart';
+import '../../models/review_model/get_all_reviews_model.dart';
 
 class RepresentativeDatasource {
   final DioHelper dioHelper;
@@ -81,6 +83,50 @@ class RepresentativeDatasource {
       final response = await dioHelper.getData(
         url: EndPoints.myOrders,
       );
+      print(response);
+      return Right(
+        GetAllOrdersModel.fromJson(response.data),
+      );
+    } catch (e) {
+      if (e is DioException) {
+        return Left(
+          ErrorException(
+            baseErrorModel: BaseErrorModel.fromJson(e.response!.data),
+          ),
+        );
+      } else {
+        rethrow;
+      }
+    }
+  }
+  Future<Either<ErrorException, GetSingleOrdersModel>> getNextOrder() async {
+    try {
+      final response = await dioHelper.getData(
+        url: EndPoints.nextOrder,
+      );
+      print("Next Order");
+      print(response);
+      return Right(
+        GetSingleOrdersModel.fromJson(response.data),
+      );
+    } catch (e) {
+      if (e is DioException) {
+        return Left(
+          ErrorException(
+            baseErrorModel: BaseErrorModel.fromJson(e.response!.data),
+          ),
+        );
+      } else {
+        rethrow;
+      }
+    }
+  }
+  Future<Either<ErrorException, GetAllOrdersModel>> getFinishedOrders() async {
+    try {
+      final response = await dioHelper.getData(
+        url: "${EndPoints.myOrders}/${OrderProgressEnum.finished.name}",
+      );
+      print(response);
       return Right(
         GetAllOrdersModel.fromJson(response.data),
       );
@@ -123,6 +169,26 @@ class RepresentativeDatasource {
       );
       return Right(
         GetOrderStatistics.fromJson(response.data),
+      );
+    } catch (e) {
+      if (e is DioException) {
+        return Left(
+          ErrorException(
+            baseErrorModel: BaseErrorModel.fromJson(e.response!.data),
+          ),
+        );
+      } else {
+        rethrow;
+      }
+    }
+  }
+  Future<Either<ErrorException, GetAllOrderReviewsModel>> getOrderReviews() async {
+    try {
+      final response = await dioHelper.getData(
+        url: EndPoints.orderReviews,
+      );
+      return Right(
+        GetAllOrderReviewsModel.fromJson(response.data),
       );
     } catch (e) {
       if (e is DioException) {

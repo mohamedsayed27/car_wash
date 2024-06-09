@@ -24,7 +24,7 @@ class VendorConfirmOrderScreen extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 32.h),
         children: [
           /// UserConfirmOrder
-          // const ConfirmOrderContainer(),
+          VendorConfirmOrderContainer(),
           const CustomSizedBox(
             height: 24,
           ),

@@ -31,7 +31,7 @@ class UserConfirmOrderScreen extends StatelessWidget {
       body: ListView(
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 32.h),
         children: [
-          ConfirmOrderContainer(
+          UserConfirmOrderContainer(
             userConfirmOrderArguments: userConfirmOrderArguments,
           ),
           const CustomSizedBox(

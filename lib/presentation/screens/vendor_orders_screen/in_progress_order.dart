@@ -24,8 +24,8 @@ class _VendorInProgressOrderScreenState extends State<VendorInProgressOrderScree
   Widget build(BuildContext context) {
     return Scaffold(
       extendBody: true,
-      appBar: PreferredSize(preferredSize: preferredSize, child: CustomAppBar(title: "طلب جاري",),),
-      body: CustomSizedBox(
+      appBar: PreferredSize(preferredSize: preferredSize, child: const CustomAppBar(title: "طلب جاري",),),
+      body: const CustomSizedBox(
         height: double.infinity,
         width: double.infinity,
         child: GoogleMap(

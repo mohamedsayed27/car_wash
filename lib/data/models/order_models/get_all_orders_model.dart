@@ -28,3 +28,26 @@ class GetAllOrdersModel extends BaseResponseModel <List<SingleOrderModel>?>{
         super.props,
       ];
 }
+class GetSingleOrdersModel extends BaseResponseModel <SingleOrderModel?>{
+
+  const GetSingleOrdersModel({
+    required super.success,
+    required super.message,
+    required super.result,
+  });
+
+  factory GetSingleOrdersModel.fromJson(Map<String, dynamic> json) {
+    return GetSingleOrdersModel(
+      success: json["success"],
+      message: json["message"],
+      result: json["result"]!=null?SingleOrderModel.fromJson(json["result"])
+          : null,
+    );
+  }
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [
+        super.props,
+      ];
+}

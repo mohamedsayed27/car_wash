@@ -32,7 +32,6 @@ class AddressCubit extends Cubit<AddressState> {
 
   void chooseSelectedAddress(AddressModel? addressModel) {
     this.addressModel = addressModel;
-    print(addressModel);
     currentLocation = LatLng(double.parse(addressModel!.lat.toString()),
         double.parse(addressModel.long.toString()));
     moveCameraPosition();
@@ -206,9 +205,7 @@ class AddressCubit extends Cubit<AddressState> {
   void getCurrentLocation() async {
     getCurrentLocationLoading = true;
     emit(GetLocationLoading());
-    print("entered");
     googleMapsServices.getGeoLocationPosition().then((value) {
-      print(value);
       currentLocation = LatLng(value.latitude, value.longitude);
       sourceLocation =
           LatLng(currentLocation!.latitude, currentLocation!.longitude);
@@ -218,7 +215,6 @@ class AddressCubit extends Cubit<AddressState> {
       // setState(() {});
       // getPolyLinePoints(currentLocation);
     }).catchError((error) {
-      print(error);
     });
     GoogleMapController controller = await googleMapController.future;
     controller.animateCamera(

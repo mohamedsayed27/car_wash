@@ -10,7 +10,7 @@ class SingleOrderModel extends Equatable {
   final String? client;
   final String? representative;
   final AddressModel? userAddress;
-  final DateTime? scheduleTime;
+  final ScheduleTime? scheduleTime;
   final String? orderStatus;
   final String? paymentStatus;
   final String? total;
@@ -43,8 +43,7 @@ class SingleOrderModel extends Equatable {
           ? AddressModel.fromJson(json['user_address'] as Map<String, dynamic>)
           : null,
       scheduleTime: json['schedule_time'] != null
-          ? DateTime.parse(json['schedule_time'] as String)
-          : null,
+          ? ScheduleTime.fromJson(json['schedule_time']): null,
       orderStatus: json['order_status'] as String?,
       paymentStatus: json['payment_status'] as String?,
       total: json['total'] as String?,
@@ -67,4 +66,26 @@ class SingleOrderModel extends Equatable {
     total,
     paymentMethod,
   ];
+}
+
+class ScheduleTime extends Equatable {
+  final int? id;
+  final String? time;
+  final String? date;
+  final int? availability;
+
+  const ScheduleTime({this.id, this.time,this.date, this.availability});
+
+  // fromJson method
+  factory ScheduleTime.fromJson(Map<String, dynamic> json) {
+    return ScheduleTime(
+      id: json['id'] as int?,
+      time: json['time'] as String?,
+      date: json['date'] as String?,
+      availability: json['availability'] as int?,
+    );
+  }
+
+  @override
+  List<Object?> get props => [id, time, availability,];
 }

@@ -1,19 +1,16 @@
 import 'dart:async';
 
-import 'package:car_wash/core/app_router/screens_name.dart';
-import 'package:car_wash/core/app_theme/app_colors.dart';
-import 'package:car_wash/core/app_theme/custom_themes.dart';
-import 'package:car_wash/core/assets_path/svg_path.dart';
-import 'package:car_wash/core/constants/extensions.dart';
-import 'package:car_wash/presentation/widgets/shared_widgets/custom_elevated_button.dart';
-import 'package:car_wash/presentation/widgets/shared_widgets/custom_sized_box.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+import '../../../core/app_router/screens_name.dart';
+import '../../../core/app_theme/app_colors.dart';
+import '../../../core/assets_path/svg_path.dart';
+import '../../../core/constants/extensions.dart';
+import '../../../presentation/widgets/shared_widgets/custom_sized_box.dart';
 import '../../../core/assets_path/images_path.dart';
 import '../../../core/constants/constants.dart';
 import '../../../core/google_map/google_map_services.dart';
@@ -50,7 +47,6 @@ class _VendorHomeScreenState extends State<VendorHomeScreen> {
   //   }
   //   setState(() {});
   // }
-
   BitmapDescriptor currentIcon = BitmapDescriptor.defaultMarker;
   Position? currentLocation;
 
@@ -64,41 +60,43 @@ class _VendorHomeScreenState extends State<VendorHomeScreen> {
     setState(() {});
   }
 
+  bool getCurrentLocationLoading = false;
   void getCurrentLocation() async {
-    print("enter get location");
+    getCurrentLocationLoading = true;
+    setState(() {
+
+    });
     googleMapsServices.getGeoLocationPosition().then((value) {
+      print(value);
       currentLocation = value;
       sourceLocation =
           LatLng(currentLocation!.latitude, currentLocation!.longitude);
-      print(currentLocation);
-      setState(() {});
-      // getPolyLinePoints(currentLocation);
-    });
 
-    GoogleMapController controller = await _googleMapController.future;
-    googleMapsServices
-        .streamLocation(googleMapsServices.locationSettings)
-        .then((value) {
-      print(value);
-      value.listen((event) {
-        print(event.latitude);
-        print(event.longitude);
-        currentLocation = event;
-        controller.animateCamera(
-          CameraUpdate.newCameraPosition(
-            CameraPosition(
-              target: LatLng(
-                currentLocation!.latitude,
-                currentLocation!.longitude,
-              ),
-              zoom: zoomValue,
-            ),
-          ),
-        );
-        setState(() {});
+      getCurrentLocationLoading = false;
+      setState(() {
+
       });
-    }).catchError((e) {
-      print(e);
+      // getPolyLinePoints(currentLocation);
+    }).catchError((error) {
+      print(error);
+    });
+    GoogleMapController controller = await _googleMapController.future;
+    controller.animateCamera(
+      CameraUpdate.newCameraPosition(
+        CameraPosition(
+          target: LatLng(
+            currentLocation!.latitude,
+            currentLocation!.longitude,
+          ),
+          zoom: zoomValue,
+        ),
+      ),
+    );
+    // addMarker(currentLocation!);
+
+    getCurrentLocationLoading = false;
+    setState(() {
+
     });
   }
 
@@ -110,6 +108,36 @@ class _VendorHomeScreenState extends State<VendorHomeScreen> {
     getCurrentLocation();
     super.initState();
   }
+
+
+
+  // void closestNumbers(List<int> numbers) {
+  //   numbers.sort();
+  //   int minDiff = numbers[1] - numbers[0];
+  //   List<Map<String, int>> itemsList = [];
+  //   for (int i = 1; i < numbers.length; i++) {
+  //     int diff = numbers[i] - numbers[i - 1];
+  //     if(diff==minDiff){
+  //       itemsList.add({
+  //         "fistNum":numbers[i],
+  //         "secondNum":numbers[i-1],
+  //         "value": diff
+  //       });
+  //     }
+  //     else if (diff < minDiff) {
+  //       itemsList.removeWhere((element) => element.containsValue(minDiff));
+  //       itemsList.add({
+  //         "fistNum":numbers[i],
+  //         "secondNum":numbers[i-1],
+  //         "value": diff
+  //       });
+  //       minDiff = diff;
+  //     }
+  //   }
+  //   itemsList.forEach((element){
+  //     print("${element["secondNum"]} ${element["fistNum"]}");
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -172,7 +200,7 @@ class _VendorHomeScreenState extends State<VendorHomeScreen> {
       body: Stack(
         alignment: Alignment.topCenter,
         children: [
-          currentLocation == null
+          getCurrentLocationLoading
               ? const Center(
                   child: CircularProgressIndicator.adaptive(),
                 )
@@ -187,7 +215,9 @@ class _VendorHomeScreenState extends State<VendorHomeScreen> {
                       });
                     },
                     onMapCreated: (controller) {
-                      _googleMapController.complete(controller);
+                      if (!_googleMapController.isCompleted) {
+                        _googleMapController.complete(controller);
+                      }
                     },
                     markers: {
                       Marker(

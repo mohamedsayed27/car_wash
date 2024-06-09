@@ -30,8 +30,8 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   late final AuthCubit cubit;
 
-  final PhoneController loginPhoneController =
-      PhoneController(initialValue: const PhoneNumber(isoCode: IsoCode.EG, nsn: ""));
+  final PhoneController loginPhoneController = PhoneController(
+      initialValue: const PhoneNumber(isoCode: IsoCode.EG, nsn: ""));
   final TextEditingController loginPasswordController = TextEditingController();
 
   @override
@@ -118,12 +118,18 @@ class _LoginScreenState extends State<LoginScreen> {
                   } else {
                     AuthCubit.get(context).handleCache(
                       token: state.loginModel?.token,
-                      userId: state.loginModel?.result?.id, name: state.loginModel?.result?.name, email: state.loginModel?.result?.email, phone:  state.loginModel?.result?.mobile,
+                      userId: state.loginModel?.result?.id,
+                      name: state.loginModel?.result?.name,
+                      email: state.loginModel?.result?.email,
+                      phone: state.loginModel?.result?.mobile,
                     );
-                    showToast(errorType: 0, message: state.loginModel?.message??"",);
+                    showToast(
+                      errorType: 0,
+                      message: state.loginModel?.message ?? "",
+                    );
                     Navigator.pushNamedAndRemoveUntil(
                       context,
-                      ScreenName.userHomeScreen,
+                      ScreenName.vendorHomeScreen,
                       (route) => false,
                     );
                   }
@@ -133,7 +139,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 }
                 if (state is LoginErrorState) {
                   Navigator.pop(context);
-                  showToast(errorType: 1, message: state.error,);
+                  showToast(
+                    errorType: 1,
+                    message: state.error,
+                  );
                 }
               },
               builder: (context, state) {

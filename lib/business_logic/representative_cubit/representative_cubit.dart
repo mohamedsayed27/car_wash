@@ -1,14 +1,18 @@
+import 'package:car_wash/data/models/review_model/get_all_reviews_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 
 import '../../core/network/error_message_model.dart';
 import '../../core/services/services_locator.dart';
 import '../../data/data_source/remote_data_source/representitive_remote_data_source.dart';
 import '../../data/models/base_response_model.dart';
+import '../../data/models/order_models/get_all_orders_model.dart';
 
 part 'representative_state.dart';
 
 class RepresentativeCubit extends Cubit<RepresentativeState> {
   final RepresentativeDatasource _representativeDatasource = sl();
+
   RepresentativeCubit() : super(RepresentativeInitial());
 
   static RepresentativeCubit get(context) => BlocProvider.of(context);
@@ -16,94 +20,172 @@ class RepresentativeCubit extends Cubit<RepresentativeState> {
   BaseErrorModel? baseErrorModel;
   BaseResponseModel? baseResponseModel;
 
-
   void getSingleOrder({required String id}) async {
     emit(GetSingleOrderLoadingStates());
     final response = await _representativeDatasource.getSingleOrder(id: id);
 
     response.fold(
-          (l) {
+      (l) {
         baseErrorModel = l.baseErrorModel;
-        emit(GetSingleOrderErrorStates(error: l.baseErrorModel.message??""));
+        emit(GetSingleOrderErrorStates(error: l.baseErrorModel.message ?? ""));
       },
-          (r) {
-
+      (r) {
         emit(GetSingleOrderSuccessStates());
       },
     );
   }
+
+  GetSingleOrdersModel? getNextOrdersModel;
+  bool getNextOrderLoading = false;
+
+  final format = DateFormat.MMMEd('ar');
+  final format1 = DateFormat.jm('ar');
+  String nextOrder = "";
+
+  void getNextOrder() async {
+    getNextOrderLoading = true;
+    emit(GetNextOrderLoadingStates());
+    final response = await _representativeDatasource.getNextOrder();
+
+    response.fold(
+      (l) {
+        baseErrorModel = l.baseErrorModel;
+        getNextOrderLoading = false;
+        emit(GetNextOrderErrorStates(error: l.baseErrorModel.message ?? ""));
+      },
+      (r) {
+        getNextOrdersModel = r;
+        getNextOrderLoading = false;
+        nextOrder = "${format.format(DateTime.parse("${getNextOrdersModel?.result?.scheduleTime?.date} ${getNextOrdersModel?.result?.scheduleTime?.time}"))} ${format1.format(DateTime.parse("${getNextOrdersModel?.result?.scheduleTime?.date} ${getNextOrdersModel?.result?.scheduleTime?.time}"))}";
+        emit(GetNextOrderSuccessStates());
+      },
+    );
+  }
+
   void approveOrder({required String id}) async {
-    emit(GetSingleOrderLoadingStates());
+    emit(ApproveOrderLoadingStates());
     final response = await _representativeDatasource.approveOrder(id: id);
 
     response.fold(
-          (l) {
+      (l) {
         baseErrorModel = l.baseErrorModel;
-        emit(GetSingleOrderErrorStates(error: l.baseErrorModel.message??""));
+        emit(ApproveOrderErrorStates(error: l.baseErrorModel.message ?? ""));
       },
-          (r) {
-
-        emit(GetSingleOrderSuccessStates());
+      (r) {
+        emit(ApproveOrderSuccessStates());
       },
     );
   }
+
   void startOrder({required String id}) async {
-    emit(GetSingleOrderLoadingStates());
+    emit(StartOrderLoadingStates());
     final response = await _representativeDatasource.startOrder(id: id);
 
     response.fold(
-          (l) {
+      (l) {
         baseErrorModel = l.baseErrorModel;
-        emit(GetSingleOrderErrorStates(error: l.baseErrorModel.message??""));
+        emit(StartOrderErrorStates(error: l.baseErrorModel.message ?? ""));
       },
-          (r) {
-
-        emit(GetSingleOrderSuccessStates());
+      (r) {
+        emit(StartOrderSuccessStates());
       },
     );
   }
+
   void finishOrder({required String id}) async {
-    emit(GetSingleOrderLoadingStates());
+    emit(FinishOrderLoadingStates());
     final response = await _representativeDatasource.finishOrder(id: id);
 
     response.fold(
-          (l) {
+      (l) {
         baseErrorModel = l.baseErrorModel;
-        emit(GetSingleOrderErrorStates(error: l.baseErrorModel.message??""));
+        emit(FinishOrderErrorStates(error: l.baseErrorModel.message ?? ""));
       },
-          (r) {
-
-        emit(GetSingleOrderSuccessStates());
+      (r) {
+        emit(FinishOrderSuccessStates());
       },
     );
   }
+
+  GetAllOrdersModel? getAllOrdersModel;
+  bool getAllOrdersLoading = false;
+
   void getAllOrder() async {
-    emit(GetSingleOrderLoadingStates());
+    getAllOrdersLoading = true;
+    emit(GetAllOrderLoadingStates());
     final response = await _representativeDatasource.getMyOrders();
 
     response.fold(
-          (l) {
+      (l) {
         baseErrorModel = l.baseErrorModel;
-        emit(GetSingleOrderErrorStates(error: l.baseErrorModel.message??""));
+        getAllOrdersLoading = false;
+        emit(GetAllOrderErrorStates(error: l.baseErrorModel.message ?? ""));
       },
-          (r) {
-
-        emit(GetSingleOrderSuccessStates());
+      (r) {
+        getAllOrdersModel = r;
+        getAllOrdersLoading = false;
+        emit(GetAllOrderSuccessStates());
       },
     );
   }
+
+  GetAllOrdersModel? getFinishedOrdersModel;
+  bool getFinishedOrdersLoading = false;
+
+  void getFinishedOrder() async {
+    getFinishedOrdersLoading = true;
+    emit(GetFinishedOrderLoadingStates());
+    final response = await _representativeDatasource.getFinishedOrders();
+
+    response.fold(
+      (l) {
+        baseErrorModel = l.baseErrorModel;
+        getFinishedOrdersLoading = false;
+        emit(
+            GetFinishedOrderErrorStates(error: l.baseErrorModel.message ?? ""));
+      },
+      (r) {
+        getFinishedOrdersModel = r;
+        getFinishedOrdersLoading = false;
+        emit(GetFinishedOrderSuccessStates());
+      },
+    );
+  }
+
+  GetAllOrderReviewsModel? getAllOrderReviewsModel;
+  bool getAllOrderReviewsLoading = false;
+
+  void getOrderReviews() async {
+    getAllOrderReviewsLoading = true;
+    emit(GetOrderReviewsLoadingStates());
+    final response = await _representativeDatasource.getOrderReviews();
+
+    response.fold(
+      (l) {
+        baseErrorModel = l.baseErrorModel;
+        getAllOrderReviewsLoading = false;
+        emit(GetOrderReviewsErrorStates(error: l.baseErrorModel.message ?? ""));
+      },
+      (r) {
+        getAllOrderReviewsModel = r;
+        getAllOrderReviewsLoading = false;
+        emit(GetOrderReviewsSuccessStates());
+      },
+    );
+  }
+
   void getOrderStatistics() async {
-    emit(GetSingleOrderLoadingStates());
+    emit(GetOrderStatisTicsLoadingStates());
     final response = await _representativeDatasource.getOrderStatistics();
 
     response.fold(
-          (l) {
+      (l) {
         baseErrorModel = l.baseErrorModel;
-        emit(GetSingleOrderErrorStates(error: l.baseErrorModel.message??""));
+        emit(GetOrderStatisTicsErrorStates(
+            error: l.baseErrorModel.message ?? ""));
       },
-          (r) {
-
-        emit(GetSingleOrderSuccessStates());
+      (r) {
+        emit(GetOrderStatisTicsSuccessStates());
       },
     );
   }
