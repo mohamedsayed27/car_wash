@@ -118,6 +118,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   } else {
                     AuthCubit.get(context).handleCache(
                       token: state.loginModel?.token,
+                      userType: state.loginModel?.result?.type?.toLowerCase(),
                       userId: state.loginModel?.result?.id,
                       name: state.loginModel?.result?.name,
                       email: state.loginModel?.result?.email,

@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:car_wash/business_logic/auth_cubit/auth_cubit.dart';
+import 'package:car_wash/core/cache_helper/shared_pref_methods.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -186,11 +188,15 @@ class _VendorHomeScreenState extends State<VendorHomeScreen> {
               iconPath: SvgPath.logout,
               title: "تسجيل الخروج",
               onPressed: () {
-                Navigator.pushNamedAndRemoveUntil(
-                  context,
-                  ScreenName.loginScreen,
-                  (route) => false,
-                );
+                showProgressIndicator(context);
+                CacheHelper.clearAllCache().then((v){
+                  Navigator.pop(context);
+                  Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    ScreenName.loginScreen,
+                        (route) => false,
+                  );
+                });
               },
             ),
             // Add more items as needed
@@ -253,6 +259,7 @@ class _VendorHomeScreenState extends State<VendorHomeScreen> {
                 assetName: SvgPath.notification,
                 isNotification: true,
                 onPressed: () {
+                  AuthCubit.get(context).getNotifications();
                   Navigator.pushNamed(context, ScreenName.notificationScreen);
                 },
               ),

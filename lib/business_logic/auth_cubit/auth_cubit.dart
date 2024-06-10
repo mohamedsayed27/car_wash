@@ -5,16 +5,19 @@ import 'package:car_wash/data/models/auth_models/register_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:phone_form_field/phone_form_field.dart';
 
 import '../../core/cache_helper/cache_keys.dart';
 import '../../core/cache_helper/shared_pref_methods.dart';
 import '../../core/network/error_message_model.dart';
 import '../../core/parameters/auth_parameters/register_parameters.dart';
+import '../../core/parameters/auth_parameters/update_profile_parameters.dart';
 import '../../core/services/firebase_messaging_services.dart';
 import '../../core/services/services_locator.dart';
 import '../../data/data_source/remote_data_source/auth_remote_data_source.dart';
 import '../../data/models/auth_models/login_model.dart';
+import '../../data/models/notification_model/notification_model.dart';
 
 part 'auth_state.dart';
 
@@ -118,7 +121,7 @@ class AuthCubit extends Cubit<AuthState> {
           userId: loginModel?.result?.id,
           name: loginModel?.result?.name,
           email: loginModel?.result?.email,
-          phone: loginModel?.result?.mobile.toString(),
+          phone: loginModel?.result?.mobile.toString(), userType: loginModel?.result?.type?.toLowerCase(),
         );
         emit(
           SendOtpSuccessState(),
@@ -162,11 +165,111 @@ class AuthCubit extends Cubit<AuthState> {
     );
   }
 
+  bool updateProfileLoading = false;
+
+  void updateProfileData({
+    required UpdateProfileParameters updateProfileParameters,
+  }) async {
+    updateProfileLoading = true;
+    emit(UpdateProfileLoadingState());
+
+    final response = await _authRemoteDataSource.updateProfileData(
+      parameters: updateProfileParameters,
+    );
+    response.fold(
+      (l) {
+        baseErrorModel = l.baseErrorModel;
+        updateProfileLoading = false;
+        emit(
+          UpdateProfileErrorState(
+            error: l.baseErrorModel.errors != null
+                ? baseErrorModel!.errors![0]
+                : l.baseErrorModel.message ?? "",
+          ),
+        );
+      },
+      (r) async {
+        updateProfileLoading = false;
+        emit(UpdateProfileSuccessState());
+      },
+    );
+  }
+
+  TextEditingController emailController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
+  PhoneController phoneController = PhoneController();
+  String? image;
+  bool getUserDataLoading = false;
+
+  void getUserData() async {
+    getUserDataLoading = true;
+    emit(GetUserDataLoadingState());
+
+    final response = await _authRemoteDataSource.getUserData();
+    response.fold(
+      (l) {
+        baseErrorModel = l.baseErrorModel;
+        getUserDataLoading = false;
+        emit(
+          GetUserDataErrorState(
+            error: l.baseErrorModel.errors != null
+                ? baseErrorModel!.errors![0]
+                : l.baseErrorModel.message ?? "",
+          ),
+        );
+      },
+      (r) async {
+        getUserDataLoading = false;
+        emailController = TextEditingController(text: r.result?.email ?? "");
+        nameController = TextEditingController(text: r.result?.name ?? "");
+        phoneController = PhoneController(
+          initialValue: PhoneNumber(
+            isoCode: IsoCode.EG,
+            nsn: r.result?.mobile ?? "",
+          ),
+        );
+        image = r.result?.avatar;
+        print(image);
+        emit(GetUserDataSuccessState());
+      },
+    );
+  }
+  bool getNotificationsLoading = false;
+  List<NotificationItem> notifications= [];
+  void getNotifications() async {
+    getNotificationsLoading = true;
+    emit(GetUserDataLoadingState());
+
+    final response = await _authRemoteDataSource.getNotifications();
+    response.fold(
+      (l) {
+        baseErrorModel = l.baseErrorModel;
+        getNotificationsLoading = false;
+        emit(
+          GetUserDataErrorState(
+            error: l.baseErrorModel.errors != null
+                ? baseErrorModel!.errors![0]
+                : l.baseErrorModel.message ?? "",
+          ),
+        );
+      },
+      (r) async {
+
+
+        getNotificationsLoading = false;
+        notifications = r.result??[];
+
+        emit(GetUserDataSuccessState());
+      },
+    );
+  }
+
   void handleCache({
     required String? token,
     required String? name,
     required String? email,
     required String? phone,
+    required String? userType,
     required int? userId,
   }) async {
     await CacheHelper.saveData(
@@ -184,6 +287,10 @@ class AuthCubit extends Cubit<AuthState> {
     await CacheHelper.saveData(
       key: CacheKeys.email,
       value: email,
+    );
+    await CacheHelper.saveData(
+      key: CacheKeys.userType,
+      value: userType,
     );
     await CacheHelper.saveData(
       key: CacheKeys.phone,

@@ -8,7 +8,7 @@ class RegisterParameters extends Equatable {
   final String name;
   final String mobileNumber;
   final String password;
-  final File avatar;
+  final File? avatar;
 
   const RegisterParameters({
     required this.name,
@@ -22,9 +22,9 @@ class RegisterParameters extends Equatable {
       "name": name,
       "mobile_number": mobileNumber,
       "password": password,
-      "avatar": await MultipartFile.fromFile(
-        avatar.path,
-        filename: path.basename(avatar.path),
+      if(avatar!=null)"avatar": await MultipartFile.fromFile(
+        avatar!.path,
+        filename: path.basename(avatar!.path),
       ),
     };
   }

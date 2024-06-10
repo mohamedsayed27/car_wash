@@ -1,5 +1,6 @@
 import 'package:car_wash/data/models/base_response_model.dart';
 import 'package:car_wash/data/models/base_response_model.dart';
+import 'package:car_wash/data/models/notification_model/notification_model.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 
@@ -9,8 +10,10 @@ import '../../../core/network/dio_helper.dart';
 import '../../../core/network/error_message_model.dart';
 import '../../../core/parameters/auth_parameters/login_parameters.dart';
 import '../../../core/parameters/auth_parameters/register_parameters.dart';
+import '../../../core/parameters/auth_parameters/update_profile_parameters.dart';
 import '../../models/auth_models/login_model.dart';
 import '../../models/auth_models/register_model.dart';
+import '../../models/user_models/get_user_data_model.dart';
 
 class AuthRemoteDataSource {
   final DioHelper dioHelper;
@@ -92,6 +95,71 @@ class AuthRemoteDataSource {
         ),
       );
       return Right(RegisterModel.fromJson(response.data));
+    } catch (e) {
+      if (e is DioException) {
+        print(e);
+        return Left(
+          ErrorException(
+            baseErrorModel: BaseErrorModel.fromJson(e.response!.data),
+          ),
+        );
+      } else {
+        rethrow;
+      }
+    }
+  }
+
+  Future<Either<ErrorException, GetUserDataModel>> updateProfileData({
+    required UpdateProfileParameters parameters,
+  }) async {
+    try {
+      final response = await dioHelper.postData(
+        url: EndPoints.updateProfile,
+        data: FormData.fromMap(
+          await parameters.toJson(),
+        ),
+      );
+      return Right(GetUserDataModel.fromJson(response.data));
+    } catch (e) {
+      if (e is DioException) {
+        print(e);
+        return Left(
+          ErrorException(
+            baseErrorModel: BaseErrorModel.fromJson(e.response!.data),
+          ),
+        );
+      } else {
+        rethrow;
+      }
+    }
+  }
+
+  Future<Either<ErrorException, GetUserDataModel>> getUserData() async {
+    try {
+      final response = await dioHelper.getData(
+        url: EndPoints.profile,
+      );
+      return Right(GetUserDataModel.fromJson(response.data));
+    } catch (e) {
+      if (e is DioException) {
+        print(e);
+        return Left(
+          ErrorException(
+            baseErrorModel: BaseErrorModel.fromJson(e.response!.data),
+          ),
+        );
+      } else {
+        rethrow;
+      }
+    }
+  }
+
+  Future<Either<ErrorException, GetAllNotificationsModel>> getNotifications() async {
+    try {
+      final response = await dioHelper.getData(
+        url: EndPoints.notifications,
+      );
+      return Right(GetAllNotificationsModel.fromJson(response.data));
     } catch (e) {
       if (e is DioException) {
         print(e);

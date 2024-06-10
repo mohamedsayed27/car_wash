@@ -11,6 +11,7 @@ class UserResult extends Equatable {
   final String? mobile;
   final int? isVerified;
   final String? avatar;
+  final String? type;
   final int? active;
   final List<AddressModel>? addresses;
   final String? createdAt;
@@ -22,6 +23,7 @@ class UserResult extends Equatable {
     this.email,
     this.mobile,
     this.isVerified,
+    this.type,
     this.avatar,
     this.active,
     this.addresses,
@@ -34,6 +36,7 @@ class UserResult extends Equatable {
       id: json['id'],
       name: json['name'],
       email: json['email'],
+      type: json["type"],
       mobile: json['mobile'],
       isVerified: json['is_verified'],
       avatar: json['avatar'],

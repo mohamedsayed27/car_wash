@@ -20,6 +20,22 @@ class RepresentativeCubit extends Cubit<RepresentativeState> {
   BaseErrorModel? baseErrorModel;
   BaseResponseModel? baseResponseModel;
 
+  GetSingleOrdersModel? getNextOrdersModel;
+  bool getNextOrderLoading = false;
+
+  final format = DateFormat.MMMEd('ar');
+  final format1 = DateFormat.jm('ar');
+  String nextOrder = "";
+
+  GetAllOrdersModel? getAllOrdersModel;
+  bool getAllOrdersLoading = false;
+
+  GetAllOrdersModel? getFinishedOrdersModel;
+  bool getFinishedOrdersLoading = false;
+
+  GetAllOrderReviewsModel? getAllOrderReviewsModel;
+  bool getAllOrderReviewsLoading = false;
+
   void getSingleOrder({required String id}) async {
     emit(GetSingleOrderLoadingStates());
     final response = await _representativeDatasource.getSingleOrder(id: id);
@@ -35,13 +51,6 @@ class RepresentativeCubit extends Cubit<RepresentativeState> {
     );
   }
 
-  GetSingleOrdersModel? getNextOrdersModel;
-  bool getNextOrderLoading = false;
-
-  final format = DateFormat.MMMEd('ar');
-  final format1 = DateFormat.jm('ar');
-  String nextOrder = "";
-
   void getNextOrder() async {
     getNextOrderLoading = true;
     emit(GetNextOrderLoadingStates());
@@ -55,8 +64,11 @@ class RepresentativeCubit extends Cubit<RepresentativeState> {
       },
       (r) {
         getNextOrdersModel = r;
+        print("next order");
+        print(r.result);
         getNextOrderLoading = false;
-        nextOrder = "${format.format(DateTime.parse("${getNextOrdersModel?.result?.scheduleTime?.date} ${getNextOrdersModel?.result?.scheduleTime?.time}"))} ${format1.format(DateTime.parse("${getNextOrdersModel?.result?.scheduleTime?.date} ${getNextOrdersModel?.result?.scheduleTime?.time}"))}";
+        nextOrder =
+            "${format.format(DateTime.parse("${getNextOrdersModel?.result?.scheduleTime?.date} ${getNextOrdersModel?.result?.scheduleTime?.time}"))} ${format1.format(DateTime.parse("${getNextOrdersModel?.result?.scheduleTime?.date} ${getNextOrdersModel?.result?.scheduleTime?.time}"))}";
         emit(GetNextOrderSuccessStates());
       },
     );
@@ -107,9 +119,6 @@ class RepresentativeCubit extends Cubit<RepresentativeState> {
     );
   }
 
-  GetAllOrdersModel? getAllOrdersModel;
-  bool getAllOrdersLoading = false;
-
   void getAllOrder() async {
     getAllOrdersLoading = true;
     emit(GetAllOrderLoadingStates());
@@ -128,9 +137,6 @@ class RepresentativeCubit extends Cubit<RepresentativeState> {
       },
     );
   }
-
-  GetAllOrdersModel? getFinishedOrdersModel;
-  bool getFinishedOrdersLoading = false;
 
   void getFinishedOrder() async {
     getFinishedOrdersLoading = true;
@@ -151,9 +157,6 @@ class RepresentativeCubit extends Cubit<RepresentativeState> {
       },
     );
   }
-
-  GetAllOrderReviewsModel? getAllOrderReviewsModel;
-  bool getAllOrderReviewsLoading = false;
 
   void getOrderReviews() async {
     getAllOrderReviewsLoading = true;

@@ -7,7 +7,7 @@ import '../../presentation/screens/auth_screens/login_screen.dart';
 import '../../presentation/screens/auth_screens/register_type_screen.dart';
 import '../../presentation/screens/auth_screens/registration_screen.dart';
 import '../../presentation/screens/car_services_screen/car_services_screen.dart';
-import '../../presentation/screens/chat_screens/all_chats_screen.dart';
+import '../../presentation/screens/chat_screens/all_conversations_screen.dart';
 import '../../presentation/screens/chat_screens/chat_screen.dart';
 import '../../presentation/screens/confirm_order_screen/user_confirm_order_screen.dart';
 import '../../presentation/screens/confirm_order_screen/vendor_confirm_order.dart';
@@ -43,7 +43,8 @@ class AppRouter {
           final CarServicesArgument carServicesArgument = settings.arguments as CarServicesArgument;
           return SlideRightRoute(page: CarServicesScreen(carServicesArgument: carServicesArgument,),);
         case ScreenName.chatScreen:
-          return SlideRightRoute(page: const ChatScreen(),);
+          final ChatArgs chatArgs = settings.arguments as ChatArgs;
+          return SlideRightRoute(page: ChatScreen(chatArgs: chatArgs,),);
         case ScreenName.userHomeScreen:
           return SlideRightRoute(page: const UserHomeScreen(),);
         case ScreenName.vendorHomeScreen:

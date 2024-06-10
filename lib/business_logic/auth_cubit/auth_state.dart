@@ -44,3 +44,16 @@ class RegisterErrorState extends AuthState {
   final String error;
   RegisterErrorState({required this.error});
 }
+class UpdateProfileLoadingState extends AuthState {}
+class UpdateProfileSuccessState extends AuthState {}
+class UpdateProfileErrorState extends AuthState {
+  final String error;
+  UpdateProfileErrorState({required this.error});
+}
+
+class GetUserDataLoadingState extends AuthState {}
+class GetUserDataSuccessState extends AuthState {}
+class GetUserDataErrorState extends AuthState {
+  final String error;
+  GetUserDataErrorState({required this.error});
+}

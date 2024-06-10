@@ -4,6 +4,7 @@ import 'package:car_wash/data/data_source/remote_data_source/plans_remote_dataso
 import 'package:get_it/get_it.dart';
 
 import '../../data/data_source/remote_data_source/auth_remote_data_source.dart';
+import '../../data/data_source/remote_data_source/chat_remote_datasource.dart';
 import '../../data/data_source/remote_data_source/pages_remote_data_source.dart';
 import '../../data/data_source/remote_data_source/representitive_remote_data_source.dart';
 import '../network/dio_helper.dart';
@@ -19,6 +20,7 @@ class ServicesLocators{
     sl.registerLazySingleton(() => PlansRemoteDatasource(dioHelper:sl(),),);
     sl.registerLazySingleton(() => PagesRemoteDataSource(dioHelper:sl(),),);
     sl.registerLazySingleton(() => RepresentativeDatasource(dioHelper:sl(),),);
+    sl.registerLazySingleton(() => ChatRemoteDatasource(dioHelper:sl(),),);
 
     /// Firebase Messaging
     sl.registerLazySingleton(() =>FirebaseMessagingService(),);
