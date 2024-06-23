@@ -1,3 +1,5 @@
+import 'package:car_wash/data/models/order_models/single_order_model.dart';
+import 'package:car_wash/data/models/order_models/single_order_model.dart';
 import 'package:car_wash/presentation/screens/confirm_order_screen/user_confirm_order_arguments.dart';
 import 'package:car_wash/presentation/screens/confirm_order_screen/user_confirm_order_arguments.dart';
 import 'package:flutter/material.dart';
@@ -25,6 +27,7 @@ import '../../presentation/screens/user_order_progress_screen/user_order_progres
 import '../../presentation/screens/vendor_home_screen/vendor_home_screen.dart';
 import '../../presentation/screens/vendor_orders_screen/in_progress_order.dart';
 import '../../presentation/screens/vendor_orders_screen/vendor_orders_screen.dart';
+import '../../presentation/screens/vendor_orders_screen/vendor_orders_statistics_screen.dart';
 import '../../presentation/screens/vendor_profile_screen/vendor_profile_screen.dart';
 import '../../presentation/screens/wallet_screen/wallet_screen.dart';
 import 'screens_name.dart';
@@ -58,16 +61,20 @@ class AppRouter {
         case ScreenName.userConfirmOrderScreen:
           final UserConfirmOrderArguments userConfirmOrderArguments = settings.arguments as UserConfirmOrderArguments;
           return SlideRightRoute(page: UserConfirmOrderScreen(userConfirmOrderArguments: userConfirmOrderArguments,),);
+        case ScreenName.vendorOrdersScreen:
+          final VendorOrdersScreenArgs vendorOrdersDetailsScreenArgs = settings.arguments as VendorOrdersScreenArgs;
+          return SlideRightRoute(page: VendorOrdersScreen(vendorOrdersScreenArgs: vendorOrdersDetailsScreenArgs,),);
         case ScreenName.userOrderProgressScreen:
           return SlideRightRoute(page: const UserOrderProgressScreen(),);
         case ScreenName.vendorConfirmOrderScreen:
           return SlideRightRoute(page: const VendorConfirmOrderScreen(),);
-        case ScreenName.vendorOrdersScreen:
-          return SlideRightRoute(page: const VendorOrdersScreen(),);
+        case ScreenName.vendorOrdersStatisticsScreen:
+          return SlideRightRoute(page: const VendorOrdersStatisticsScreen(),);
         case ScreenName.vendorProfileScreen:
           return SlideRightRoute(page: const VendorProfileScreen(),);
         case ScreenName.vendorProgressOrderScreen:
-          return SlideRightRoute(page: const VendorInProgressOrderScreen(),);
+          // final SingleOrderModel singleOrderModel = settings.arguments as SingleOrderModel;
+          return SlideRightRoute(page: VendorInProgressOrderScreen(),);
         case ScreenName.walletScreen:
           return SlideRightRoute(page: const WalletScreen(),);
         case ScreenName.plansScreen:

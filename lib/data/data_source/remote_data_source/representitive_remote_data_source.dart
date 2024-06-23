@@ -121,6 +121,27 @@ class RepresentativeDatasource {
       }
     }
   }
+  Future<Either<ErrorException, GetSingleOrdersModel>> getCurrentOrder() async {
+    try {
+      final response = await dioHelper.getData(
+        url: EndPoints.currentOrder,
+      );
+      return Right(
+        GetSingleOrdersModel.fromJson(response.data),
+      );
+    } catch (e) {
+      if (e is DioException) {
+        print(e);
+        return Left(
+          ErrorException(
+            baseErrorModel: BaseErrorModel.fromJson(e.response!.data),
+          ),
+        );
+      } else {
+        rethrow;
+      }
+    }
+  }
   Future<Either<ErrorException, GetAllOrdersModel>> getFinishedOrders() async {
     try {
       final response = await dioHelper.getData(
@@ -142,13 +163,13 @@ class RepresentativeDatasource {
       }
     }
   }
-  Future<Either<ErrorException, SingleOrderModel>> getSingleOrder({required String id}) async {
+  Future<Either<ErrorException, GetSingleOrdersModel>> getSingleOrder({required String id}) async {
     try {
       final response = await dioHelper.getData(
         url: "${EndPoints.singleOrder}/$id",
       );
       return Right(
-        SingleOrderModel.fromJson(response.data),
+        GetSingleOrdersModel.fromJson(response.data),
       );
     } catch (e) {
       if (e is DioException) {

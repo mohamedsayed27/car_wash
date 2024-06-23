@@ -8,12 +8,13 @@ class ScreenName{
   static const chatScreen = "chatScreen";
   static const userHomeScreen = "userHomeScreen";
   static const userConfirmOrderScreen = "userConfirmOrderScreen";
+  static const vendorOrdersScreen = "vendorOrdersScreen";
   static const vendorConfirmOrderScreen = "vendorConfirmOrderScreen";
   static const vendorHomeScreen = "vendorHomeScreen";
   static const notificationScreen = "notificationScreen";
   static const userOrderProgressScreen = "userOrderProgressScreen";
   static const vendorProgressOrderScreen = "vendorProgressOrderScreen";
-  static const vendorOrdersScreen = "vendorOrdersScreen";
+  static const vendorOrdersStatisticsScreen = "vendorOrdersStatisticsScreen";
   static const vendorProfileScreen = "vendorProfileScreen";
   static const walletScreen = "walletScreen";
   static const plansScreen = "plansScreen";

@@ -7,6 +7,7 @@ import '../../core/services/services_locator.dart';
 import '../../data/data_source/remote_data_source/representitive_remote_data_source.dart';
 import '../../data/models/base_response_model.dart';
 import '../../data/models/order_models/get_all_orders_model.dart';
+import '../../data/models/order_models/single_order_model.dart';
 
 part 'representative_state.dart';
 
@@ -21,11 +22,13 @@ class RepresentativeCubit extends Cubit<RepresentativeState> {
   BaseResponseModel? baseResponseModel;
 
   GetSingleOrdersModel? getNextOrdersModel;
+  GetSingleOrdersModel? getCurrentOrderModel;
   bool getNextOrderLoading = false;
 
   final format = DateFormat.MMMEd('ar');
   final format1 = DateFormat.jm('ar');
   String nextOrder = "";
+  String currentOrder = "";
 
   GetAllOrdersModel? getAllOrdersModel;
   bool getAllOrdersLoading = false;
@@ -36,17 +39,27 @@ class RepresentativeCubit extends Cubit<RepresentativeState> {
   GetAllOrderReviewsModel? getAllOrderReviewsModel;
   bool getAllOrderReviewsLoading = false;
 
+  bool getSingleOrderLoading = false;
+  SingleOrderModel? getSingleOrderModel;
   void getSingleOrder({required String id}) async {
+    print("Order id");
+    print(id);
+    getSingleOrderLoading = true;
     emit(GetSingleOrderLoadingStates());
     final response = await _representativeDatasource.getSingleOrder(id: id);
-
     response.fold(
       (l) {
         baseErrorModel = l.baseErrorModel;
+        getSingleOrderLoading = false;
         emit(GetSingleOrderErrorStates(error: l.baseErrorModel.message ?? ""));
       },
       (r) {
-        emit(GetSingleOrderSuccessStates());
+        getSingleOrderModel = r.result;
+        print("getSingleOrderModel");
+        print(r);
+        print(getSingleOrderModel);
+        getSingleOrderLoading = false;
+        emit(GetSingleOrderSuccessStates(singleOrderModel: r.result));
       },
     );
   }
@@ -64,12 +77,34 @@ class RepresentativeCubit extends Cubit<RepresentativeState> {
       },
       (r) {
         getNextOrdersModel = r;
-        print("next order");
-        print(r.result);
         getNextOrderLoading = false;
-        nextOrder =
-            "${format.format(DateTime.parse("${getNextOrdersModel?.result?.scheduleTime?.date} ${getNextOrdersModel?.result?.scheduleTime?.time}"))} ${format1.format(DateTime.parse("${getNextOrdersModel?.result?.scheduleTime?.date} ${getNextOrdersModel?.result?.scheduleTime?.time}"))}";
+        print(r.result?.scheduleTime?.time);
+        nextOrder = "${format.format(DateTime.parse("${getNextOrdersModel?.result?.scheduleTime?.date} ${getNextOrdersModel?.result?.scheduleTime?.time}"))} ${format1.format(DateTime.parse("${getNextOrdersModel?.result?.scheduleTime?.date} ${getNextOrdersModel?.result?.scheduleTime?.time}"))}";
         emit(GetNextOrderSuccessStates());
+      },
+    );
+  }
+
+  bool getCurrentOrderLoading = false;
+  void getCurrentOrder() async {
+    getCurrentOrderLoading = true;
+    emit(GetCurrentOrderLoadingStates());
+    final response = await _representativeDatasource.getCurrentOrder();
+
+    response.fold(
+      (l) {
+        baseErrorModel = l.baseErrorModel;
+        getCurrentOrderLoading = false;
+        emit(GetCurrentOrderErrorStates(error: l.baseErrorModel.message ?? ""));
+      },
+      (r) {
+
+        getCurrentOrderModel = r;
+        getCurrentOrderLoading = false;
+        nextOrder =
+        "${format.format(DateTime.parse("${getCurrentOrderModel?.result?.scheduleTime?.date} ${getCurrentOrderModel?.result?.scheduleTime?.time}"))} ${format1.format(DateTime.parse("${getCurrentOrderModel?.result?.scheduleTime?.date} ${getCurrentOrderModel?.result?.scheduleTime?.time}"))}";
+
+        emit(GetCurrentOrderSuccessStates());
       },
     );
   }
@@ -89,16 +124,20 @@ class RepresentativeCubit extends Cubit<RepresentativeState> {
     );
   }
 
+  bool startOrderLoading = false;
   void startOrder({required String id}) async {
+    startOrderLoading = true;
     emit(StartOrderLoadingStates());
     final response = await _representativeDatasource.startOrder(id: id);
 
     response.fold(
       (l) {
         baseErrorModel = l.baseErrorModel;
+        startOrderLoading = false;
         emit(StartOrderErrorStates(error: l.baseErrorModel.message ?? ""));
       },
       (r) {
+        startOrderLoading = false;
         emit(StartOrderSuccessStates());
       },
     );

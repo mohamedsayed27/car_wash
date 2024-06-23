@@ -17,6 +17,7 @@ import '../../../core/assets_path/svg_path.dart';
 class ChatTextField extends StatefulWidget {
   final String orderId;
   final String chatId;
+
   const ChatTextField({super.key, required this.orderId, required this.chatId});
 
   @override
@@ -25,6 +26,7 @@ class ChatTextField extends StatefulWidget {
 
 class _ChatTextFieldState extends State<ChatTextField> {
   TextEditingController controller = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     InputBorder border = OutlineInputBorder(
@@ -36,16 +38,9 @@ class _ChatTextFieldState extends State<ChatTextField> {
     );
     return BlocConsumer<ChatCubit, ChatState>(
       listener: (context, state) {
-        if(state is SendMessageLoadingStates){
-          showProgressIndicator(context);
-        }
-        if(state is SendMessageSuccessStates){
+        if (state is SendMessageSuccessStates) {
           controller.clear();
-          Navigator.pop(context);
           ChatCubit.get(context).getChatMessages(id: widget.chatId);
-        }
-        if(state is SendMessageErrorStates){
-          Navigator.pop(context);
         }
       },
       builder: (context, state) {
@@ -57,8 +52,7 @@ class _ChatTextFieldState extends State<ChatTextField> {
               height: 40.h,
               child: TextField(
                 controller: controller,
-                style: CustomThemes.greyColor71TextTheme(context)
-                    .copyWith(
+                style: CustomThemes.greyColor71TextTheme(context).copyWith(
                     fontSize: 12.sp, fontWeight: CustomFontWeights.w600),
                 decoration: InputDecoration(
                   border: border,
@@ -78,8 +72,12 @@ class _ChatTextFieldState extends State<ChatTextField> {
               ),
             ).onlyDirectionalPadding(end: 8.w),
             ElevatedButton(
-              onPressed: () {
-                cubit.senMessage(sendMessageParameters: SendMessageParameters(type: CacheHelper.getData(key: CacheKeys.userType), message: controller.text, orderId: widget.orderId));
+              onPressed: state is SendMessageLoadingStates?null:() {
+                cubit.senMessage(
+                    sendMessageParameters: SendMessageParameters(
+                        type: CacheHelper.getData(key: CacheKeys.userType),
+                        message: controller.text,
+                        orderId: widget.orderId));
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primaryColor,
@@ -90,7 +88,11 @@ class _ChatTextFieldState extends State<ChatTextField> {
                 shadowColor: Colors.transparent,
                 foregroundColor: AppColors.whiteColor,
               ),
-              child: SvgPicture.asset(SvgPath.send, width: 16.w, height: 17.h,),
+              child:  SvgPicture.asset(
+                      SvgPath.send,
+                      width: 16.w,
+                      height: 17.h,
+                    ),
             )
           ],
         );

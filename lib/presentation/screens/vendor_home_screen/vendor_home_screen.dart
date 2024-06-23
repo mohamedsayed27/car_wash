@@ -53,9 +53,11 @@ class _VendorHomeScreenState extends State<VendorHomeScreen> {
   Position? currentLocation;
 
   void getCurrentMarker() {
-    BitmapDescriptor.fromAssetImage(
+    BitmapDescriptor.asset(
       ImageConfiguration.empty,
       ImagesPath.locationOnMap,
+      height: 32.h,
+      width: 32.w,
     ).then((value) {
       currentIcon = value;
     });
@@ -178,7 +180,7 @@ class _VendorHomeScreenState extends State<VendorHomeScreen> {
               iconPath: SvgPath.myOrders,
               title: "طلباتى",
               onPressed: () {
-                Navigator.pushNamed(context, ScreenName.vendorOrdersScreen);
+                Navigator.pushNamed(context, ScreenName.vendorOrdersStatisticsScreen);
               },
             ),
             const CustomSizedBox(

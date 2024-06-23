@@ -8,6 +8,7 @@ import 'package:car_wash/core/app_router/screens_name.dart';
 import 'package:car_wash/core/cache_helper/shared_pref_methods.dart';
 import 'package:car_wash/core/network/dio_helper.dart';
 import 'package:car_wash/core/services/services_locator.dart';
+import 'package:car_wash/presentation/screens/vendor_orders_screen/vendor_orders_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -89,7 +90,7 @@ class _MyAppState extends State<MyApp> {
             locale: const Locale(
               "ar",
             ),
-            // home: TestAnimation(),
+            // home: AllOrdersScreen(),
             initialRoute: ScreenName.splashScreen,
             onGenerateRoute: AppRouter.generateRoute,
           ),

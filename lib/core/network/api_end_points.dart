@@ -13,6 +13,7 @@ static const startOrder ='$representative/start-order';
 static const finishOrder ='$representative/finish-order';
 static const myOrders ='$representative/my-orders';
 static const nextOrder ='$representative/next-order';
+static const currentOrder ='$representative/current-order';
 static const singleOrder ='$representative/single-order';
 static const orderStatistics ='$representative/order-statistics';
 static const orderReviews ='$representative/order-reviews';

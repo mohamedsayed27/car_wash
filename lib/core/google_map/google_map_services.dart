@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:geocoding/geocoding.dart';
@@ -66,8 +67,8 @@ class GoogleMapsServices {
               accuracy: LocationAccuracy.high,
             );
 
-  Future<Stream<Position>> streamLocation(
-      LocationSettings? locationSettings) async {
+  Stream<Position> streamLocation(
+      LocationSettings? locationSettings)  {
     return Geolocator.getPositionStream(locationSettings: locationSettings);
   }
 }
