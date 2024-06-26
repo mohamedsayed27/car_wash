@@ -7,8 +7,8 @@ class SingleOrderModel extends Equatable {
   final String? carType;
   final String? service;
   final String? userPlan;
-  final String? client;
-  final String? representative;
+  final Client? client;
+  final Representative? representative;
   final AddressModel? userAddress;
   final ScheduleTime? scheduleTime;
   final String? orderStatus;
@@ -37,8 +37,8 @@ class SingleOrderModel extends Equatable {
       carType: json['car_type'] as String?,
       service: json['service'] as String?,
       userPlan: json['user_plan'] as String?,
-      client: json['client'] as String?,
-      representative: json['representative'] as String?,
+      client:  Client.fromJson(json['client']),
+      representative: json['representative']!=null? Representative.fromJson(json['representative']):null,
       userAddress: json['user_address'] != null
           ? AddressModel.fromJson(json['user_address'] as Map<String, dynamic>)
           : null,
@@ -88,4 +88,82 @@ class ScheduleTime extends Equatable {
 
   @override
   List<Object?> get props => [id, time, availability,];
+}
+
+class Client extends Equatable {
+  final int? id;
+  final String? name;
+  final String? email;
+  final String? mobile;
+  final String? avatar;
+
+  const Client({
+    this.id,
+    this.name,
+    this.email,
+    this.mobile,
+    this.avatar,
+  });
+
+  @override
+  List<Object?> get props => [id, name, email, mobile, avatar];
+
+  factory Client.fromJson(Map<String, dynamic> json) {
+    return Client(
+      id: json['id'] as int?,
+      name: json['name'] as String?,
+      email: json['email'] as String?,
+      mobile: json['mobile'] as String?,
+      avatar: json['avatar'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'email': email,
+      'mobile': mobile,
+      'avatar': avatar,
+    };
+  }
+}
+
+class Representative extends Equatable {
+  final int? id;
+  final String? name;
+  final String? email;
+  final String? mobile;
+  final String? avatar;
+
+  const Representative({
+    this.id,
+    this.name,
+    this.email,
+    this.mobile,
+    this.avatar,
+  });
+
+  @override
+  List<Object?> get props => [id, name, email, mobile, avatar];
+
+  factory Representative.fromJson(Map<String, dynamic> json) {
+    return Representative(
+      id: json['id'] as int?,
+      name: json['name'] as String?,
+      email: json['email'] as String?,
+      mobile: json['mobile'] as String?,
+      avatar: json['avatar'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'email': email,
+      'mobile': mobile,
+      'avatar': avatar,
+    };
+  }
 }

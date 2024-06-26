@@ -1,4 +1,3 @@
-
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 
@@ -10,6 +9,7 @@ import '../../models/chat_model/chat_model.dart';
 import '../../../core/network/dio_helper.dart';
 import '../../../data/models/base_response_model.dart';
 import '../../../data/models/chat_model/conversation_model.dart';
+
 class ChatRemoteDatasource {
   final DioHelper dioHelper;
 
@@ -27,11 +27,27 @@ class ChatRemoteDatasource {
       return Right(GetAllConversation.fromJson(response.data));
     } catch (e) {
       if (e is DioException) {
-        return Left(
-          ErrorException(
-            baseErrorModel: BaseErrorModel.fromJson(e.response!.data),
-          ),
-        );
+        print(e);
+        if (e.response?.statusCode != 500) {
+          return Left(
+            ErrorException(
+              baseErrorModel: BaseErrorModel.fromJson(e.response!.data),
+            ),
+          );
+        } else {
+          return const Left(
+            ErrorException(
+              baseErrorModel: BaseErrorModel(
+                message: "Server error",
+                success: false,
+                code: 500,
+                errors: [
+                  "Server error",
+                ],
+              ),
+            ),
+          );
+        }
       } else {
         rethrow;
       }

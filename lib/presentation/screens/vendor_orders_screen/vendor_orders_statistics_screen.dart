@@ -1,3 +1,4 @@
+import 'package:car_wash/core/constants/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -33,8 +34,8 @@ class _VendorOrdersStatisticsScreenState
       ..getAllOrder()
       ..getFinishedOrder()
       ..getOrderReviews()
-      ..getNextOrder();
-    // ..getCurrentOrder();
+      ..getNextOrder()
+    ..getCurrentOrder();
     super.initState();
   }
 
@@ -96,7 +97,7 @@ class _VendorOrdersStatisticsScreenState
                               ),
                             ),
                           ),
-                          TextButton(
+                          cubit.nextOrder!=""?TextButton(
                             onPressed: () {
                               RepresentativeCubit.get(context).getSingleOrder(id: RepresentativeCubit.get(context).getNextOrdersModel?.result?.id?.toString()??"0");
                               Navigator.pushNamed(
@@ -116,58 +117,78 @@ class _VendorOrdersStatisticsScreenState
                                 fontWeight: CustomFontWeights.w500,
                               ),
                             ),
-                          )
+                          ):Text(
+                            "لا يوجد بعد",
+                            style: CustomThemes.primaryColorTextTheme(context)
+                                .copyWith(
+                              fontSize: 14.sp,
+                              fontWeight: CustomFontWeights.w500,
+                            ),
+                          ).symmetricPadding(
+                            vertical: 8
+                          ),
                         ],
                       ),
                     ),
-              // const CustomSizedBox(
-              //   height: 16,
-              // ),
-              // cubit.getCurrentOrderLoading?const Center(child: CircularProgressIndicator.adaptive(),):Container(
-              //   width: double.infinity,
-              //   padding: EdgeInsets.symmetric(
-              //     horizontal: 16.w,
-              //   ),
-              //   decoration: BoxDecoration(
-              //     color: AppColors.secondaryColor,
-              //     borderRadius: BorderRadius.circular(8.r),
-              //   ),
-              //   child: Row(
-              //     children: [
-              //       Expanded(
-              //         child: Text(
-              //           "طلب جارى يوم ${cubit.currentOrder}",
-              //           maxLines: 1,
-              //           overflow: TextOverflow.ellipsis,
-              //           style: CustomThemes.primaryColorTextTheme(context)
-              //               .copyWith(
-              //             fontSize: 16.sp,
-              //             fontWeight: CustomFontWeights.w500,
-              //           ),
-              //         ),
-              //       ),
-              //       TextButton(
-              //         onPressed: () {
-              //           Navigator.pushNamed(
-              //             context,
-              //             ScreenName.vendorProgressOrderScreen,
-              //           );
-              //         },
-              //         style: TextButton.styleFrom(padding: EdgeInsets.zero),
-              //         child: Text(
-              //           "اضغط هنا",
-              //           style: CustomThemes.primaryColorTextTheme(context)
-              //               .copyWith(
-              //             fontSize: 14.sp,
-              //             decoration: TextDecoration.underline,
-              //             decorationColor: AppColors.primaryColor,
-              //             fontWeight: CustomFontWeights.w500,
-              //           ),
-              //         ),
-              //       )
-              //     ],
-              //   ),
-              // ),
+              const CustomSizedBox(
+                height: 16,
+              ),
+              cubit.getCurrentOrderLoading?const Center(child: CircularProgressIndicator.adaptive(),):Container(
+                width: double.infinity,
+                padding: EdgeInsets.symmetric(
+                  horizontal: 16.w,
+                ),
+                decoration: BoxDecoration(
+                  color: AppColors.secondaryColor,
+                  borderRadius: BorderRadius.circular(8.r),
+                ),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        "طلب جارى يوم ${cubit.currentOrder}",
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: CustomThemes.primaryColorTextTheme(context)
+                            .copyWith(
+                          fontSize: 16.sp,
+                          fontWeight: CustomFontWeights.w500,
+                        ),
+                      ),
+                    ),
+                    cubit.currentOrder!=""?TextButton(
+                      onPressed: () {
+                        RepresentativeCubit.get(context).getSingleOrder(id: RepresentativeCubit.get(context).getCurrentOrderModel?.result?.id?.toString()??"0");
+                        Navigator.pushNamed(
+                          context,
+                          ScreenName.vendorProgressOrderScreen,
+                        );
+                      },
+                      style:
+                      TextButton.styleFrom(padding: EdgeInsets.zero),
+                      child: Text(
+                        "اضغط هنا",
+                        style: CustomThemes.primaryColorTextTheme(context)
+                            .copyWith(
+                          fontSize: 14.sp,
+                          decoration: TextDecoration.underline,
+                          decorationColor: AppColors.primaryColor,
+                          fontWeight: CustomFontWeights.w500,
+                        ),
+                      ),
+                    ):Text(
+                      "لا يوجد بعد",
+                      style: CustomThemes.primaryColorTextTheme(context)
+                          .copyWith(
+                        fontSize: 14.sp,
+                        fontWeight: CustomFontWeights.w500,
+                      ),
+                    ).symmetricPadding(
+                        vertical: 8
+                    ),
+                  ],
+                ),
+              ),
               const CustomSizedBox(
                 height: 24,
               ),

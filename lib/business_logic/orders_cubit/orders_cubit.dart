@@ -6,6 +6,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../core/network/error_message_model.dart';
 import '../../core/services/services_locator.dart';
+import '../../data/models/order_models/get_all_orders_model.dart';
+import '../../data/models/order_models/single_order_model.dart';
 import '../../data/models/time_schedule/time_schedule.dart';
 
 part 'orders_state.dart';
@@ -143,4 +145,55 @@ class OrdersCubit extends Cubit<OrdersState> {
       },
     );
   }
+
+
+
+  bool getSingleOrderLoading = false;
+  SingleOrderModel? getSingleOrderModel;
+  void getSingleOrder({required int id}) async {
+    print("Order id");
+    print(id);
+    getSingleOrderLoading = true;
+    emit(GetSingleOrderLoadingStates());
+    final response = await _ordersRemoteDatasource.getSingleOrder(orderId: id);
+    response.fold(
+          (l) {
+        baseErrorModel = l.baseErrorModel;
+        getSingleOrderLoading = false;
+        emit(GetSingleOrderErrorStates(error: l.baseErrorModel.message ?? ""));
+      },
+          (r) {
+        getSingleOrderModel = r.result;
+        print("getSingleOrderModel");
+        print(r);
+        print(getSingleOrderModel);
+        getSingleOrderLoading = false;
+        emit(GetSingleOrderSuccessStates(singleOrderModel: r.result));
+      },
+    );
+  }
+
+
+  GetAllOrdersModel? getAllOrdersModel;
+  bool getAllOrdersLoading = false;
+  void getAllOrder() async {
+    getAllOrdersLoading = true;
+    emit(GetAllOrderLoadingStates());
+    final response = await _ordersRemoteDatasource.getOrders();
+
+    response.fold(
+          (l) {
+        baseErrorModel = l.baseErrorModel;
+        getAllOrdersLoading = false;
+        emit(GetAllOrderErrorStates(error: l.baseErrorModel.message ?? ""));
+      },
+          (r) {
+        getAllOrdersModel = r;
+        print(getAllOrdersModel?.result?.length);
+        getAllOrdersLoading = false;
+        emit(GetAllOrderSuccessStates());
+      },
+    );
+  }
+
 }

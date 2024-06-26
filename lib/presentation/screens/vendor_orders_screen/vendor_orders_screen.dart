@@ -4,6 +4,8 @@ import 'package:equatable/equatable.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 
+import '../../../business_logic/representative_cubit/representative_cubit.dart';
+import '../../../core/app_router/screens_name.dart';
 import '../../../presentation/widgets/shared_widgets/custom_sized_box.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -90,6 +92,14 @@ class _VendorOrderContainerState extends State<VendorOrderContainer> {
   @override
   Widget build(BuildContext context) {
     return DetailsContainer(
+      onTap: (){
+
+        RepresentativeCubit.get(context).getSingleOrder(id: widget.singleOrderModel.id.toString());
+        Navigator.pushReplacementNamed(
+          context,
+          ScreenName.vendorProgressOrderScreen,
+        );
+      },
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -105,7 +115,7 @@ class _VendorOrderContainerState extends State<VendorOrderContainer> {
             height: 8,
           ),
           Text(
-            widget.singleOrderModel.client ?? "",
+            widget.singleOrderModel.client?.name ?? "",
             style: CustomThemes.primaryColorTextTheme(context).copyWith(
               fontSize: 14.sp,
               fontWeight: CustomFontWeights.w400,

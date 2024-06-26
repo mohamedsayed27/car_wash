@@ -28,7 +28,7 @@ class _AllChatsScreenState extends State<AllChatsScreen> {
   @override
   void initState() {
     ChatCubit.get(context)
-        .getAllConversation(type: CacheHelper.getData(key: CacheKeys.userType));
+        .getAllConversation(type: "client");
     super.initState();
   }
 

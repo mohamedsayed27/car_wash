@@ -56,6 +56,8 @@ class ChatCubit extends Cubit<ChatState> {
       (l) {
         baseErrorModel = l.baseErrorModel;
         getAllConversationsLoading = false;
+        print(l.baseErrorModel.message);
+        print(l.baseErrorModel.errors);
         emit(GetConversationErrorStates(error: l.baseErrorModel.message));
       },
       (r) {

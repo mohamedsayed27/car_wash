@@ -48,3 +48,33 @@ final class MakeOrderErrorState extends OrdersState {
 
   MakeOrderErrorState({this.error,});
 }
+
+
+
+final class GetAllOrderLoadingStates extends OrdersState {}
+
+final class GetAllOrderSuccessStates extends OrdersState {}
+
+final class GetAllOrderErrorStates extends OrdersState {
+  final String error;
+
+  GetAllOrderErrorStates({required this.error});
+}
+
+
+
+final class GetSingleOrderLoadingStates extends OrdersState {}
+
+final class GetSingleOrderSuccessStates extends OrdersState {
+  final SingleOrderModel? singleOrderModel;
+
+  GetSingleOrderSuccessStates({
+    required this.singleOrderModel,
+  });
+}
+
+final class GetSingleOrderErrorStates extends OrdersState {
+  final String error;
+
+  GetSingleOrderErrorStates({required this.error});
+}

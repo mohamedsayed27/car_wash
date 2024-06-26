@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:car_wash/core/enums/order_status_enum.dart';
-import 'package:car_wash/data/models/order_models/single_order_model.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -61,20 +60,22 @@ class _VendorInProgressOrderScreenState
   final GoogleMapsServices googleMapsServices = GoogleMapsServices();
   List<LatLng> polyLineCoordinates = [];
 
-  void getPolyLinePoints(Position? currentLocation) async {
+  void getPolyLinePoints(Position? currentLocation,
+      {double? lat, double? lng}) async {
     PolylinePoints polylinePoints = PolylinePoints();
     PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
-      "AIzaSyBNL4LLOAdkjPV_I69HQ_Y1CtEnz3id_d0",
+      "AIzaSyDcWIxw6lRSHR9O8ts9R76d9Z7ZzsFmDa0",
       PointLatLng(
         currentLocation!.latitude,
         currentLocation.longitude,
       ),
       PointLatLng(
-        0.0,
-        0.0,
+        lat!,
+        lng!,
       ),
     );
     if (result.points.isNotEmpty) {
+      polyLineCoordinates.clear();
       for (var element in result.points) {
         polyLineCoordinates.add(LatLng(element.latitude, element.longitude));
       }
@@ -109,6 +110,11 @@ class _VendorInProgressOrderScreenState
         lat ?? 0.0,
         lng ?? 0.0,
       );
+      getPolyLinePoints(
+        currentLocation,
+        lng: lng,
+        lat: lat,
+      );
       setState(() {});
       // getPolyLinePoints(currentLocation);
     }).catchError((e) {});
@@ -116,6 +122,11 @@ class _VendorInProgressOrderScreenState
     _positionStreamSubscription =
         Geolocator.getPositionStream().listen((Position? event) {
       currentLocation = event;
+      getPolyLinePoints(
+        currentLocation,
+        lng: lng,
+        lat: lat,
+      );
       controller.animateCamera(
         CameraUpdate.newCameraPosition(
           CameraPosition(
@@ -175,9 +186,48 @@ class _VendorInProgressOrderScreenState
                 state.singleOrderModel?.userAddress?.long.toString() ?? "0.0"),
           );
         }
+        if (state is StartOrderLoadingStates ||
+            state is ApproveOrderLoadingStates ||
+            state is FinishOrderLoadingStates) {
+          showProgressIndicator(context);
+        }
         if (state is StartOrderSuccessStates) {
-          cubit.getSingleOrder(
-              id: cubit.getSingleOrderModel?.id?.toString() ?? "0");
+          Navigator.pop(context);
+          cubit
+            ..getSingleOrder(
+              id: cubit.getSingleOrderModel?.id?.toString() ?? "0",
+            )
+            ..getAllOrder()
+            ..getFinishedOrder()
+            ..getOrderReviews()
+            ..getNextOrder()
+            ..getCurrentOrder();
+        }
+        if (state is ApproveOrderSuccessStates) {
+          Navigator.pop(context);
+          cubit
+            ..getSingleOrder(
+              id: cubit.getSingleOrderModel?.id?.toString() ?? "0",
+            )
+            ..getAllOrder()
+            ..getFinishedOrder()
+            ..getOrderReviews()
+            ..getNextOrder()
+            ..getCurrentOrder();
+        }
+        if (state is FinishOrderSuccessStates) {
+          Navigator.pop(context);
+          Navigator.pop(context);
+          Navigator.pop(context);
+          cubit
+            ..getSingleOrder(
+              id: cubit.getSingleOrderModel?.id?.toString() ?? "0",
+            )
+            ..getAllOrder()
+            ..getFinishedOrder()
+            ..getOrderReviews()
+            ..getNextOrder()
+            ..getCurrentOrder();
         }
       },
       builder: (context, state) {
@@ -230,14 +280,18 @@ class _VendorInProgressOrderScreenState
                           markers: {
                             Marker(
                               markerId: const MarkerId("sourceLocation"),
-                              position: LatLng(sourceLocation.latitude,
-                                  sourceLocation.longitude,),
+                              position: LatLng(
+                                sourceLocation.latitude,
+                                sourceLocation.longitude,
+                              ),
                             ),
                             Marker(
                               markerId: const MarkerId("currentLocation"),
                               icon: currentIcon,
-                              position: LatLng(currentLocation!.latitude,
-                                  currentLocation!.longitude,),
+                              position: LatLng(
+                                currentLocation!.latitude,
+                                currentLocation!.longitude,
+                              ),
                             ),
                           },
                         ),
@@ -296,15 +350,29 @@ class _VendorInProgressOrderScreenState
                         onPressed: cubit.startOrderLoading
                             ? null
                             : () {
-                                cubit.finishOrder(
-                                    id: cubit.getSingleOrderModel?.id
-                                            ?.toString() ??
-                                        "0");
+                                cubit.getSingleOrderModel?.orderStatus
+                                            ?.toString() ==
+                                        OrderStatusEnum.assigned.name
+                                    ? cubit.approveOrder(
+                                        id: cubit.getSingleOrderModel?.id
+                                                ?.toString() ??
+                                            "0")
+                                    : cubit.getSingleOrderModel?.orderStatus
+                                                ?.toString() ==
+                                            OrderStatusEnum.approved.name
+                                        ? cubit.startOrder(
+                                            id: cubit.getSingleOrderModel?.id
+                                                    ?.toString() ??
+                                                "0")
+                                        : cubit.finishOrder(
+                                            id: cubit.getSingleOrderModel?.id
+                                                    ?.toString() ??
+                                                "0");
                               },
                         text: cubit.getSingleOrderModel?.orderStatus
                                     ?.toString() ==
                                 OrderStatusEnum.assigned.name
-                            ? "بدء الطلب"
+                            ? "قبول الطلب"
                             : cubit.getSingleOrderModel?.orderStatus
                                         ?.toString() ==
                                     OrderStatusEnum.started.name
@@ -317,7 +385,11 @@ class _VendorInProgressOrderScreenState
                                                 ?.toString() ==
                                             OrderStatusEnum.pending.name
                                         ? "لم يتم الاشارة الي الطلب"
-                                        : "",
+                                        : cubit.getSingleOrderModel?.orderStatus
+                                                    ?.toString() ==
+                                                OrderStatusEnum.approved.name
+                                            ? "بدء الطلب"
+                                            : "",
                         height: 48,
                         width: double.infinity,
                       ),

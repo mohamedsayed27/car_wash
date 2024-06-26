@@ -7,24 +7,31 @@ class DetailsContainer extends StatelessWidget {
   final Widget child;
   final EdgeInsetsGeometry? padding;
   final double? radius;
-  const DetailsContainer({super.key, required this.child, this.padding, this.radius,});
+  final void Function()? onTap;
+  const DetailsContainer({super.key, required this.child, this.padding, this.radius, this.onTap,});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: padding??EdgeInsets.symmetric(
-        horizontal: 24.w,
-        vertical: 24.h,
-      ),
-      decoration: BoxDecoration(
+    return Material(
+      child: InkWell(
+        onTap: onTap,
         borderRadius: BorderRadius.circular(radius?.r??16.r),
-        color: AppColors.primaryColor.withOpacity(0.08),
-        border: Border.all(
-          color: AppColors.primaryColor,
-          width: 1.w,
+        child: Ink(
+          padding: padding??EdgeInsets.symmetric(
+            horizontal: 24.w,
+            vertical: 24.h,
+          ),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(radius?.r??16.r),
+            color: AppColors.primaryColor.withOpacity(0.08),
+            border: Border.all(
+              color: AppColors.primaryColor,
+              width: 1.w,
+            ),
+          ),
+          child: child,
         ),
       ),
-      child: child,
     );
   }
 }

@@ -130,7 +130,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     );
                     Navigator.pushNamedAndRemoveUntil(
                       context,
-                      ScreenName.vendorHomeScreen,
+                      ScreenName.userHomeScreen,
                       (route) => false,
                     );
                   }

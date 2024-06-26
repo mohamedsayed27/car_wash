@@ -1,4 +1,8 @@
 import 'package:car_wash/data/models/car_types_model/car_types_model.dart';
+import 'package:car_wash/data/models/order_models/get_all_orders_model.dart';
+import 'package:car_wash/data/models/order_models/get_all_orders_model.dart';
+import 'package:car_wash/data/models/order_models/get_single_order.dart';
+import 'package:car_wash/data/models/order_models/get_single_order.dart';
 import 'package:car_wash/data/models/time_schedule/time_schedule.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
@@ -17,12 +21,12 @@ class OrdersRemoteDatasource{
   OrdersRemoteDatasource({required this.dioHelper,});
 
 
-  Future<Either<ErrorException, BaseResponseModel>> getOrders() async {
+  Future<Either<ErrorException, GetAllOrdersModel>> getOrders() async {
     try {
       final response = await dioHelper.getData(
         url: EndPoints.orders,
       );
-      return Right(BaseResponseModel.fromJson(response.data,),);
+      return Right(GetAllOrdersModel.fromJson(response.data,),);
     } catch (e) {
       if (e is DioException) {
         return Left(
@@ -37,14 +41,14 @@ class OrdersRemoteDatasource{
   }
 
 
-  Future<Either<ErrorException, BaseResponseModel>> getSingleOrder({
+  Future<Either<ErrorException, GetSingleOrderModel>> getSingleOrder({
     required int orderId,
   }) async {
     try {
       final response = await dioHelper.getData(
         url: "${EndPoints.singleOrders}/$orderId",
       );
-      return Right(BaseResponseModel.fromJson(response.data),);
+      return Right(GetSingleOrderModel.fromJson(response.data),);
     } catch (e) {
       if (e is DioException) {
         return Left(

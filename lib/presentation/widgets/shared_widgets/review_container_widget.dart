@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:car_wash/core/assets_path/images_path.dart';
 import 'package:car_wash/core/constants/extensions.dart';
+import 'package:car_wash/presentation/widgets/shared_widgets/cached_network_image_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -44,9 +45,8 @@ class RatingContainerWidget extends StatelessWidget {
                   width: 40.w,
                   clipBehavior: Clip.antiAliasWithSaveLayer,
                   decoration: const BoxDecoration(shape: BoxShape.circle),
-                  child: Image.asset(
-                    ImagesPath.dummyPersonImage,
-                    fit: BoxFit.cover,
+                  child: CachedNetworkImageWidget(
+                    imagePath: reviewModel?.client?.avatar ?? "",
                   ),
                 ),
                 const CustomSizedBox(
@@ -57,10 +57,11 @@ class RatingContainerWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        reviewModel?.client??"",
+                        reviewModel?.client?.name ?? "",
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: CustomThemes.greyColor71TextTheme(context).copyWith(
+                        style:
+                            CustomThemes.greyColor71TextTheme(context).copyWith(
                           fontSize: 16.sp,
                           fontWeight: CustomFontWeights.bold,
                         ),
@@ -69,8 +70,10 @@ class RatingContainerWidget extends StatelessWidget {
                         height: 8,
                       ),
                       Text(
-                        format.format(DateTime.parse(reviewModel?.rateAt.toString()??"")),
-                        style: CustomThemes.greyColorB0TextTheme(context).copyWith(
+                        format.format(DateTime.parse(
+                            reviewModel?.rateAt.toString() ?? "")),
+                        style:
+                            CustomThemes.greyColorB0TextTheme(context).copyWith(
                           fontSize: 14.sp,
                           fontWeight: CustomFontWeights.bold,
                         ),
@@ -79,7 +82,7 @@ class RatingContainerWidget extends StatelessWidget {
                   ),
                 ),
                 RatingBar.builder(
-                  initialRating: reviewModel?.rate?.toDouble()??0.0,
+                  initialRating: reviewModel?.rate?.toDouble() ?? 0.0,
                   minRating: 1,
                   direction: Axis.horizontal,
                   allowHalfRating: true,
@@ -110,7 +113,7 @@ class RatingContainerWidget extends StatelessWidget {
           ),
           Expanded(
             child: Text(
-              reviewModel?.review??"",
+              reviewModel?.review ?? "",
               overflow: TextOverflow.ellipsis,
               maxLines: 3,
               style: CustomThemes.greyColor71TextTheme(context)

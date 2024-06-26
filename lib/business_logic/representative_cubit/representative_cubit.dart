@@ -79,7 +79,7 @@ class RepresentativeCubit extends Cubit<RepresentativeState> {
         getNextOrdersModel = r;
         getNextOrderLoading = false;
         print(r.result?.scheduleTime?.time);
-        nextOrder = "${format.format(DateTime.parse("${getNextOrdersModel?.result?.scheduleTime?.date} ${getNextOrdersModel?.result?.scheduleTime?.time}"))} ${format1.format(DateTime.parse("${getNextOrdersModel?.result?.scheduleTime?.date} ${getNextOrdersModel?.result?.scheduleTime?.time}"))}";
+        nextOrder = r.result?.scheduleTime!=null?"${format.format(DateTime.parse("${getNextOrdersModel?.result?.scheduleTime?.date} ${getNextOrdersModel?.result?.scheduleTime?.time}"))} ${format1.format(DateTime.parse("${getNextOrdersModel?.result?.scheduleTime?.date} ${getNextOrdersModel?.result?.scheduleTime?.time}"))}":"";
         emit(GetNextOrderSuccessStates());
       },
     );
@@ -101,7 +101,7 @@ class RepresentativeCubit extends Cubit<RepresentativeState> {
 
         getCurrentOrderModel = r;
         getCurrentOrderLoading = false;
-        nextOrder =
+        currentOrder =
         "${format.format(DateTime.parse("${getCurrentOrderModel?.result?.scheduleTime?.date} ${getCurrentOrderModel?.result?.scheduleTime?.time}"))} ${format1.format(DateTime.parse("${getCurrentOrderModel?.result?.scheduleTime?.date} ${getCurrentOrderModel?.result?.scheduleTime?.time}"))}";
 
         emit(GetCurrentOrderSuccessStates());

@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 class ReviewModel extends Equatable {
   final int? id;
   final int? orderId;
-  final String? client;
+  final Client? client;
   final double? rate;
   final String? review;
   final String? rateAt;
@@ -22,7 +22,7 @@ class ReviewModel extends Equatable {
     return ReviewModel(
       id: json['id'] as int?,
       orderId: json['order_id'] as int?,
-      client: json['client'] as String?,
+      client: json["client"]!=null?Client.fromJson(json["client"]):null,
       rate: json['rate'].toDouble(),
       review: json['review'] as String?,
       rateAt: json['rate_at'] as String?,
@@ -71,4 +71,27 @@ class ReviewsModel extends Equatable {
 
   @override
   List<Object?> get props => [total, reviews,];
+}
+
+class Client extends Equatable {
+  final int? id;
+  final String? name;
+  final String? email;
+  final String? mobile;
+  final String? avatar;
+
+  const Client({this.id, this.name, this.email, this.mobile, this.avatar});
+
+  factory Client.fromJson(Map<String, dynamic> json) {
+    return Client(
+      id: json['id'] as int?,
+      name: json['name'] as String?,
+      email: json['email'] as String?,
+      mobile: json['mobile'] as String?,
+      avatar: json['avatar'] as String?,
+    );
+  }
+
+  @override
+  List<Object?> get props => [id, name, email, mobile, avatar];
 }
