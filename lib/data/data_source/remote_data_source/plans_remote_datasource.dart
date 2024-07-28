@@ -25,11 +25,19 @@ class PlansRemoteDatasource {
       );
     } catch (e) {
       if (e is DioException) {
-        return Left(
-          ErrorException(
-            baseErrorModel: BaseErrorModel.fromJson(e.response!.data),
-          ),
-        );
+        if(e.response!.statusCode==500){
+          return const Left(
+            ErrorException(
+              baseErrorModel: BaseErrorModel(message: "Server Error", success: false, code: 500, errors: ["Server Error"]),
+            ),
+          );
+        }else{
+          return Left(
+            ErrorException(
+              baseErrorModel: BaseErrorModel.fromJson(e.response!.data),
+            ),
+          );
+        }
       } else {
         return Left(
           ErrorException(
@@ -50,11 +58,19 @@ class PlansRemoteDatasource {
       );
     } catch (e) {
       if (e is DioException) {
-        return Left(
-          ErrorException(
-            baseErrorModel: BaseErrorModel.fromJson(e.response!.data),
-          ),
-        );
+        if(e.response!.statusCode==500){
+          return const Left(
+            ErrorException(
+              baseErrorModel: BaseErrorModel(message: "Server Error", success: false, code: 500, errors: ["Server Error"]),
+            ),
+          );
+        }else{
+          return Left(
+            ErrorException(
+              baseErrorModel: BaseErrorModel.fromJson(e.response!.data),
+            ),
+          );
+        }
       } else {
         return Left(
           ErrorException(
@@ -80,11 +96,19 @@ class PlansRemoteDatasource {
       return Right(BaseResponseModel.fromJson(response.data,),);
     } catch (e) {
       if (e is DioException) {
-        return Left(
-          ErrorException(
-            baseErrorModel: BaseErrorModel.fromJson(e.response!.data),
-          ),
-        );
+        if(e.response!.statusCode==500){
+          return const Left(
+            ErrorException(
+              baseErrorModel: BaseErrorModel(message: "Server Error", success: false, code: 500, errors: ["Server Error"]),
+            ),
+          );
+        }else{
+          return Left(
+            ErrorException(
+              baseErrorModel: BaseErrorModel.fromJson(e.response!.data),
+            ),
+          );
+        }
       } else {
         return Left(
           ErrorException(
@@ -110,11 +134,19 @@ class PlansRemoteDatasource {
       return Right(BaseResponseModel.fromJson(response.data));
     } catch (e) {
       if (e is DioException) {
-        return Left(
-          ErrorException(
-            baseErrorModel: BaseErrorModel.fromJson(e.response!.data),
-          ),
-        );
+        if(e.response!.statusCode==500){
+          return const Left(
+            ErrorException(
+              baseErrorModel: BaseErrorModel(message: "Server Error", success: false, code: 500, errors: ["Server Error"]),
+            ),
+          );
+        }else{
+          return Left(
+            ErrorException(
+              baseErrorModel: BaseErrorModel.fromJson(e.response!.data),
+            ),
+          );
+        }
       } else {
         return Left(
           ErrorException(

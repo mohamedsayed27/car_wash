@@ -58,10 +58,10 @@ class _UserConfirmOrderScreenState extends State<UserConfirmOrderScreen> {
               children: [
                 Checkbox(
                   value: usePlan,
-                  onChanged: (value) {
+                  onChanged: widget.userConfirmOrderArguments.servicesModel!=null?(value) {
                     usePlan = value!;
                     setState(() {});
-                  },
+                  }:null,
                   visualDensity: const VisualDensity(
                     vertical: VisualDensity.minimumDensity,
                     horizontal: VisualDensity.minimumDensity,
@@ -106,14 +106,37 @@ class _UserConfirmOrderScreenState extends State<UserConfirmOrderScreen> {
               OrdersCubit cubit = OrdersCubit.get(context);
               return CustomElevatedButton(
                 onPressed: () {
+                  // print(
+                  //   AddOrderParameters(
+                  //     userPlanId: usePlan
+                  //         ? PlansCubit.get(context)
+                  //             .plansList
+                  //             .firstWhere(
+                  //                 (element) => element.isSubscribed == 1)
+                  //             .userIdPlan
+                  //             .toString()
+                  //         : null,
+                  //     serviceId: !usePlan
+                  //         ? widget.userConfirmOrderArguments.servicesModel?.id
+                  //             .toString()
+                  //         : null,
+                  //     carTypeId: widget.userConfirmOrderArguments
+                  //         .carServicesArgument?.contentImageModel!.id
+                  //         .toString(),
+                  //     userAddressId: widget.userConfirmOrderArguments
+                  //         .carServicesArgument?.addressModel.id
+                  //         .toString(),
+                  //     orderTimeId: widget
+                  //         .userConfirmOrderArguments.timeModel?.id
+                  //         .toString(),
+                  //   ),
+                  // );
                   cubit.makeOrder(
                     addOrderParameters: AddOrderParameters(
-                      userPlanId: widget
-                          .userConfirmOrderArguments.allPlansModel?.userPlanId
-                          .toString(),
-                      serviceId: widget
+                      userPlanId: usePlan? PlansCubit.get(context).plansList.firstWhere((element)=>element.isSubscribed==1).userIdPlan.toString():null,
+                      serviceId: !usePlan?widget
                           .userConfirmOrderArguments.servicesModel?.id
-                          .toString(),
+                          .toString():null,
                       carTypeId: widget.userConfirmOrderArguments
                           .carServicesArgument?.contentImageModel!.id
                           .toString(),

@@ -23,20 +23,20 @@ class GetAllPlansModel extends BaseResponseModel<List<AllPlansModel>> {
 
 class AllPlansModel extends Equatable {
   final int? id;
-  final int? userPlanId;
   final double? price;
   final String? subscriptionType;
   final int? washNumber;
   final int? isSubscribed;
+  final int? userIdPlan;
   final String? name;
   final String? content;
 
   const AllPlansModel({
     this.id,
     this.price,
+    this.userIdPlan,
     this.isSubscribed,
     this.subscriptionType,
-    this.userPlanId,
     this.washNumber,
     this.name,
     this.content,
@@ -49,7 +49,7 @@ class AllPlansModel extends Equatable {
         subscriptionType,
         washNumber,
         name,
-    userPlanId,
+    userIdPlan,
     isSubscribed,
         content,
       ];
@@ -61,6 +61,7 @@ class AllPlansModel extends Equatable {
       subscriptionType: json['subscription_type'],
       washNumber: json['wash_number'],
       name: json['name'],
+      userIdPlan: json['user_plan_id'],
       content: json['content'],
       isSubscribed: json['is_subscribed'],
     );
