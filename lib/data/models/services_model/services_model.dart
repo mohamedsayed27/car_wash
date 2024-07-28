@@ -28,19 +28,21 @@ class GetServicesModel extends BaseResponseModel<List<ServicesModel>> {
 
 class ServicesModel extends Equatable {
   final int? id;
+  final int? price;
   final String? name;
   final String? content;
   final String? image;
 
   const ServicesModel({
     this.id,
+    this.price,
     this.name,
     this.content,
     this.image,
   });
 
   @override
-  List<Object?> get props => [id, name, content, image];
+  List<Object?> get props => [id, name, content, image,price];
 
   factory ServicesModel.fromJson(Map<String, dynamic> json) {
     return ServicesModel(
@@ -48,6 +50,7 @@ class ServicesModel extends Equatable {
       name: json['name'],
       content: json['content'],
       image: json['image'],
+      price: json['price'],
     );
   }
 
@@ -55,6 +58,7 @@ class ServicesModel extends Equatable {
     return {
       'id': id,
       'name': name,
+      'price': price,
       'content': content,
       'image': image,
     };

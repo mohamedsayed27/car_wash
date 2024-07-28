@@ -42,6 +42,7 @@ class OrdersCubit extends Cubit<OrdersState> {
 
   void removeIndex() {
     servicesCurrentIndex = null;
+    servicesContentImageModel = null;
     emit(ChangeCarType());
   }
   void changeSelectedDateScheduleModel(TimeScheduleModel timeScheduleModel) {

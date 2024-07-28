@@ -25,14 +25,7 @@ class PlansScreen extends StatelessWidget {
       ),
       body: BlocConsumer<PlansCubit, PlansState>(
         listener: (context, state) {
-          if(PlansCubit.get(context).subscribePlanLoading){
-            showProgressIndicator(context);
-          }else if (!PlansCubit.get(context).subscribePlanLoading) {
-            Navigator.pop(context);
-          }else if(state is SubscribePlanErrorState&&PlansCubit.get(context).subscribePlanLoading==false){
-            Navigator.pop(context);
-            showToast(errorType: 0, message: state.error);
-          }
+
         },
         builder: (context, state) {
           var cubit = PlansCubit.get(context);

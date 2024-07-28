@@ -78,6 +78,7 @@ class CarServicesScreen extends StatelessWidget {
                 ),
               );
               }
+              // print(OrdersCubit.get(context).servicesContentImageModel);
             },
             width: double.infinity,
             text: "المتابعة",

@@ -13,13 +13,26 @@ import '../../widgets/shared_widgets/custom_app_bar.dart';
 import '../../widgets/shared_widgets/custom_elevated_button.dart';
 import 'user_confirm_order_arguments.dart';
 
-class UserConfirmOrderScreen extends StatelessWidget {
+class UserConfirmOrderScreen extends StatefulWidget {
   final UserConfirmOrderArguments userConfirmOrderArguments;
 
   const UserConfirmOrderScreen({
     super.key,
     required this.userConfirmOrderArguments,
   });
+
+  @override
+  State<UserConfirmOrderScreen> createState() => _UserConfirmOrderScreenState();
+}
+
+class _UserConfirmOrderScreenState extends State<UserConfirmOrderScreen> {
+  late bool usePlan;
+
+  @override
+  void initState() {
+    super.initState();
+    usePlan = widget.userConfirmOrderArguments.allPlansModel != null;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,22 +47,33 @@ class UserConfirmOrderScreen extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 32.h),
         children: [
           UserConfirmOrderContainer(
-            userConfirmOrderArguments: userConfirmOrderArguments,
+            userConfirmOrderArguments: widget.userConfirmOrderArguments,
           ),
-          if(PlansCubit.get(context).plansList.any((e) => e.isSubscribed != 0))const CustomSizedBox(
-            height: 16,
-          ),
-          if(PlansCubit.get(context).plansList.any((e) => e.isSubscribed != 0))Row(
-            children: [
-              Radio(
-                value: true,
-                groupValue: true,
-                onChanged: (value) {},
-                visualDensity: const VisualDensity(vertical: VisualDensity.minimumDensity,horizontal: VisualDensity.minimumDensity,),
-              ),
-              Expanded(child: Text("انت مشترك في باقة ${PlansCubit.get(context).plansList.firstWhere((element)=>element.isSubscribed==1).name} ولديك عدد ${PlansCubit.get(context).plansList.firstWhere((element)=>element.isSubscribed==1).washNumber} غسلة متبقي هل تود تسنحدام الاشتراك"))
-            ],
-          ),
+          if (PlansCubit.get(context).plansList.any((e) => e.isSubscribed != 0))
+            const CustomSizedBox(
+              height: 16,
+            ),
+          if (PlansCubit.get(context).plansList.any((e) => e.isSubscribed != 0))
+            Row(
+              children: [
+                Checkbox(
+                  value: usePlan,
+                  onChanged: (value) {
+                    usePlan = value!;
+                    setState(() {});
+                  },
+                  visualDensity: const VisualDensity(
+                    vertical: VisualDensity.minimumDensity,
+                    horizontal: VisualDensity.minimumDensity,
+                  ),
+                ),
+                Expanded(
+                  child: Text(
+                    "انت مشترك في باقة ${PlansCubit.get(context).plansList.firstWhere((element) => element.isSubscribed == 1).name} ولديك عدد ${PlansCubit.get(context).plansList.firstWhere((element) => element.isSubscribed == 1).washNumber} غسلة متبقي هل تود استخدام الاشتراك",
+                  ),
+                ),
+              ],
+            ),
           const CustomSizedBox(
             height: 24,
           ),
@@ -84,19 +108,21 @@ class UserConfirmOrderScreen extends StatelessWidget {
                 onPressed: () {
                   cubit.makeOrder(
                     addOrderParameters: AddOrderParameters(
-                      userPlanId: userConfirmOrderArguments
-                          .allPlansModel?.userPlanId
+                      userPlanId: widget
+                          .userConfirmOrderArguments.allPlansModel?.userPlanId
                           .toString(),
-                      serviceId: userConfirmOrderArguments.servicesModel?.id
+                      serviceId: widget
+                          .userConfirmOrderArguments.servicesModel?.id
                           .toString(),
-                      carTypeId: userConfirmOrderArguments
+                      carTypeId: widget.userConfirmOrderArguments
                           .carServicesArgument?.contentImageModel!.id
                           .toString(),
-                      userAddressId: userConfirmOrderArguments
+                      userAddressId: widget.userConfirmOrderArguments
                           .carServicesArgument?.addressModel.id
                           .toString(),
-                      orderTimeId:
-                          userConfirmOrderArguments.timeModel?.id.toString(),
+                      orderTimeId: widget
+                          .userConfirmOrderArguments.timeModel?.id
+                          .toString(),
                     ),
                   );
                   // Navigator.pushNamed(context, ScreenName.choosePaymentScreen);
