@@ -6,7 +6,6 @@ import '../../../core/error/error_exception.dart';
 import '../../../core/network/api_end_points.dart';
 import '../../../core/network/dio_helper.dart';
 import '../../../core/network/error_message_model.dart';
-import '../../../core/parameters/auth_parameters/login_parameters.dart';
 import '../../models/base_response_model.dart';
 import '../../models/plans_model/all_plans_model.dart';
 import '../../models/plans_model/user_plans_model.dart';
@@ -32,7 +31,11 @@ class PlansRemoteDatasource {
           ),
         );
       } else {
-        rethrow;
+        return Left(
+          ErrorException(
+            baseErrorModel: BaseErrorModel(message: "Error ${e.toString()}", success: false, code: 300, errors: ["Error ${e.toString()}"]),
+          ),
+        );
       }
     }
   }
@@ -53,7 +56,11 @@ class PlansRemoteDatasource {
           ),
         );
       } else {
-        rethrow;
+        return Left(
+          ErrorException(
+            baseErrorModel: BaseErrorModel(message: "Error ${e.toString()}", success: false, code: 300, errors: ["Error ${e.toString()}"]),
+          ),
+        );
       }
     }
   }
@@ -70,8 +77,9 @@ class PlansRemoteDatasource {
           },
         ),
       );
-      return Right(BaseResponseModel.fromJson(response.data));
+      return Right(BaseResponseModel.fromJson(response.data,),);
     } catch (e) {
+      print(e);
       if (e is DioException) {
         return Left(
           ErrorException(
@@ -79,7 +87,11 @@ class PlansRemoteDatasource {
           ),
         );
       } else {
-        rethrow;
+        return Left(
+          ErrorException(
+            baseErrorModel: BaseErrorModel(message: "Error ${e.toString()}", success: false, code: 300, errors: ["Error ${e.toString()}"]),
+          ),
+        );
       }
     }
   }
@@ -105,7 +117,11 @@ class PlansRemoteDatasource {
           ),
         );
       } else {
-        rethrow;
+        return Left(
+          ErrorException(
+            baseErrorModel: BaseErrorModel(message: "Error ${e.toString()}", success: false, code: 300, errors: ["Error ${e.toString()}"]),
+          ),
+        );
       }
     }
   }

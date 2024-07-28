@@ -58,17 +58,26 @@ class CarServicesScreen extends StatelessWidget {
           ),
           CustomElevatedButton(
             onPressed: () {
-              Navigator.pushNamed(
+              if(PlansCubit
+                  .get(context).userPlansCurrentIndex!=null&&PlansCubit
+                  .get(context).userPlansModel!.isSubscribed==0){
+                showToast(errorType: 1, message: "يجب الاشتراك في الخدمة اولا");
+              }else if(OrdersCubit.get(context).selectedTimeModel==null){
+                showToast(errorType: 1, message: "يجب تحديد موعد الطلب");
+              }
+              else {
+                Navigator.pushNamed(
                 context,
                 ScreenName.userConfirmOrderScreen,
                 arguments: UserConfirmOrderArguments(
                   carServicesArgument: carServicesArgument,
-                  timeScheduleModel: OrdersCubit.get(context).selectedDateScheduleModel!,
-                  servicesModel: OrdersCubit.get(context).servicesContentImageModel!,
-                  timeModel: OrdersCubit.get(context).selectedTimeModel!,
-                  allPlansModel: PlansCubit.get(context).userPlansModel!,
+                  timeScheduleModel: OrdersCubit.get(context).selectedDateScheduleModel,
+                  servicesModel: OrdersCubit.get(context).servicesContentImageModel,
+                  timeModel: OrdersCubit.get(context).selectedTimeModel,
+                  allPlansModel: PlansCubit.get(context).userPlansModel,
                 ),
               );
+              }
             },
             width: double.infinity,
             text: "المتابعة",

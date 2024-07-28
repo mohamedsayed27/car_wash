@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../business_logic/orders_cubit/orders_cubit.dart';
+import '../../../business_logic/plans_cubit/plans_cubit.dart';
 import '../../../core/app_theme/custom_font_weights.dart';
 import '../../../core/app_theme/custom_themes.dart';
 import '../../../core/constants/extensions.dart';
@@ -19,7 +20,7 @@ class MainServicesComponent extends StatefulWidget {
 class _MainServicesComponentState extends State<MainServicesComponent> {
   @override
   void initState() {
-    if(OrdersCubit.get(context).servicesModel==null){
+    if (OrdersCubit.get(context).servicesModel == null) {
       OrdersCubit.get(context).getServices();
     }
     super.initState();
@@ -59,6 +60,7 @@ class _MainServicesComponentState extends State<MainServicesComponent> {
                         imagePath: cubit.servicesModel!.result![index].image!,
                         title: cubit.servicesModel!.result![index].name!,
                         onPressed: () {
+                            PlansCubit.get(context).removeIndex();
                           cubit.changeServicesType(
                             index,
                             cubit.servicesModel!.result![index],

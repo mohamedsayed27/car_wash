@@ -36,7 +36,7 @@ class UserResult extends Equatable {
       id: json['id'],
       name: json['name'],
       email: json['email'],
-      type: json["type"].first,
+      type: json["type"],
       mobile: json['mobile'],
       isVerified: json['is_verified'],
       avatar: json['avatar'],

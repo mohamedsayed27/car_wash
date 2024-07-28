@@ -25,7 +25,14 @@ class PlansScreen extends StatelessWidget {
       ),
       body: BlocConsumer<PlansCubit, PlansState>(
         listener: (context, state) {
-          // TODO: implement listener
+          if(PlansCubit.get(context).subscribePlanLoading){
+            showProgressIndicator(context);
+          }else if (!PlansCubit.get(context).subscribePlanLoading) {
+            Navigator.pop(context);
+          }else if(state is SubscribePlanErrorState&&PlansCubit.get(context).subscribePlanLoading==false){
+            Navigator.pop(context);
+            showToast(errorType: 0, message: state.error);
+          }
         },
         builder: (context, state) {
           var cubit = PlansCubit.get(context);
@@ -47,8 +54,8 @@ class PlansScreen extends StatelessWidget {
                     title: cubit.userNotSubscribedPlansList[index].name ?? "",
                     price: cubit.userNotSubscribedPlansList[index].price.toString(),
                     onPressed: () {
-                      cubit.selectedSubscribePlanIndex(
-                          index, cubit.userNotSubscribedPlansList[index]);
+                      // cubit.selectedSubscribePlanIndex(
+                      //     index, cubit.userNotSubscribedPlansList[index]);
                     },
                   );
                 },

@@ -7,18 +7,18 @@ import '../../../data/models/plans_model/all_plans_model.dart';
 import '../car_services_screen/car_services_screen.dart';
 
 class UserConfirmOrderArguments extends Equatable {
-  final CarServicesArgument carServicesArgument;
-  final TimeScheduleModel timeScheduleModel;
-  final TimeModel timeModel;
-  final ContentImageModel servicesModel;
-  final AllPlansModel allPlansModel;
+  final CarServicesArgument? carServicesArgument;
+  final TimeScheduleModel? timeScheduleModel;
+  final TimeModel? timeModel;
+  final ContentImageModel? servicesModel;
+  final AllPlansModel? allPlansModel;
 
   const UserConfirmOrderArguments({
-    required this.carServicesArgument,
-    required this.timeScheduleModel,
-    required this.servicesModel,
-    required this.timeModel,
-    required this.allPlansModel,
+     this.carServicesArgument,
+     this.timeScheduleModel,
+     this.servicesModel,
+     this.timeModel,
+     this.allPlansModel,
   });
 
   @override

@@ -17,6 +17,7 @@ class CarServicesCheckButton extends StatelessWidget {
   final String title;
   final bool isSvg;
   final String? price;
+  final String? washNumber;
 
   const CarServicesCheckButton({
     super.key,
@@ -24,7 +25,7 @@ class CarServicesCheckButton extends StatelessWidget {
     this.onPressed,
     required this.imagePath,
     required this.title,
-    this.price, this.isSvg = false,
+    this.price, this.isSvg = false, this.washNumber,
   });
 
   @override
@@ -56,6 +57,22 @@ class CarServicesCheckButton extends StatelessWidget {
                 ),
                 Text(
                   title,
+                  style: isSelected
+                      ? CustomThemes.primaryColorTextTheme(context).copyWith(
+                          fontSize: 16.sp,
+                          fontWeight: CustomFontWeights.bold,
+                        )
+                      : CustomThemes.greyColorB0TextTheme(context).copyWith(
+                          fontSize: 16.sp,
+                          fontWeight: CustomFontWeights.w500,
+                        ),
+                ),
+                if(washNumber!=null)const CustomSizedBox(
+                  width: 8,
+                ),
+
+                if(washNumber!=null)Text(
+                  "$washNumber غسلات",
                   style: isSelected
                       ? CustomThemes.primaryColorTextTheme(context).copyWith(
                           fontSize: 16.sp,

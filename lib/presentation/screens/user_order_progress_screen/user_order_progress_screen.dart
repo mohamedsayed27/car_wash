@@ -43,7 +43,7 @@ class _UserOrderProgressScreenState extends State<UserOrderProgressScreen> {
             ),
           ),
           body: cubit.getSingleOrderLoading
-              ? Center(
+              ? const Center(
                   child: CircularProgressIndicator.adaptive(),
                 )
               : ListView(

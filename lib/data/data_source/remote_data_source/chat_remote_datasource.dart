@@ -49,7 +49,11 @@ class ChatRemoteDatasource {
           );
         }
       } else {
-        rethrow;
+        return Left(
+          ErrorException(
+            baseErrorModel: BaseErrorModel(message: "Error ${e.toString()}", success: false, code: 300, errors: ["Error ${e.toString()}"]),
+          ),
+        );
       }
     }
   }
@@ -74,7 +78,11 @@ class ChatRemoteDatasource {
           ),
         );
       } else {
-        rethrow;
+        return Left(
+          ErrorException(
+            baseErrorModel: BaseErrorModel(message: "Error ${e.toString()}", success: false, code: 300, errors: ["Error ${e.toString()}"]),
+          ),
+        );
       }
     }
   }
@@ -96,7 +104,11 @@ class ChatRemoteDatasource {
           ),
         );
       } else {
-        rethrow;
+        return Left(
+          ErrorException(
+            baseErrorModel: BaseErrorModel(message: "Error ${e.toString()}", success: false, code: 300, errors: ["Error ${e.toString()}"]),
+          ),
+        );
       }
     }
   }

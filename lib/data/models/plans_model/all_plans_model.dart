@@ -27,12 +27,14 @@ class AllPlansModel extends Equatable {
   final double? price;
   final String? subscriptionType;
   final int? washNumber;
+  final int? isSubscribed;
   final String? name;
   final String? content;
 
   const AllPlansModel({
     this.id,
     this.price,
+    this.isSubscribed,
     this.subscriptionType,
     this.userPlanId,
     this.washNumber,
@@ -48,6 +50,7 @@ class AllPlansModel extends Equatable {
         washNumber,
         name,
     userPlanId,
+    isSubscribed,
         content,
       ];
 
@@ -59,6 +62,7 @@ class AllPlansModel extends Equatable {
       washNumber: json['wash_number'],
       name: json['name'],
       content: json['content'],
+      isSubscribed: json['is_subscribed'],
     );
   }
 

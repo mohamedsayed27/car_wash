@@ -31,7 +31,7 @@ class UserConfirmOrderContainer extends StatelessWidget {
             height: 8,
           ),
           Text(
-            userConfirmOrderArguments.carServicesArgument.contentImageModel?.name??"",
+            userConfirmOrderArguments.carServicesArgument?.contentImageModel?.name??"",
             style: CustomThemes.primaryColorTextTheme(context).copyWith(
               fontSize: 14.sp,
               fontWeight: CustomFontWeights.w400,
@@ -41,24 +41,24 @@ class UserConfirmOrderContainer extends StatelessWidget {
             height: 16,
           ),
           const CustomDivider(),
-          const CustomSizedBox(
+          if(userConfirmOrderArguments.servicesModel!=null) const CustomSizedBox(
             height: 16,
           ),
-          Text(
+         if(userConfirmOrderArguments.servicesModel!=null) Text(
             "الخدمة",
             style: CustomThemes.primaryColorTextTheme(context).copyWith(
               fontSize: 16.sp,
               fontWeight: CustomFontWeights.bold,
             ),
           ),
-          const CustomSizedBox(
+          if(userConfirmOrderArguments.servicesModel!=null) const CustomSizedBox(
             height: 8,
           ),
-          Row(
+          if(userConfirmOrderArguments.servicesModel!=null)Row(
             // mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                userConfirmOrderArguments.servicesModel.name??"",
+                userConfirmOrderArguments.servicesModel?.name??"",
                 style: CustomThemes.primaryColorTextTheme(context).copyWith(
                   fontSize: 14.sp,
                   fontWeight: CustomFontWeights.w400,
@@ -73,10 +73,10 @@ class UserConfirmOrderContainer extends StatelessWidget {
               // ),
             ],
           ),
-          const CustomSizedBox(
+          if(userConfirmOrderArguments.servicesModel!=null)const CustomSizedBox(
             height: 16,
           ),
-          const CustomDivider(),
+          if(userConfirmOrderArguments.servicesModel!=null)const CustomDivider(),
           const CustomSizedBox(
             height: 16,
           ),
@@ -94,7 +94,7 @@ class UserConfirmOrderContainer extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                Jiffy.parse(userConfirmOrderArguments.timeScheduleModel.date ?? "")
+                Jiffy.parse(userConfirmOrderArguments.timeScheduleModel?.date ?? "")
                     .EEEE,
                 style: CustomThemes.primaryColorTextTheme(context).copyWith(
                   fontSize: 14.sp,
@@ -102,14 +102,14 @@ class UserConfirmOrderContainer extends StatelessWidget {
                 ),
               ),
               Text(
-                userConfirmOrderArguments.timeModel.time??"",
+                userConfirmOrderArguments.timeModel?.time??"",
                 style: CustomThemes.primaryColorTextTheme(context).copyWith(
                   fontSize: 14.sp,
                   fontWeight: CustomFontWeights.w400,
                 ),
               ),
               Text(
-                Jiffy.parse(userConfirmOrderArguments.timeScheduleModel.date ?? "")
+                Jiffy.parse(userConfirmOrderArguments.timeScheduleModel?.date ?? "")
                     .yMEd,
                 style: CustomThemes.primaryColorTextTheme(context).copyWith(
                   fontSize: 14.sp,
@@ -122,31 +122,31 @@ class UserConfirmOrderContainer extends StatelessWidget {
             height: 16,
           ),
           const CustomDivider(),
-          const CustomSizedBox(
+          if(userConfirmOrderArguments.allPlansModel!=null) const CustomSizedBox(
             height: 16,
           ),
-          Text(
+          if(userConfirmOrderArguments.allPlansModel!=null)Text(
             "الاشتراكات الشهرية",
             style: CustomThemes.primaryColorTextTheme(context).copyWith(
               fontSize: 16.sp,
               fontWeight: CustomFontWeights.bold,
             ),
           ),
-          const CustomSizedBox(
+          if(userConfirmOrderArguments.allPlansModel!=null)const CustomSizedBox(
             height: 8,
           ),
-          Row(
+          if(userConfirmOrderArguments.allPlansModel!=null)Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                userConfirmOrderArguments.allPlansModel.name??"",
+                userConfirmOrderArguments.allPlansModel?.name??"",
                 style: CustomThemes.primaryColorTextTheme(context).copyWith(
                   fontSize: 14.sp,
                   fontWeight: CustomFontWeights.w400,
                 ),
               ),
               Text(
-                "${userConfirmOrderArguments.allPlansModel.price} ريال",
+                "${userConfirmOrderArguments.allPlansModel?.price} ريال",
                 style: CustomThemes.primaryColorTextTheme(context).copyWith(
                   fontSize: 14.sp,
                   fontWeight: CustomFontWeights.w400,
@@ -154,10 +154,10 @@ class UserConfirmOrderContainer extends StatelessWidget {
               ),
             ],
           ),
-          const CustomSizedBox(
+          if(userConfirmOrderArguments.allPlansModel!=null)const CustomSizedBox(
             height: 16,
           ),
-          const CustomDivider(),
+          if(userConfirmOrderArguments.allPlansModel!=null)const CustomDivider(),
           const CustomSizedBox(
             height: 16,
           ),
@@ -172,7 +172,7 @@ class UserConfirmOrderContainer extends StatelessWidget {
                 ),
               ),
               Text(
-                "${userConfirmOrderArguments.allPlansModel.price} ريال",
+                "${userConfirmOrderArguments.allPlansModel?.price} ريال",
                 style: CustomThemes.primaryColorTextTheme(context).copyWith(
                   fontSize: 14.sp,
                   fontWeight: CustomFontWeights.bold,

@@ -1,5 +1,6 @@
 import 'package:car_wash/business_logic/orders_cubit/orders_cubit.dart';
 import 'package:car_wash/business_logic/orders_cubit/orders_cubit.dart';
+import 'package:car_wash/business_logic/plans_cubit/plans_cubit.dart';
 import 'package:car_wash/core/parameters/orders_parameters/add_orders_parameters.dart';
 import 'package:car_wash/presentation/widgets/shared_widgets/custom_sized_box.dart';
 import 'package:flutter/material.dart';
@@ -16,8 +17,10 @@ import 'user_confirm_order_arguments.dart';
 class UserConfirmOrderScreen extends StatelessWidget {
   final UserConfirmOrderArguments userConfirmOrderArguments;
 
-  const UserConfirmOrderScreen(
-      {super.key, required this.userConfirmOrderArguments});
+  const UserConfirmOrderScreen({
+    super.key,
+    required this.userConfirmOrderArguments,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +37,20 @@ class UserConfirmOrderScreen extends StatelessWidget {
           UserConfirmOrderContainer(
             userConfirmOrderArguments: userConfirmOrderArguments,
           ),
+          if(PlansCubit.get(context).plansList.any((e) => e.isSubscribed != 0))const CustomSizedBox(
+            height: 16,
+          ),
+          if(PlansCubit.get(context).plansList.any((e) => e.isSubscribed != 0))Row(
+            children: [
+              Radio(
+                value: true,
+                groupValue: true,
+                onChanged: (value) {},
+                visualDensity: VisualDensity(vertical: VisualDensity.minimumDensity,horizontal: VisualDensity.minimumDensity,),
+              ),
+              Expanded(child: Text("انت مشترك في باقة ${PlansCubit.get(context).plansList.firstWhere((element)=>element.isSubscribed==1).name} ولديك عدد ${PlansCubit.get(context).plansList.firstWhere((element)=>element.isSubscribed==1).washNumber} غسلة متبقي هل تود تسنحدام الاشتراك"))
+            ],
+          ),
           const CustomSizedBox(
             height: 24,
           ),
@@ -41,20 +58,25 @@ class UserConfirmOrderScreen extends StatelessWidget {
             listener: (context, state) {
               if (state is MakeOrderSuccessState) {
                 Navigator.pop(context);
-                  showToast(errorType: 0, message: state.baseResponseModel.message??"",);
-                  Navigator.pushNamedAndRemoveUntil(
-                    context,
-                    ScreenName.userHomeScreen,
-                        (route) => false,
-                  );
-
+                showToast(
+                  errorType: 0,
+                  message: state.baseResponseModel.message ?? "",
+                );
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  ScreenName.userHomeScreen,
+                  (route) => false,
+                );
               }
               if (state is MakeOrderLoadingState) {
                 showProgressIndicator(context);
               }
               if (state is MakeOrderErrorState) {
                 Navigator.pop(context);
-                showToast(errorType: 1, message: state.error??"",);
+                showToast(
+                  errorType: 1,
+                  message: state.error ?? "",
+                );
               }
             },
             builder: (context, state) {
@@ -63,11 +85,19 @@ class UserConfirmOrderScreen extends StatelessWidget {
                 onPressed: () {
                   cubit.makeOrder(
                     addOrderParameters: AddOrderParameters(
-                      userPlanId: userConfirmOrderArguments.allPlansModel.userPlanId.toString(),
-                      serviceId: userConfirmOrderArguments.servicesModel.id.toString(),
-                      carTypeId: userConfirmOrderArguments.carServicesArgument.contentImageModel!.id.toString(),
-                      userAddressId: userConfirmOrderArguments.carServicesArgument.addressModel.id.toString(),
-                      orderTimeId: userConfirmOrderArguments.timeModel.id.toString(),
+                      userPlanId: userConfirmOrderArguments
+                          .allPlansModel?.userPlanId
+                          .toString(),
+                      serviceId: userConfirmOrderArguments.servicesModel?.id
+                          .toString(),
+                      carTypeId: userConfirmOrderArguments
+                          .carServicesArgument?.contentImageModel!.id
+                          .toString(),
+                      userAddressId: userConfirmOrderArguments
+                          .carServicesArgument?.addressModel.id
+                          .toString(),
+                      orderTimeId:
+                          userConfirmOrderArguments.timeModel?.id.toString(),
                     ),
                   );
                   // Navigator.pushNamed(context, ScreenName.choosePaymentScreen);

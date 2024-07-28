@@ -22,21 +22,27 @@ class PlansCubit extends Cubit<PlansState> {
   GetUserPlansModel? getUserPlansModel;
   AllPlansModel? userPlansModel;
   AllPlansModel? selectedSubscribePlan;
-  List<AllPlansModel> userSubscribedPlansList = [];
+  List<AllPlansModel> plansList = [];
   List<AllPlansModel> userNotSubscribedPlansList = [];
   int? userPlansCurrentIndex;
   int? selectedPlanIndex;
 
-  void changeServicesType(int index, AllPlansModel userPlansModel) {
+  void changePlan(int index, AllPlansModel userPlansModel) {
     userPlansCurrentIndex = index;
     this.userPlansModel = userPlansModel;
     emit(ChangeUserPlansState());
   }
-  void selectedSubscribePlanIndex(int index, AllPlansModel selectedSubscribePlan) {
-    selectedPlanIndex = index;
-    this.selectedSubscribePlan = selectedSubscribePlan;
+
+  void removeIndex() {
+    userPlansCurrentIndex = null;
+    userPlansModel=null;
     emit(ChangeUserPlansState());
   }
+  // void selectedSubscribePlanIndex(int index, AllPlansModel selectedSubscribePlan) {
+  //   selectedPlanIndex = index;
+  //   this.selectedSubscribePlan = selectedSubscribePlan;
+  //   emit(ChangeUserPlansState());
+  // }
 
   bool getUserPlansLoading = false;
 
@@ -58,74 +64,22 @@ class PlansCubit extends Cubit<PlansState> {
       },
       (r) async {
         getAllPlansModel = r;
-        userNotSubscribedPlansList = r.result??[];
-        getUserPlans();
+        plansList = r.result??[];
         getUserPlansLoading = false;
         emit(GetAllPlansSuccessState());
       },
     );
   }
 
-  void getUserPlans() async {
-    userSubscribedPlansList.clear();
-    emit(GetUserPlansLoadingState());
-    final response = await _plansRemoteDatasource.getUserPlans();
-    response.fold(
-      (l) {
-        baseErrorModel = l.baseErrorModel;
-        emit(
-          GetUserPlansErrorState(
-            error: l.baseErrorModel.errors != null
-                ? baseErrorModel!.errors![0]
-                : l.baseErrorModel.message ?? "",
-          ),
-        );
-      },
-      (r) async {
-        getUserPlansModel = r;
-        for (var element in r.result!) {
-          if (!userSubscribedPlansList.any((e) => e.id == element.planId!)) {
-
-            userSubscribedPlansList.add(
-              AllPlansModel(
-                name: getAllPlansModel!.result!
-                    .firstWhere((el) => el.id == element.planId)
-                    .name,
-                id: getAllPlansModel!.result!
-                    .firstWhere((el) => el.id == element.planId)
-                    .id,
-                content: getAllPlansModel!.result!
-                    .firstWhere((el) => el.id == element.planId)
-                    .content,
-                price: getAllPlansModel!.result!
-                    .firstWhere((el) => el.id == element.planId)
-                    .price,
-                subscriptionType: getAllPlansModel!.result!
-                    .firstWhere((el) => el.id == element.planId)
-                    .subscriptionType,
-                userPlanId: element.id,
-                washNumber: getAllPlansModel!.result!
-                    .firstWhere((el) => el.id == element.planId)
-                    .washNumber,
-              ),
-            );
-            userNotSubscribedPlansList.remove(userNotSubscribedPlansList
-                .firstWhere((el) => el.id == element.planId));
-          }
-        }
-        print(userNotSubscribedPlansList);
-        print("userNotSubscribedPlansList");
-        emit(GetUserPlansSuccessState());
-      },
-    );
-  }
-
+  bool subscribePlanLoading = false;
   void subscribePlan({required String planId}) async {
+    subscribePlanLoading = true;
     emit(SubscribePlanLoadingState());
     final response = await _plansRemoteDatasource.subscribePlan(planId: planId);
     response.fold(
       (l) {
         baseErrorModel = l.baseErrorModel;
+        subscribePlanLoading = false;
         emit(
           SubscribePlanErrorState(
             error: l.baseErrorModel.errors != null
@@ -136,7 +90,7 @@ class PlansCubit extends Cubit<PlansState> {
       },
       (r) async {
         baseResponseModel = r;
-        getAllPlans();
+        subscribePlanLoading = false;
         emit(SubscribePlanSuccessState());
       },
     );
