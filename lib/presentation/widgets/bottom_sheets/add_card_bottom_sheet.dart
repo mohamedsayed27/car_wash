@@ -1,12 +1,8 @@
-import 'package:car_wash/core/app_theme/app_colors.dart';
-import 'package:car_wash/core/constants/extensions.dart';
-import 'package:car_wash/presentation/widgets/shared_widgets/custom_divider.dart';
-import 'package:car_wash/presentation/widgets/shared_widgets/custom_sized_box.dart';
+import '../../../core/constants/extensions.dart';
+import '../../../presentation/widgets/shared_widgets/custom_divider.dart';
+import '../../../presentation/widgets/shared_widgets/custom_sized_box.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../core/app_theme/custom_font_weights.dart';
-import '../../../core/app_theme/custom_themes.dart';
 import '../shared_widgets/custom_elevated_button.dart';
 import '../shared_widgets/form_item_widget.dart';
 import 'bottom_sheet_header_bar.dart';

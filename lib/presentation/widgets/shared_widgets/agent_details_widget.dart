@@ -40,14 +40,14 @@ class AgentDetailsWidget extends StatelessWidget {
                 fontWeight: CustomFontWeights.bold,
               ),
             ),
-            CustomSizedBox(height: 8,),
+            const CustomSizedBox(height: 8,),
              Row(
               children: [
                 CircleContainer(
                   svgPath: SvgPath.message,
                   onPressed: (){},
                 ),
-                CustomSizedBox(
+                const CustomSizedBox(
                   width: 8,
                 ),
                 CircleContainer(

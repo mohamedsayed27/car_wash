@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-import '../../../core/app_theme/app_colors.dart';
 import '../shared_widgets/custom_sized_box.dart';
 
 class SecondIndexComponent extends StatelessWidget {

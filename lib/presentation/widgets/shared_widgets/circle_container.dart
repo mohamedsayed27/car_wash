@@ -20,7 +20,7 @@ class CircleContainer extends StatelessWidget {
           const BoxDecoration(shape: BoxShape.circle, color: AppColors.greyColorD9,),
       child: InkWell(
         onTap: onPressed,
-        customBorder: CircleBorder(),
+        customBorder: const CircleBorder(),
         child: Center(
           child: SvgPicture.asset(
             svgPath,

@@ -16,7 +16,6 @@ class GoogleMapsServices {
   }
 
   Future<Position> getGeoLocationPosition() async {
-    print("entered getGeoLocationPosition");
     bool? serviceEnabled;
     LocationPermission permission;
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
@@ -35,10 +34,6 @@ class GoogleMapsServices {
       return Future.error(
           'Location permissions are permanently denied, we cannot request permissions.');
     }
-    print(serviceEnabled);
-    print(await Geolocator.getCurrentPosition(
-      desiredAccuracy: LocationAccuracy.best,
-    ));
     return await Geolocator.getCurrentPosition(
       desiredAccuracy: LocationAccuracy.best,
     );

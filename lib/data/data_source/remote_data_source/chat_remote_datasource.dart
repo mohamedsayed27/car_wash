@@ -23,11 +23,9 @@ class ChatRemoteDatasource {
         url: EndPoints.chatOrder,
         data: FormData.fromMap({"type": type}),
       );
-      print(response);
       return Right(GetAllConversation.fromJson(response.data));
     } catch (e) {
       if (e is DioException) {
-        print(e);
         if (e.response?.statusCode != 500) {
           return Left(
             ErrorException(
@@ -68,7 +66,6 @@ class ChatRemoteDatasource {
           sendMessageParameters.toJson(),
         ),
       );
-      print(response);
       return Right(BaseResponseModel.fromJson(response.data));
     } catch (e) {
       if (e is DioException) {
@@ -94,7 +91,6 @@ class ChatRemoteDatasource {
       final response = await dioHelper.getData(
         url: "${EndPoints.openChatOrder}/$id",
       );
-      print(response);
       return Right(GetAllChatsModel.fromJson(response.data));
     } catch (e) {
       if (e is DioException) {

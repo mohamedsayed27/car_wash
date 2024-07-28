@@ -1,11 +1,9 @@
-import 'package:car_wash/core/app_theme/app_colors.dart';
-import 'package:car_wash/core/app_theme/custom_font_weights.dart';
-import 'package:car_wash/core/app_theme/custom_themes.dart';
-import 'package:car_wash/core/assets_path/images_path.dart';
-import 'package:car_wash/core/assets_path/svg_path.dart';
-import 'package:car_wash/presentation/widgets/shared_widgets/custom_app_bar.dart';
-import 'package:car_wash/presentation/widgets/shared_widgets/custom_divider.dart';
-import 'package:car_wash/presentation/widgets/shared_widgets/custom_sized_box.dart';
+import '../../../core/app_theme/app_colors.dart';
+import '../../../core/app_theme/custom_font_weights.dart';
+import '../../../core/app_theme/custom_themes.dart';
+import '../../../core/assets_path/svg_path.dart';
+import '../../../presentation/widgets/shared_widgets/custom_app_bar.dart';
+import '../../../presentation/widgets/shared_widgets/custom_sized_box.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -21,15 +19,15 @@ class ProfileScreen extends StatelessWidget {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: preferredSize,
-        child: CustomAppBar(
+        child: const CustomAppBar(
           title: "الحساب الشخصي",
         ),
       ),
       body: ListView(
         padding: EdgeInsets.symmetric(horizontal: 16.w),
         children: [
-          IntroDetailsWidget(),
-          CustomSizedBox(height: 16,),
+          const IntroDetailsWidget(),
+          const CustomSizedBox(height: 16,),
           ProfileListTileItemWidget(svgPath: SvgPath.wallet, title: 'المحفظة',onPressed: (){},),
           ProfileListTileItemWidget(svgPath: SvgPath.messageQuestion, title: 'من نحن',onPressed: (){},),
           ProfileListTileItemWidget(svgPath: SvgPath.profileMessage, title: 'المساعدة',onPressed: (){},),
@@ -60,7 +58,7 @@ class ProfileListTileItemWidget extends StatelessWidget {
         svgPath,
         height: 24.h,
         width: 24.w,
-        colorFilter: ColorFilter.mode(AppColors.primaryColor, BlendMode.srcIn,),
+        colorFilter: const ColorFilter.mode(AppColors.primaryColor, BlendMode.srcIn,),
       ),
       title: Text(
         "محمود سالم",

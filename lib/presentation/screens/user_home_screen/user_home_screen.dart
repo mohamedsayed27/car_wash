@@ -217,7 +217,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                                   ),
                                 ),
                               ),
-                              CustomSizedBox(
+                              const CustomSizedBox(
                                 width: 16,
                               ),
                               CustomTextButton(

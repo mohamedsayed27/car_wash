@@ -1,10 +1,8 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:car_wash/core/app_theme/custom_font_weights.dart';
-import 'package:car_wash/core/app_theme/custom_themes.dart';
-import 'package:car_wash/presentation/widgets/shared_widgets/cached_network_image_widget.dart';
-import 'package:car_wash/presentation/widgets/shared_widgets/custom_app_bar.dart';
-import 'package:car_wash/presentation/widgets/shared_widgets/custom_sized_box.dart';
-import 'package:car_wash/presentation/widgets/shared_widgets/custom_sized_box.dart';
+import '../../../core/app_theme/custom_font_weights.dart';
+import '../../../core/app_theme/custom_themes.dart';
+import '../../../presentation/widgets/shared_widgets/cached_network_image_widget.dart';
+import '../../../presentation/widgets/shared_widgets/custom_app_bar.dart';
+import '../../../presentation/widgets/shared_widgets/custom_sized_box.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

@@ -7,7 +7,7 @@ import '../../../core/app_theme/app_colors.dart';
 class OtpFieldBuilder extends StatelessWidget {
   final TextEditingController? controller;
 
-  const OtpFieldBuilder({Key? key, this.controller}) : super(key: key);
+  const OtpFieldBuilder({super.key, this.controller});
 
   @override
   Widget build(BuildContext context) {

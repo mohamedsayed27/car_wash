@@ -42,8 +42,6 @@ class RepresentativeCubit extends Cubit<RepresentativeState> {
   bool getSingleOrderLoading = false;
   SingleOrderModel? getSingleOrderModel;
   void getSingleOrder({required String id}) async {
-    print("Order id");
-    print(id);
     getSingleOrderLoading = true;
     emit(GetSingleOrderLoadingStates());
     final response = await _representativeDatasource.getSingleOrder(id: id);
@@ -55,9 +53,6 @@ class RepresentativeCubit extends Cubit<RepresentativeState> {
       },
       (r) {
         getSingleOrderModel = r.result;
-        print("getSingleOrderModel");
-        print(r);
-        print(getSingleOrderModel);
         getSingleOrderLoading = false;
         emit(GetSingleOrderSuccessStates(singleOrderModel: r.result));
       },
@@ -78,7 +73,6 @@ class RepresentativeCubit extends Cubit<RepresentativeState> {
       (r) {
         getNextOrdersModel = r;
         getNextOrderLoading = false;
-        print(r.result?.scheduleTime?.time);
         nextOrder = r.result?.scheduleTime!=null?"${format.format(DateTime.parse("${getNextOrdersModel?.result?.scheduleTime?.date} ${getNextOrdersModel?.result?.scheduleTime?.time}"))} ${format1.format(DateTime.parse("${getNextOrdersModel?.result?.scheduleTime?.date} ${getNextOrdersModel?.result?.scheduleTime?.time}"))}":"";
         emit(GetNextOrderSuccessStates());
       },

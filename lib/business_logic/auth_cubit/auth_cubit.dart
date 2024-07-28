@@ -5,7 +5,6 @@ import 'package:car_wash/data/models/auth_models/register_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:intl/intl.dart';
 import 'package:phone_form_field/phone_form_field.dart';
 
 import '../../core/cache_helper/cache_keys.dart';
@@ -76,7 +75,6 @@ class AuthCubit extends Cubit<AuthState> {
     response.fold(
       (l) {
         baseErrorModel = l.baseErrorModel;
-        print(baseErrorModel);
         emit(
           LoginErrorState(
             error: l.baseErrorModel.errors != null
@@ -229,7 +227,6 @@ class AuthCubit extends Cubit<AuthState> {
           ),
         );
         image = r.result?.avatar;
-        print(image);
         emit(GetUserDataSuccessState());
       },
     );

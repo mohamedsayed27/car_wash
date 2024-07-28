@@ -42,12 +42,10 @@ class OrdersCubit extends Cubit<OrdersState> {
 
   void removeIndex() {
     servicesCurrentIndex = null;
-    print("servicesCurrentIndex");
     emit(ChangeCarType());
   }
   void changeSelectedDateScheduleModel(TimeScheduleModel timeScheduleModel) {
     selectedDateScheduleModel = timeScheduleModel;
-    print(selectedDateScheduleModel?.id);
     selectedTimeModel = null;
     emit(ChangeSelectedTimeSchedule());
   }
@@ -55,7 +53,6 @@ class OrdersCubit extends Cubit<OrdersState> {
   TimeModel? selectedTimeModel;
   void changeSelectedTimeScheduleModel(TimeModel? timeScheduleModel) {
     selectedTimeModel = timeScheduleModel;
-    print(selectedTimeModel?.id);
     emit(ChangeSelectedTimeSchedule());
   }
 
@@ -112,14 +109,12 @@ class OrdersCubit extends Cubit<OrdersState> {
     response.fold(
       (l) {
         baseErrorModel = l.baseErrorModel;
-        print(baseErrorModel);
         getTimeScheduleLoading = false;
         emit(GetTimeScheduleErrorStates(error: l.baseErrorModel.message));
       },
       (r) {
         timeList = r.result??<TimeScheduleModel>[];
         getTimeScheduleLoading = false;
-        print(timeList);
         emit(GetTimeScheduleSuccessStates());
       },
     );
@@ -156,8 +151,6 @@ class OrdersCubit extends Cubit<OrdersState> {
   bool getSingleOrderLoading = false;
   SingleOrderModel? getSingleOrderModel;
   void getSingleOrder({required int id}) async {
-    print("Order id");
-    print(id);
     getSingleOrderLoading = true;
     emit(GetSingleOrderLoadingStates());
     final response = await _ordersRemoteDatasource.getSingleOrder(orderId: id);
@@ -169,9 +162,6 @@ class OrdersCubit extends Cubit<OrdersState> {
       },
           (r) {
         getSingleOrderModel = r.result;
-        print("getSingleOrderModel");
-        print(r);
-        print(getSingleOrderModel);
         getSingleOrderLoading = false;
         emit(GetSingleOrderSuccessStates(singleOrderModel: r.result));
       },
@@ -194,7 +184,6 @@ class OrdersCubit extends Cubit<OrdersState> {
       },
           (r) {
         getAllOrdersModel = r;
-        print(getAllOrdersModel?.result?.length);
         getAllOrdersLoading = false;
         emit(GetAllOrderSuccessStates());
       },

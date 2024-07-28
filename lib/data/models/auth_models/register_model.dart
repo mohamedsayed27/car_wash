@@ -1,5 +1,4 @@
 import 'package:car_wash/data/models/base_response_model.dart';
-import 'package:equatable/equatable.dart';
 
 import '../user_models/user_result_model.dart';
 

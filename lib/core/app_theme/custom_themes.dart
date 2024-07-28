@@ -1,9 +1,5 @@
-import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../assets_path/fonts_path.dart';
-import 'app_colors.dart';
 
 class CustomThemes {
 

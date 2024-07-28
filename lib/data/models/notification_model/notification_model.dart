@@ -1,6 +1,5 @@
 import 'package:car_wash/data/models/base_response_model.dart';
 import 'package:equatable/equatable.dart';
-import 'package:intl/intl.dart';
 
 class GetAllNotificationsModel
     extends BaseResponseModel<List<NotificationItem>?> {

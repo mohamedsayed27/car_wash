@@ -32,7 +32,7 @@ class NotificationScreen extends StatelessWidget {
         builder: (context, state) {
           AuthCubit cubit = AuthCubit.get(context);
           return cubit.getNotificationsLoading
-              ? Center(
+              ? const Center(
                   child: CircularProgressIndicator.adaptive(),
                 )
               : Column(
@@ -95,7 +95,6 @@ class _NotificationWidgetState extends State<NotificationWidget> {
       DateFormat format = DateFormat('EEEE h:mm a dd MMM');
       return format.parse(dateString);
     } catch (e) {
-      print('Error parsing date: $e');
       return null;
     }
   }

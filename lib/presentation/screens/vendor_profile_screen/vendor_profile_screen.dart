@@ -1,18 +1,14 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:car_wash/core/app_router/screens_name.dart';
-import 'package:car_wash/core/parameters/auth_parameters/update_profile_parameters.dart';
-import 'package:car_wash/presentation/widgets/shared_widgets/custom_app_bar.dart';
+import '../../../core/parameters/auth_parameters/update_profile_parameters.dart';
+import '../../../presentation/widgets/shared_widgets/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:phone_form_field/phone_form_field.dart';
 
 import '../../../business_logic/auth_cubit/auth_cubit.dart';
 import '../../../core/app_theme/app_colors.dart';
 import '../../../core/app_theme/custom_font_weights.dart';
 import '../../../core/app_theme/custom_themes.dart';
-import '../../../core/assets_path/images_path.dart';
 import '../../../core/assets_path/svg_path.dart';
 import '../../../core/constants/constants.dart';
 import '../../widgets/auth_widgets/phone_auth_field.dart';

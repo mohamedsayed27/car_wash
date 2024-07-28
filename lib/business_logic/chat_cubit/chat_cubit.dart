@@ -36,10 +36,8 @@ class ChatCubit extends Cubit<ChatState> {
       (r) {
         chats = r.result?.reversed.toList() ?? [];
         getChatLoading = false;
-        chats.forEach((e){
-          print(e.clientId);
-          print(e.clientId?.isEmpty);
-        });
+        // for (var e in chats) {
+        // }
         // print(r);
         emit(GetChatSuccessStates());
       },
@@ -56,8 +54,6 @@ class ChatCubit extends Cubit<ChatState> {
       (l) {
         baseErrorModel = l.baseErrorModel;
         getAllConversationsLoading = false;
-        print(l.baseErrorModel.message);
-        print(l.baseErrorModel.errors);
         emit(GetConversationErrorStates(error: l.baseErrorModel.message));
       },
       (r) {

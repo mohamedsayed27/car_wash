@@ -17,11 +17,11 @@ class FirstIndexComponent extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        ServiceTypeAndTimeWidget(),
+        const ServiceTypeAndTimeWidget(),
         if (isAccepted)const CustomSizedBox(
           height: 24,
         ),
-        if (isAccepted)AgentComponent(),
+        if (isAccepted)const AgentComponent(),
         const CustomSizedBox(
           height: 24,
         ),
@@ -46,7 +46,7 @@ class FirstIndexComponent extends StatelessWidget {
         if (isAccepted)const CustomSizedBox(
           height: 16,
         ),
-        if (isAccepted)HintContainerWidget(),
+        if (isAccepted)const HintContainerWidget(),
       ],
     );
   }

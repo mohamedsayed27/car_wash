@@ -38,7 +38,7 @@ class PlansScreen extends StatelessWidget {
           var cubit = PlansCubit.get(context);
           return Column(
             children: [
-              CustomSizedBox(height: 32,),
+              const CustomSizedBox(height: 32,),
               Expanded(child: cubit.getUserPlansLoading
                   ? const Center(
                 child: CircularProgressIndicator.adaptive(),
@@ -77,7 +77,7 @@ class PlansScreen extends StatelessWidget {
                   ),
                 ),
               ),),
-              CustomSizedBox(height: 32,),
+              const CustomSizedBox(height: 32,),
               CustomElevatedButton(
                 onPressed: () {
                   cubit.subscribePlan(planId: cubit.selectedSubscribePlan!.id.toString());
@@ -86,7 +86,7 @@ class PlansScreen extends StatelessWidget {
                 text: "الاشتراك",
                 height: 48,
               ),
-              CustomSizedBox(height: 32,),
+              const CustomSizedBox(height: 32,),
             ],
           ).symmetricPadding(horizontal: 16);
         },

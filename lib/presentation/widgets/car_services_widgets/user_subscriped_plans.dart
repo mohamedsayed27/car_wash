@@ -62,7 +62,6 @@ class _MonthlySubscriptionsComponentState
                 if(cubit.plansList.any((e) => e.isSubscribed == 0))CustomTextButton(
                   title: "اشتراك",
                   onPressed: () {
-                    print(cubit.userPlansModel!.id.toString());
                     cubit.subscribePlan(planId: cubit.userPlansModel!.id.toString(),);
                   },
                   style: CustomThemes.primaryColorTextTheme(context).copyWith(

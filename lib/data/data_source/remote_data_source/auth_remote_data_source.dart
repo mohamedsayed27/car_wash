@@ -1,5 +1,4 @@
 import 'package:car_wash/data/models/base_response_model.dart';
-import 'package:car_wash/data/models/base_response_model.dart';
 import 'package:car_wash/data/models/notification_model/notification_model.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
@@ -30,7 +29,6 @@ class AuthRemoteDataSource {
           parameters.toJson(),
         ),
       );
-      print(response);
       return Right(LoginModel.fromJson(response.data));
     } catch (e) {
       if (e is DioException) {
@@ -66,7 +64,6 @@ class AuthRemoteDataSource {
           },
         ),
       );
-      print(response);
       return Right(
         BaseResponseModel.fromJson(
           response.data,
@@ -74,7 +71,6 @@ class AuthRemoteDataSource {
       );
     } catch (e) {
       if (e is DioException) {
-        print(e);
         return Left(
           ErrorException(
             baseErrorModel: BaseErrorModel.fromJson(
@@ -105,7 +101,6 @@ class AuthRemoteDataSource {
       return Right(RegisterModel.fromJson(response.data));
     } catch (e) {
       if (e is DioException) {
-        print(e);
         return Left(
           ErrorException(
             baseErrorModel: BaseErrorModel.fromJson(e.response!.data),
@@ -134,7 +129,6 @@ class AuthRemoteDataSource {
       return Right(GetUserDataModel.fromJson(response.data));
     } catch (e) {
       if (e is DioException) {
-        print(e);
         return Left(
           ErrorException(
             baseErrorModel: BaseErrorModel.fromJson(e.response!.data),
@@ -158,7 +152,6 @@ class AuthRemoteDataSource {
       return Right(GetUserDataModel.fromJson(response.data));
     } catch (e) {
       if (e is DioException) {
-        print(e);
         return Left(
           ErrorException(
             baseErrorModel: BaseErrorModel.fromJson(e.response!.data),
@@ -182,7 +175,6 @@ class AuthRemoteDataSource {
       return Right(GetAllNotificationsModel.fromJson(response.data));
     } catch (e) {
       if (e is DioException) {
-        print(e);
         return Left(
           ErrorException(
             baseErrorModel: BaseErrorModel.fromJson(e.response!.data),

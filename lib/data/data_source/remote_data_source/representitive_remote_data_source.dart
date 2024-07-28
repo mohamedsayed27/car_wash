@@ -4,7 +4,6 @@ import 'package:dio/dio.dart';
 
 import '../../../data/models/order_models/get_all_orders_model.dart';
 import '../../../data/models/order_models/order_statistics.dart';
-import '../../../data/models/order_models/single_order_model.dart';
 import '../../../core/error/error_exception.dart';
 import '../../../core/network/api_end_points.dart';
 import '../../../core/network/dio_helper.dart';
@@ -95,7 +94,6 @@ class RepresentativeDatasource {
       final response = await dioHelper.getData(
         url: EndPoints.myOrders,
       );
-      print(response);
       return Right(
         GetAllOrdersModel.fromJson(response.data),
       );
@@ -120,8 +118,6 @@ class RepresentativeDatasource {
       final response = await dioHelper.getData(
         url: EndPoints.nextOrder,
       );
-      print("Next Order");
-      print(response);
       return Right(
         GetSingleOrdersModel.fromJson(response.data),
       );
@@ -151,7 +147,6 @@ class RepresentativeDatasource {
       );
     } catch (e) {
       if (e is DioException) {
-        print(e);
         return Left(
           ErrorException(
             baseErrorModel: BaseErrorModel.fromJson(e.response!.data),
@@ -171,7 +166,6 @@ class RepresentativeDatasource {
       final response = await dioHelper.getData(
         url: "${EndPoints.myOrders}/${OrderProgressEnum.finished.name}",
       );
-      print(response);
       return Right(
         GetAllOrdersModel.fromJson(response.data),
       );
@@ -200,7 +194,6 @@ class RepresentativeDatasource {
         GetSingleOrdersModel.fromJson(response.data),
       );
     } catch (e) {
-      print(e);
       if (e is DioException) {
         return Left(
           ErrorException(

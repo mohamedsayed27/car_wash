@@ -65,11 +65,11 @@ void showToast({required int errorType, required String message}) {
 String initialLocale =
     CacheHelper.getData(key: CacheKeys.initialLocale) ?? "en";
 
-double calculateTextSize(BuildContext context, double baseSize) {
-  double screenWidth = MediaQuery.of(context).size.width;
-  double textScaleFactor = MediaQuery.of(context).textScaleFactor;
-  return baseSize * screenWidth / 375 * textScaleFactor;
-}
+// double calculateTextSize(BuildContext context, double baseSize) {
+//   double screenWidth = MediaQuery.of(context).size.width;
+//   double textScaleFactor = MediaQuery.of(context).textScaleFactor;
+//   return baseSize * screenWidth / 375 * textScaleFactor;
+// }
 
 Size preferredSize = AppBar().preferredSize;
 

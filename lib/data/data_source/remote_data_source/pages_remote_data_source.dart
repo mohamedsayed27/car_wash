@@ -48,7 +48,6 @@ class PagesRemoteDataSource {
       final response = await dioHelper.getData(
         url: EndPoints.termsConditions,
       );
-      print(response);
       return Right(
         response.data["result"]!=null?BasePagesModel.fromJson(
           response.data["result"],

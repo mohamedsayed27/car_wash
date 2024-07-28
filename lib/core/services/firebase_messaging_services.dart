@@ -7,7 +7,6 @@ class FirebaseMessagingService {
     try {
       return await _firebaseMessaging.getToken();
     } catch (e) {
-      print('Failed to get token: $e');
       return null;
     }
   }

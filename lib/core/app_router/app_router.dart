@@ -1,6 +1,3 @@
-import 'package:car_wash/data/models/order_models/single_order_model.dart';
-import 'package:car_wash/data/models/order_models/single_order_model.dart';
-import 'package:car_wash/presentation/screens/confirm_order_screen/user_confirm_order_arguments.dart';
 import 'package:car_wash/presentation/screens/confirm_order_screen/user_confirm_order_arguments.dart';
 import 'package:flutter/material.dart';
 
@@ -74,7 +71,7 @@ class AppRouter {
           return SlideRightRoute(page: const VendorProfileScreen(),);
         case ScreenName.vendorProgressOrderScreen:
           // final SingleOrderModel singleOrderModel = settings.arguments as SingleOrderModel;
-          return SlideRightRoute(page: VendorInProgressOrderScreen(),);
+          return SlideRightRoute(page: const VendorInProgressOrderScreen(),);
         case ScreenName.walletScreen:
           return SlideRightRoute(page: const WalletScreen(),);
         case ScreenName.plansScreen:

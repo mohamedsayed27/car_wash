@@ -1,10 +1,9 @@
-import 'package:car_wash/core/app_theme/custom_font_weights.dart';
-import 'package:car_wash/core/app_theme/custom_themes.dart';
-import 'package:car_wash/core/cache_helper/cache_keys.dart';
-import 'package:car_wash/core/cache_helper/shared_pref_methods.dart';
-import 'package:car_wash/core/constants/constants.dart';
-import 'package:car_wash/core/constants/extensions.dart';
-import 'package:car_wash/core/parameters/chat_parameters/send_message_parameters.dart';
+import '../../../core/app_theme/custom_font_weights.dart';
+import '../../../core/app_theme/custom_themes.dart';
+import '../../../core/cache_helper/cache_keys.dart';
+import '../../../core/cache_helper/shared_pref_methods.dart';
+import '../../../core/constants/extensions.dart';
+import '../../../core/parameters/chat_parameters/send_message_parameters.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

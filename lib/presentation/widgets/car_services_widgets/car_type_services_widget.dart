@@ -46,7 +46,7 @@ class CarTypeService extends StatelessWidget {
               fontWeight: CustomFontWeights.bold,
             ),
           ),
-          CustomSizedBox(width: 4,),
+          const CustomSizedBox(width: 4,),
           Expanded(
             child: Text(
               contentImageModel?.content ?? "",

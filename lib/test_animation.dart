@@ -1,7 +1,6 @@
-import 'package:car_wash/core/assets_path/images_path.dart';
-import 'package:car_wash/presentation/widgets/shared_widgets/custom_sized_box.dart';
+import '../../../core/assets_path/images_path.dart';
+import '../../../presentation/widgets/shared_widgets/custom_sized_box.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class TestAnimation extends StatefulWidget {
   const TestAnimation({super.key});
@@ -22,7 +21,7 @@ class _TestAnimationState extends State<TestAnimation> {
             isGrid = !isGrid;
             setState(() {});
           },
-          icon: Icon(Icons.ac_unit),
+          icon: const Icon(Icons.ac_unit),
         ),
       ),
       body: SafeArea(
@@ -65,10 +64,10 @@ class ListItem extends StatelessWidget {
             ),
           ),
         ),
-        CustomSizedBox(
+        const CustomSizedBox(
           width: 12,
         ),
-        Hero(
+        const Hero(
           tag: "tag",
           child: Text(
             "data",
@@ -102,12 +101,12 @@ class GridItem extends StatelessWidget {
             ),
           ),
         ),
-        CustomSizedBox(
+        const CustomSizedBox(
           height: 12,
         ),
         Hero(
           tag: "tag$index",
-          child: Text(
+          child: const Text(
             "data",
           ),
         ),

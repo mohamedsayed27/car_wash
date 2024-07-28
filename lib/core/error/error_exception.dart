@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 
 import '../network/error_message_model.dart';

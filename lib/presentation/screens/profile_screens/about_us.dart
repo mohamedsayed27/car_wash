@@ -1,9 +1,7 @@
-import 'package:car_wash/core/app_theme/custom_font_weights.dart';
-import 'package:car_wash/core/app_theme/custom_themes.dart';
-import 'package:car_wash/core/assets_path/svg_path.dart';
-import 'package:car_wash/presentation/widgets/shared_widgets/custom_app_bar.dart';
-import 'package:car_wash/presentation/widgets/shared_widgets/custom_sized_box.dart';
-import 'package:car_wash/presentation/widgets/shared_widgets/custom_sized_box.dart';
+import '../../../core/app_theme/custom_font_weights.dart';
+import '../../../core/app_theme/custom_themes.dart';
+import '../../../presentation/widgets/shared_widgets/custom_app_bar.dart';
+import '../../../presentation/widgets/shared_widgets/custom_sized_box.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -26,7 +24,7 @@ class AboutUsScreen extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 16.w,vertical: 8.h),
         children: [
           CustomSizedBox(height: 238,width: double.infinity,child: Image.asset(ImagesPath.aboutUsDummy,fit: BoxFit.cover,),),
-          CustomSizedBox(height: 16,),
+          const CustomSizedBox(height: 16,),
           ListView.separated(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),

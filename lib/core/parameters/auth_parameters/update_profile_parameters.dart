@@ -18,7 +18,6 @@ class UpdateProfileParameters extends Equatable {
   });
 
   Future<Map<String, dynamic>> toJson() async{
-    print(avatar);
    return {
      "name":name,
      "mobile_number":phone,

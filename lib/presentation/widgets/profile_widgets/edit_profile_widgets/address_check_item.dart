@@ -3,14 +3,12 @@ import 'package:car_wash/core/app_theme/app_colors.dart';
 import 'package:car_wash/core/app_theme/custom_font_weights.dart';
 import 'package:car_wash/core/app_theme/custom_themes.dart';
 import 'package:car_wash/core/assets_path/svg_path.dart';
-import 'package:car_wash/presentation/widgets/shared_widgets/custom_check_box.dart';
-import 'package:car_wash/presentation/widgets/shared_widgets/custom_outlined_button.dart';
-import 'package:car_wash/presentation/widgets/shared_widgets/custom_sized_box.dart';
+import '../../../../presentation/widgets/shared_widgets/custom_outlined_button.dart';
+import '../../../../presentation/widgets/shared_widgets/custom_sized_box.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../bottom_sheets/add_address_bottom_sheet.dart';
 
 
 class AddressCheckButtonWidget extends StatelessWidget {
@@ -53,7 +51,7 @@ class AddressCheckButtonWidget extends StatelessWidget {
                   SvgPath.location,
                   width: 24.w,
                   height: 24.h,
-                  colorFilter: ColorFilter.mode(
+                  colorFilter: const ColorFilter.mode(
                     // isSelected ?
                     AppColors.primaryColor ,
                         // : AppColors.greyColorB0,

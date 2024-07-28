@@ -1,5 +1,3 @@
-import 'package:car_wash/presentation/widgets/order_widgets/rating_widget.dart';
-import 'package:car_wash/presentation/widgets/shared_widgets/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -9,7 +7,6 @@ import '../../../core/app_theme/custom_themes.dart';
 import '../shared_widgets/agent_details_widget.dart';
 import '../shared_widgets/custom_elevated_button.dart';
 import '../shared_widgets/custom_sized_box.dart';
-import 'order_done_container.dart';
 
 class OrdersNavBarComponent extends StatelessWidget {
   final void Function()? onPressed;

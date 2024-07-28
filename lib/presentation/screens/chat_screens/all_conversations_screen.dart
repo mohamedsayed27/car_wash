@@ -1,7 +1,3 @@
-import 'package:car_wash/core/cache_helper/cache_keys.dart';
-import 'package:car_wash/core/cache_helper/shared_pref_methods.dart';
-import 'package:car_wash/presentation/screens/chat_screens/chat_screen.dart';
-import 'package:car_wash/presentation/widgets/shared_widgets/cached_network_image_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -13,9 +9,11 @@ import '../../../core/app_theme/custom_font_weights.dart';
 import '../../../core/app_theme/custom_themes.dart';
 import '../../../core/constants/constants.dart';
 import '../../../data/models/chat_model/conversation_model.dart';
+import '../../widgets/shared_widgets/cached_network_image_widget.dart';
 import '../../widgets/shared_widgets/custom_app_bar.dart';
 import '../../widgets/shared_widgets/custom_divider.dart';
 import '../../widgets/shared_widgets/custom_sized_box.dart';
+import 'chat_screen.dart';
 
 class AllChatsScreen extends StatefulWidget {
   const AllChatsScreen({super.key});

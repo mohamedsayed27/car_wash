@@ -79,7 +79,6 @@ class PlansRemoteDatasource {
       );
       return Right(BaseResponseModel.fromJson(response.data,),);
     } catch (e) {
-      print(e);
       if (e is DioException) {
         return Left(
           ErrorException(

@@ -1,12 +1,9 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:car_wash/core/assets_path/images_path.dart';
-import 'package:car_wash/core/constants/extensions.dart';
-import 'package:car_wash/presentation/widgets/shared_widgets/cached_network_image_widget.dart';
+import '../../../core/constants/extensions.dart';
+import '../../../presentation/widgets/shared_widgets/cached_network_image_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
-import 'package:shimmer/shimmer.dart';
 
 import '../../../core/app_theme/app_colors.dart';
 import '../../../core/app_theme/custom_font_weights.dart';
@@ -95,7 +92,6 @@ class RatingContainerWidget extends StatelessWidget {
                     color: AppColors.secondaryColor,
                   ),
                   onRatingUpdate: (rating) {
-                    print(rating);
                   },
                 ),
                 const CustomSizedBox(

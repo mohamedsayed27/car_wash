@@ -19,7 +19,7 @@ class ChatArgs extends Equatable {
   final String orderId;
   final String name;
 
-  ChatArgs({required this.chatId, required this.orderId, required this.name,});
+  const ChatArgs({required this.chatId, required this.orderId, required this.name,});
 
   @override
   // TODO: implement props

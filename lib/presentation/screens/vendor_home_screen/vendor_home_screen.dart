@@ -71,7 +71,6 @@ class _VendorHomeScreenState extends State<VendorHomeScreen> {
 
     });
     googleMapsServices.getGeoLocationPosition().then((value) {
-      print(value);
       currentLocation = value;
       sourceLocation =
           LatLng(currentLocation!.latitude, currentLocation!.longitude);
@@ -82,7 +81,6 @@ class _VendorHomeScreenState extends State<VendorHomeScreen> {
       });
       // getPolyLinePoints(currentLocation);
     }).catchError((error) {
-      print(error);
     });
     GoogleMapController controller = await _googleMapController.future;
     controller.animateCamera(

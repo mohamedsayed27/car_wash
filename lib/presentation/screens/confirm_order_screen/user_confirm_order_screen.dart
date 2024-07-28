@@ -1,8 +1,7 @@
-import 'package:car_wash/business_logic/orders_cubit/orders_cubit.dart';
-import 'package:car_wash/business_logic/orders_cubit/orders_cubit.dart';
-import 'package:car_wash/business_logic/plans_cubit/plans_cubit.dart';
-import 'package:car_wash/core/parameters/orders_parameters/add_orders_parameters.dart';
-import 'package:car_wash/presentation/widgets/shared_widgets/custom_sized_box.dart';
+import '../../../business_logic/orders_cubit/orders_cubit.dart';
+import '../../../business_logic/plans_cubit/plans_cubit.dart';
+import '../../../core/parameters/orders_parameters/add_orders_parameters.dart';
+import '../../../presentation/widgets/shared_widgets/custom_sized_box.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -46,7 +45,7 @@ class UserConfirmOrderScreen extends StatelessWidget {
                 value: true,
                 groupValue: true,
                 onChanged: (value) {},
-                visualDensity: VisualDensity(vertical: VisualDensity.minimumDensity,horizontal: VisualDensity.minimumDensity,),
+                visualDensity: const VisualDensity(vertical: VisualDensity.minimumDensity,horizontal: VisualDensity.minimumDensity,),
               ),
               Expanded(child: Text("انت مشترك في باقة ${PlansCubit.get(context).plansList.firstWhere((element)=>element.isSubscribed==1).name} ولديك عدد ${PlansCubit.get(context).plansList.firstWhere((element)=>element.isSubscribed==1).washNumber} غسلة متبقي هل تود تسنحدام الاشتراك"))
             ],

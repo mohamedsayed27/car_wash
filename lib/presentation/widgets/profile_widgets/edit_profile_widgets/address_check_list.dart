@@ -41,7 +41,7 @@ class _AddressCheckListState extends State<AddressCheckList> {
       builder: (context, state) {
         AddressCubit cubit = AddressCubit.get(context);
         return cubit.getAddressLoading
-            ? Center(
+            ? const Center(
                 child: CircularProgressIndicator.adaptive(),
               )
             : ListView.separated(
