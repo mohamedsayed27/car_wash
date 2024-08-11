@@ -31,16 +31,18 @@ class ContentImageModel extends Equatable {
   final String? name;
   final String? content;
   final String? image;
+  final int? price;
 
   const ContentImageModel({
     this.id,
     this.name,
     this.content,
+    this.price,
     this.image,
   });
 
   @override
-  List<Object?> get props => [id, name, content, image];
+  List<Object?> get props => [id, name, price, content, image];
 
   factory ContentImageModel.fromJson(Map<String, dynamic> json) {
     return ContentImageModel(
@@ -48,6 +50,7 @@ class ContentImageModel extends Equatable {
       name: json['name'],
       content: json['content'],
       image: json['image'],
+      price: json['price'],
     );
   }
 
@@ -55,6 +58,7 @@ class ContentImageModel extends Equatable {
     return {
       'id': id,
       'name': name,
+      'price': price,
       'content': content,
       'image': image,
     };

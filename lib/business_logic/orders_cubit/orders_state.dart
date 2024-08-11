@@ -61,6 +61,16 @@ final class GetAllOrderErrorStates extends OrdersState {
   GetAllOrderErrorStates({required this.error});
 }
 
+final class RateOrderLoadingStates extends OrdersState {}
+
+final class RateOrderSuccessStates extends OrdersState {}
+
+final class RateOrderErrorStates extends OrdersState {
+  final String error;
+
+  RateOrderErrorStates({required this.error});
+}
+
 
 
 final class GetSingleOrderLoadingStates extends OrdersState {}
@@ -77,4 +87,21 @@ final class GetSingleOrderErrorStates extends OrdersState {
   final String error;
 
   GetSingleOrderErrorStates({required this.error});
+}
+
+
+final class DeleteOrderLoadingStates extends OrdersState {}
+
+final class DeleteOrderSuccessStates extends OrdersState {
+  final BaseResponseModel? baseResponseModel;
+
+  DeleteOrderSuccessStates({
+    required this.baseResponseModel,
+  });
+}
+
+final class DeleteOrderErrorStates extends OrdersState {
+  final String error;
+
+  DeleteOrderErrorStates({required this.error});
 }

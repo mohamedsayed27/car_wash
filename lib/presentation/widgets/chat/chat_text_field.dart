@@ -71,13 +71,17 @@ class _ChatTextFieldState extends State<ChatTextField> {
               ),
             ).onlyDirectionalPadding(end: 8.w),
             ElevatedButton(
-              onPressed: state is SendMessageLoadingStates?null:() {
-                cubit.senMessage(
-                    sendMessageParameters: SendMessageParameters(
-                        type: CacheHelper.getData(key: CacheKeys.userType),
-                        message: controller.text,
-                        orderId: widget.orderId));
-              },
+              onPressed: state is SendMessageLoadingStates
+                  ? null
+                  : () {
+                      cubit.senMessage(
+                        sendMessageParameters: SendMessageParameters(
+                          type: CacheHelper.getData(key: CacheKeys.userType),
+                          message: controller.text,
+                          orderId: widget.orderId,
+                        ),
+                      );
+                    },
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primaryColor,
                 shape: const CircleBorder(),
@@ -87,11 +91,11 @@ class _ChatTextFieldState extends State<ChatTextField> {
                 shadowColor: Colors.transparent,
                 foregroundColor: AppColors.whiteColor,
               ),
-              child:  SvgPicture.asset(
-                      SvgPath.send,
-                      width: 16.w,
-                      height: 17.h,
-                    ),
+              child: SvgPicture.asset(
+                SvgPath.send,
+                width: 16.w,
+                height: 17.h,
+              ),
             )
           ],
         );

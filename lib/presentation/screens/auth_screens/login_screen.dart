@@ -1,3 +1,4 @@
+import 'package:car_wash/core/enums/user_type_enum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -128,11 +129,20 @@ class _LoginScreenState extends State<LoginScreen> {
                       errorType: 0,
                       message: state.loginModel?.message ?? "",
                     );
-                    Navigator.pushNamedAndRemoveUntil(
-                      context,
-                      ScreenName.userHomeScreen,
-                      (route) => false,
-                    );
+                    if (state.loginModel?.result?.type?.toLowerCase() ==
+                        UserTypeEnum.client.name) {
+                      Navigator.pushNamedAndRemoveUntil(
+                        context,
+                        ScreenName.userHomeScreen,
+                        (route) => false,
+                      );
+                    } else {
+                      Navigator.pushNamedAndRemoveUntil(
+                        context,
+                        ScreenName.vendorHomeScreen,
+                        (route) => false,
+                      );
+                    }
                   }
                 }
                 if (state is LoginLoadingState) {

@@ -12,13 +12,12 @@ class UserConfirmOrderArguments extends Equatable {
   final TimeModel? timeModel;
   final ContentImageModel? servicesModel;
   final AllPlansModel? allPlansModel;
-
   const UserConfirmOrderArguments({
      this.carServicesArgument,
      this.timeScheduleModel,
      this.servicesModel,
      this.timeModel,
-     this.allPlansModel,
+    this.allPlansModel,
   });
 
   @override

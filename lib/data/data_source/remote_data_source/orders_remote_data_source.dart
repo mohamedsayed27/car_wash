@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import '../../../data/models/car_types_model/car_types_model.dart';
 import '../../../data/models/order_models/get_all_orders_model.dart';
 import '../../../data/models/order_models/get_single_order.dart';
@@ -26,11 +28,62 @@ class OrdersRemoteDatasource{
       return Right(GetAllOrdersModel.fromJson(response.data,),);
     } catch (e) {
       if (e is DioException) {
+        if(e.response!.statusCode==500){
+          return const Left(
+            ErrorException(
+              baseErrorModel: BaseErrorModel(message: "Server Error", success: false, code: 500, errors: ["Server Error"]),
+            ),
+          );
+        }else{
+          return Left(
+            ErrorException(
+              baseErrorModel: BaseErrorModel.fromJson(e.response!.data),
+            ),
+          );
+        }
+      } else {
         return Left(
           ErrorException(
-            baseErrorModel: BaseErrorModel.fromJson(e.response!.data,),
+            baseErrorModel: BaseErrorModel(message: "Error ${e.toString()}", success: false, code: 300, errors: ["Error ${e.toString()}"]),
           ),
         );
+      }
+    }
+  }
+
+
+  Future<Either<ErrorException, GetAllOrdersModel>> rateOrder({
+    required String orderId,
+    required String rate,
+    required String review,
+}) async {
+    try {
+      final response = await dioHelper.postData(
+        url: EndPoints.rateOrder,
+        data: FormData.fromMap({
+          "order_id":orderId,
+          "rate":rate,
+          "review":review,
+        })
+      );
+      return Right(GetAllOrdersModel.fromJson(response.data,),);
+    } catch (e) {
+      print(e);
+      if (e is DioException) {
+        if(e.response!.statusCode==500){
+          log(e.response.toString());
+          return const Left(
+            ErrorException(
+              baseErrorModel: BaseErrorModel(message: "Server Error", success: false, code: 500, errors: ["Server Error"]),
+            ),
+          );
+        }else{
+          return Left(
+            ErrorException(
+              baseErrorModel: BaseErrorModel.fromJson(e.response!.data),
+            ),
+          );
+        }
       } else {
         return Left(
           ErrorException(
@@ -53,7 +106,7 @@ class OrdersRemoteDatasource{
     } catch (e) {
       if (e is DioException) {
         if(e.response!.statusCode==500){
-          return Left(
+          return const Left(
             ErrorException(
               baseErrorModel: BaseErrorModel(message: "Server Error", success: false, code: 500, errors: ["Server Error"]),
             ),
@@ -128,7 +181,7 @@ class OrdersRemoteDatasource{
     } catch (e) {
       if (e is DioException) {
         if(e.response!.statusCode==500){
-          return Left(
+          return const Left(
             ErrorException(
               baseErrorModel: BaseErrorModel(message: "Server Error", success: false, code: 500, errors: ["Server Error"]),
             ),
@@ -199,11 +252,19 @@ class OrdersRemoteDatasource{
       return Right(GetContentImageModel.fromJson(response.data,),);
     } catch (e) {
       if (e is DioException) {
-        return Left(
-          ErrorException(
-            baseErrorModel: BaseErrorModel.fromJson(e.response!.data,),
-          ),
-        );
+        if(e.response!.statusCode==500){
+          return const Left(
+            ErrorException(
+              baseErrorModel: BaseErrorModel(message: "Server Error", success: false, code: 500, errors: ["Server Error"]),
+            ),
+          );
+        }else{
+          return Left(
+            ErrorException(
+              baseErrorModel: BaseErrorModel.fromJson(e.response!.data),
+            ),
+          );
+        }
       } else {
         return Left(
           ErrorException(
@@ -224,11 +285,19 @@ class OrdersRemoteDatasource{
       return Right(GetContentImageModel.fromJson(response.data,),);
     } catch (e) {
       if (e is DioException) {
-        return Left(
-          ErrorException(
-            baseErrorModel: BaseErrorModel.fromJson(e.response!.data,),
-          ),
-        );
+        if(e.response!.statusCode==500){
+          return const Left(
+            ErrorException(
+              baseErrorModel: BaseErrorModel(message: "Server Error", success: false, code: 500, errors: ["Server Error"]),
+            ),
+          );
+        }else{
+          return Left(
+            ErrorException(
+              baseErrorModel: BaseErrorModel.fromJson(e.response!.data),
+            ),
+          );
+        }
       } else {
         return Left(
           ErrorException(
@@ -268,11 +337,19 @@ class OrdersRemoteDatasource{
       return Right(GetAllTimeScheduleModel.fromJson(response.data,),);
     } catch (e) {
       if (e is DioException) {
-        return Left(
-          ErrorException(
-            baseErrorModel: BaseErrorModel.fromJson(e.response!.data,),
-          ),
-        );
+        if(e.response!.statusCode==500){
+          return const Left(
+            ErrorException(
+              baseErrorModel: BaseErrorModel(message: "Server Error", success: false, code: 500, errors: ["Server Error"]),
+            ),
+          );
+        }else{
+          return Left(
+            ErrorException(
+              baseErrorModel: BaseErrorModel.fromJson(e.response!.data),
+            ),
+          );
+        }
       } else {
         return Left(
           ErrorException(

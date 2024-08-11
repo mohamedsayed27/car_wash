@@ -61,9 +61,11 @@ class CarServicesScreen extends StatelessWidget {
               if(PlansCubit
                   .get(context).userPlansCurrentIndex!=null&&PlansCubit
                   .get(context).userPlansModel!.isSubscribed==0){
-                showToast(errorType: 1, message: "يجب الاشتراك في الخدمة اولا");
+                showToast(errorType: 1, message: "يجب الاشتراك في الخطة اولا");
               }else if(OrdersCubit.get(context).selectedTimeModel==null){
                 showToast(errorType: 1, message: "يجب تحديد موعد الطلب");
+              }else if( OrdersCubit.get(context).servicesCurrentIndex==null){
+                showToast(errorType: 1, message: "يجب اختيار الخدمة اولا");
               }
               else {
                 Navigator.pushNamed(

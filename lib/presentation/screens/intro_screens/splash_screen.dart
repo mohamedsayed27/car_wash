@@ -7,6 +7,7 @@ import 'package:car_wash/core/assets_path/svg_path.dart';
 import 'package:car_wash/core/cache_helper/cache_keys.dart';
 import 'package:car_wash/core/cache_helper/shared_pref_methods.dart';
 import 'package:car_wash/core/constants/constants.dart';
+import 'package:car_wash/core/enums/user_type_enum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -31,7 +32,11 @@ class _SplashScreenState extends State<SplashScreen> {
       const Duration(seconds: 2),
       () {
         if(token!=null){
-          Navigator.pushReplacementNamed(context, ScreenName.userHomeScreen);
+          if(userType == UserTypeEnum.representative.name) {
+            Navigator.pushReplacementNamed(context, ScreenName.vendorHomeScreen);
+          }else{
+            Navigator.pushReplacementNamed(context, ScreenName.userHomeScreen);
+          }
         }else {
           Navigator.pushReplacementNamed(context, ScreenName.loginScreen);
         }

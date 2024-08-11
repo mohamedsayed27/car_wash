@@ -7,12 +7,13 @@ class SingleOrderModel extends Equatable {
   final String? carType;
   final String? service;
   final String? userPlan;
+  final int? orderRate;
   final Client? client;
   final Representative? representative;
   final AddressModel? userAddress;
-  final ScheduleTime? scheduleTime;
   final String? orderStatus;
   final String? paymentStatus;
+  final ScheduleTime? scheduleTime;
   final String? total;
   final String? paymentMethod;
 
@@ -20,6 +21,7 @@ class SingleOrderModel extends Equatable {
     this.id,
     this.carType,
     this.service,
+    this.orderRate,
     this.userPlan,
     this.client,
     this.representative,
@@ -46,6 +48,7 @@ class SingleOrderModel extends Equatable {
           ? ScheduleTime.fromJson(json['schedule_time']): null,
       orderStatus: json['order_status'] as String?,
       paymentStatus: json['payment_status'] as String?,
+      orderRate: json['order_rate'] !=null?double.parse(json['order_rate'].toString()).round():null,
       total: json['total'] as String?,
       paymentMethod: json['payment_method'] as String?,
     );
@@ -65,6 +68,7 @@ class SingleOrderModel extends Equatable {
     paymentStatus,
     total,
     paymentMethod,
+    orderRate,
   ];
 }
 

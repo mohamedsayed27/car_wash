@@ -29,6 +29,7 @@ class _UserOrderProgressScreenState extends State<UserOrderProgressScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print(index);
     return BlocConsumer<OrdersCubit, OrdersState>(
       listener: (context, state) {
         // TODO: implement listener
@@ -47,14 +48,20 @@ class _UserOrderProgressScreenState extends State<UserOrderProgressScreen> {
                   child: CircularProgressIndicator.adaptive(),
                 )
               : ListView(
+
                   padding:
                       EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
                   physics:
-                      index == 2 ? const NeverScrollableScrollPhysics() : null,
+                  cubit.getSingleOrderModel!.orderStatus ==
+                      OrderStatusEnum.started.name ? const NeverScrollableScrollPhysics() : null,
                   children: [
                     StepperWidget(
                       index: cubit.getSingleOrderModel!.orderStatus ==
-                              OrderStatusEnum.assigned.name
+                                  OrderStatusEnum.assigned.name ||
+                              cubit.getSingleOrderModel!.orderStatus ==
+                                  OrderStatusEnum.pending.name||
+                              cubit.getSingleOrderModel!.orderStatus ==
+                                  OrderStatusEnum.approved.name
                           ? 1
                           : cubit.getSingleOrderModel!.orderStatus ==
                                   OrderStatusEnum.started.name
@@ -86,11 +93,13 @@ class _UserOrderProgressScreenState extends State<UserOrderProgressScreen> {
                         cubit.getSingleOrderModel!.orderStatus !=
                             OrderStatusEnum.finished.name)
                       FirstIndexComponent(
-                        isAccepted: isAccepted,
+                        isAccepted: cubit.getSingleOrderModel!.orderStatus ==
+                            OrderStatusEnum.approved.name,
+                        singleOrderModel: cubit.getSingleOrderModel,
                       ),
                     if (cubit.getSingleOrderModel!.orderStatus ==
                         OrderStatusEnum.started.name)
-                      const SecondIndexComponent(),
+                       SecondIndexComponent(orderId: cubit.getSingleOrderModel?.id.toString()??"",),
                     if (cubit.getSingleOrderModel!.orderStatus ==
                         OrderStatusEnum.finished.name)
                       const ThirdIndexComponent(),
@@ -99,12 +108,15 @@ class _UserOrderProgressScreenState extends State<UserOrderProgressScreen> {
                     ),
                   ],
                 ),
-          bottomNavigationBar: cubit.getSingleOrderModel!.orderStatus ==
-                  OrderStatusEnum.started.name
-              ? OrdersNavBarComponent(
-                  onPressed: () {},
-                )
-              : null,
+          bottomNavigationBar: cubit.getSingleOrderLoading
+              ? null
+              : cubit.getSingleOrderModel!.orderStatus ==
+                          OrderStatusEnum.started.name
+                  ? OrdersNavBarComponent(
+                      onPressed: () {},
+                      singleOrderModel: cubit.getSingleOrderModel,
+                    )
+                  : null,
         );
       },
     );

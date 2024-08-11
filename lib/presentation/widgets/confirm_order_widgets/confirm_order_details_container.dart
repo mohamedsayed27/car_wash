@@ -11,7 +11,9 @@ import '../../widgets/shared_widgets/details_container.dart';
 
 class UserConfirmOrderContainer extends StatelessWidget {
   final UserConfirmOrderArguments userConfirmOrderArguments;
-  const UserConfirmOrderContainer({super.key, required this.userConfirmOrderArguments});
+
+  final bool? usePlan;
+  const UserConfirmOrderContainer({super.key, required this.userConfirmOrderArguments, this.usePlan});
 
   @override
   Widget build(BuildContext context) {
@@ -57,20 +59,22 @@ class UserConfirmOrderContainer extends StatelessWidget {
           if(userConfirmOrderArguments.servicesModel!=null)Row(
             // mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+              Expanded(
+                child: Text(
+                  userConfirmOrderArguments.servicesModel?.name??"",
+                  style: CustomThemes.primaryColorTextTheme(context).copyWith(
+                    fontSize: 14.sp,
+                    fontWeight: CustomFontWeights.w400,
+                  ),
+                ),
+              ),
               Text(
-                userConfirmOrderArguments.servicesModel?.name??"",
+                "${userConfirmOrderArguments.servicesModel?.price??""} ريال",
                 style: CustomThemes.primaryColorTextTheme(context).copyWith(
                   fontSize: 14.sp,
                   fontWeight: CustomFontWeights.w400,
                 ),
               ),
-              // Text(
-              //   "70 ريال",
-              //   style: CustomThemes.primaryColorTextTheme(context).copyWith(
-              //     fontSize: 14.sp,
-              //     fontWeight: CustomFontWeights.w400,
-              //   ),
-              // ),
             ],
           ),
           if(userConfirmOrderArguments.servicesModel!=null)const CustomSizedBox(
@@ -122,42 +126,42 @@ class UserConfirmOrderContainer extends StatelessWidget {
             height: 16,
           ),
           const CustomDivider(),
-          if(userConfirmOrderArguments.allPlansModel!=null) const CustomSizedBox(
-            height: 16,
-          ),
-          if(userConfirmOrderArguments.allPlansModel!=null)Text(
-            "الاشتراكات الشهرية",
-            style: CustomThemes.primaryColorTextTheme(context).copyWith(
-              fontSize: 16.sp,
-              fontWeight: CustomFontWeights.bold,
-            ),
-          ),
-          if(userConfirmOrderArguments.allPlansModel!=null)const CustomSizedBox(
-            height: 8,
-          ),
-          if(userConfirmOrderArguments.allPlansModel!=null)Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                userConfirmOrderArguments.allPlansModel?.name??"",
-                style: CustomThemes.primaryColorTextTheme(context).copyWith(
-                  fontSize: 14.sp,
-                  fontWeight: CustomFontWeights.w400,
-                ),
-              ),
-              Text(
-                "${userConfirmOrderArguments.allPlansModel?.price} ريال",
-                style: CustomThemes.primaryColorTextTheme(context).copyWith(
-                  fontSize: 14.sp,
-                  fontWeight: CustomFontWeights.w400,
-                ),
-              ),
-            ],
-          ),
-          if(userConfirmOrderArguments.allPlansModel!=null)const CustomSizedBox(
-            height: 16,
-          ),
-          if(userConfirmOrderArguments.allPlansModel!=null)const CustomDivider(),
+          // if(userConfirmOrderArguments.allPlansModel!=null) const CustomSizedBox(
+          //   height: 16,
+          // ),
+          // if(userConfirmOrderArguments.allPlansModel!=null)Text(
+          //   "الاشتراكات الشهرية",
+          //   style: CustomThemes.primaryColorTextTheme(context).copyWith(
+          //     fontSize: 16.sp,
+          //     fontWeight: CustomFontWeights.bold,
+          //   ),
+          // ),
+          // if(userConfirmOrderArguments.allPlansModel!=null)const CustomSizedBox(
+          //   height: 8,
+          // ),
+          // if(userConfirmOrderArguments.allPlansModel!=null)Row(
+          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //   children: [
+          //     Text(
+          //       userConfirmOrderArguments.allPlansModel?.name??"",
+          //       style: CustomThemes.primaryColorTextTheme(context).copyWith(
+          //         fontSize: 14.sp,
+          //         fontWeight: CustomFontWeights.w400,
+          //       ),
+          //     ),
+          //     Text(
+          //       "${userConfirmOrderArguments.allPlansModel?.price} ريال",
+          //       style: CustomThemes.primaryColorTextTheme(context).copyWith(
+          //         fontSize: 14.sp,
+          //         fontWeight: CustomFontWeights.w400,
+          //       ),
+          //     ),
+          //   ],
+          // ),
+          // if(userConfirmOrderArguments.allPlansModel!=null)const CustomSizedBox(
+          //   height: 16,
+          // ),
+          // if(userConfirmOrderArguments.allPlansModel!=null)const CustomDivider(),
           const CustomSizedBox(
             height: 16,
           ),
@@ -171,8 +175,14 @@ class UserConfirmOrderContainer extends StatelessWidget {
                   fontWeight: CustomFontWeights.bold,
                 ),
               ),
-              Text(
-                "${userConfirmOrderArguments.allPlansModel?.price} ريال",
+              usePlan!?Text(
+                "انت تستحدم الاشتراك",
+                style: CustomThemes.primaryColorTextTheme(context).copyWith(
+                  fontSize: 14.sp,
+                  fontWeight: CustomFontWeights.bold,
+                ),
+              ):Text(
+                "${userConfirmOrderArguments.servicesModel?.price} ريال",
                 style: CustomThemes.primaryColorTextTheme(context).copyWith(
                   fontSize: 14.sp,
                   fontWeight: CustomFontWeights.bold,

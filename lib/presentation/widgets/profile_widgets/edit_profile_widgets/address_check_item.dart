@@ -62,45 +62,48 @@ class AddressCheckButtonWidget extends StatelessWidget {
                   width: 16,
                 ),
                 Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        title,
-                        style:
-                        // isSelected ?
-                        CustomThemes.primaryColorTextTheme(context)
-                                .copyWith(
-                                fontSize: 14.sp,
-                                fontWeight: CustomFontWeights.bold,
-                              )
-                            // : CustomThemes.greyColorB0TextTheme(context)
-                            //     .copyWith(
-                            //     fontSize: 14.sp,
-                            //     fontWeight: CustomFontWeights.w500,
-                            //   ),
-                      ),
-                      const CustomSizedBox(
-                        height: 4,
-                      ),
-                      Text(
-                        description,
-                        style:
-                        // isSelected ?
-                        CustomThemes.primaryColorTextTheme(context)
-                                .copyWith(
-                                fontSize: 14.sp,
-                                fontWeight: CustomFontWeights.w500,
-                              )
-                            // : CustomThemes.greyColorB0TextTheme(context)
-                            //     .copyWith(
-                            //     fontSize: 14.sp,
-                            //     fontWeight: CustomFontWeights.w500,
-                            //   ),
-                      ),
-                    ],
+                  child: Text(
+                      title,
+                      style:
+                      // isSelected ?
+                      CustomThemes.primaryColorTextTheme(context)
+                          .copyWith(
+                        fontSize: 14.sp,
+                        fontWeight: CustomFontWeights.bold,
+                      )
+                    // : CustomThemes.greyColorB0TextTheme(context)
+                    //     .copyWith(
+                    //     fontSize: 14.sp,
+                    //     fontWeight: CustomFontWeights.w500,
+                    //   ),
                   ),
-                ),
+                )
+                // Expanded(
+                //   child: Column(
+                //     crossAxisAlignment: CrossAxisAlignment.start,
+                //     children: [
+                //       ,
+                //       const CustomSizedBox(
+                //         height: 4,
+                //       ),
+                //       Text(
+                //         description,
+                //         style:
+                //         // isSelected ?
+                //         CustomThemes.primaryColorTextTheme(context)
+                //                 .copyWith(
+                //                 fontSize: 14.sp,
+                //                 fontWeight: CustomFontWeights.w500,
+                //               )
+                //             // : CustomThemes.greyColorB0TextTheme(context)
+                //             //     .copyWith(
+                //             //     fontSize: 14.sp,
+                //             //     fontWeight: CustomFontWeights.w500,
+                //             //   ),
+                //       ),
+                //     ],
+                //   ),
+                // ),
               ],
             ),
           ),

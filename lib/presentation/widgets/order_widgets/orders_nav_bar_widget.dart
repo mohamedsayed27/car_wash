@@ -4,14 +4,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../core/app_theme/app_colors.dart';
 import '../../../core/app_theme/custom_font_weights.dart';
 import '../../../core/app_theme/custom_themes.dart';
+import '../../../data/models/order_models/single_order_model.dart';
 import '../shared_widgets/agent_details_widget.dart';
 import '../shared_widgets/custom_elevated_button.dart';
 import '../shared_widgets/custom_sized_box.dart';
 
 class OrdersNavBarComponent extends StatelessWidget {
   final void Function()? onPressed;
-
-  const OrdersNavBarComponent({super.key, this.onPressed});
+  final SingleOrderModel? singleOrderModel;
+  const OrdersNavBarComponent({super.key, this.onPressed, this.singleOrderModel});
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +48,7 @@ class OrdersNavBarComponent extends StatelessWidget {
                 ),
               ),
               Text(
-                "9:00",
+                singleOrderModel?.scheduleTime?.time??"",
                 style: CustomThemes.primaryColorTextTheme(context).copyWith(
                   fontSize: 16.sp,
                   fontWeight: CustomFontWeights.bold,
@@ -78,15 +79,15 @@ class OrdersNavBarComponent extends StatelessWidget {
           const CustomSizedBox(
             height: 16,
           ),
-          const AgentDetailsWidget(),
-          const CustomSizedBox(
-            height: 16,
-          ),
-          CustomElevatedButton(
-            onPressed: onPressed,
-            text: "انهاء الطلب",
-            height: 48,
-          ),
+          AgentDetailsWidget(representative: singleOrderModel?.representative,),
+          // const CustomSizedBox(
+          //   height: 16,
+          // ),
+          // CustomElevatedButton(
+          //   onPressed: onPressed,
+          //   text: "انهاء الطلب",
+          //   height: 48,
+          // ),
         ],
       ),
     );

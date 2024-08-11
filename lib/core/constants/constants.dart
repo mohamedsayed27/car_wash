@@ -81,6 +81,10 @@ int? userId = CacheHelper.getData(
   key: CacheKeys.userId.toString(),
 );
 
+String? userType = CacheHelper.getData(
+  key: CacheKeys.userType.toString(),
+);
+
 String? name = CacheHelper.getData(
   key: CacheKeys.name.toString(),
 );

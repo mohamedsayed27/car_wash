@@ -30,6 +30,7 @@ static const services ='/services';
 static const userPlans ='/users-plans';
 static const aboutUs ='/about-us';
 static const help ='/help';
+static const rateOrder ='/rate-order';
 static const chatOrder ='/chat-order';
 static const sendChatOrder ='/send-chat-order';
 static const openChatOrder ='/open-chat-order';

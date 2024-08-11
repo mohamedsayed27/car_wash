@@ -14,14 +14,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'business_logic/orders_cubit/orders_cubit.dart';
 import 'business_logic/plans_cubit/plans_cubit.dart';
 import 'business_logic/representative_cubit/representative_cubit.dart';
 import 'core/app_theme/app_theme.dart';
 import 'firebase_options.dart';
 
-final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+var navigatorKey = GlobalKey<NavigatorState>();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   DioHelper.init();
@@ -31,7 +31,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MyApp());
+  runApp(Phoenix(child: const MyApp()));
 }
 
 class MyApp extends StatefulWidget {

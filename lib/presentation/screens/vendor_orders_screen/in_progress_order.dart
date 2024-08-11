@@ -156,7 +156,10 @@ class _VendorInProgressOrderScreenState
   }
 
   Future<void> _updateLocationToFirebase(
-      String orderId, double latitude, double longitude) async {
+    String orderId,
+    double latitude,
+    double longitude,
+  ) async {
     try {
       await _databaseReference.child('orders/$orderId/location').set({
         'lat': latitude,
@@ -349,26 +352,32 @@ class _VendorInProgressOrderScreenState
                       CustomElevatedButton(
                         onPressed: cubit.startOrderLoading
                             ? null
-                            : () {
-                                cubit.getSingleOrderModel?.orderStatus
-                                            ?.toString() ==
-                                        OrderStatusEnum.assigned.name
-                                    ? cubit.approveOrder(
-                                        id: cubit.getSingleOrderModel?.id
-                                                ?.toString() ??
-                                            "0")
-                                    : cubit.getSingleOrderModel?.orderStatus
+                            : cubit.getSingleOrderModel?.orderStatus
+                                        ?.toString() ==
+                                    OrderStatusEnum.finished.name
+                                ? null
+                                : () {
+                                    cubit.getSingleOrderModel?.orderStatus
                                                 ?.toString() ==
-                                            OrderStatusEnum.approved.name
-                                        ? cubit.startOrder(
+                                            OrderStatusEnum.assigned.name
+                                        ? cubit.approveOrder(
                                             id: cubit.getSingleOrderModel?.id
                                                     ?.toString() ??
                                                 "0")
-                                        : cubit.finishOrder(
-                                            id: cubit.getSingleOrderModel?.id
-                                                    ?.toString() ??
-                                                "0");
-                              },
+                                        : cubit.getSingleOrderModel?.orderStatus
+                                                    ?.toString() ==
+                                                OrderStatusEnum.approved.name
+                                            ? cubit.startOrder(
+                                                id: cubit
+                                                        .getSingleOrderModel?.id
+                                                        ?.toString() ??
+                                                    "0")
+                                            : cubit.finishOrder(
+                                                id: cubit
+                                                        .getSingleOrderModel?.id
+                                                        ?.toString() ??
+                                                    "0");
+                                  },
                         text: cubit.getSingleOrderModel?.orderStatus
                                     ?.toString() ==
                                 OrderStatusEnum.assigned.name

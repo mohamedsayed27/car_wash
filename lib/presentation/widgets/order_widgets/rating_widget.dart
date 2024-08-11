@@ -8,7 +8,8 @@ import '../../../core/app_theme/custom_themes.dart';
 
 class RatingWidget extends StatelessWidget {
   final String title;
-  const RatingWidget({super.key, required this.title});
+  final void Function(double) onRatingUpdate;
+  const RatingWidget({super.key, required this.title, required this.onRatingUpdate});
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +38,7 @@ class RatingWidget extends StatelessWidget {
             child: Center(
               child: RatingBar.builder(
                 itemCount: 5,
+
                 itemBuilder: (_, index) {
                   return const Icon(
                     Icons.star,
@@ -45,7 +47,7 @@ class RatingWidget extends StatelessWidget {
                 initialRating: 0,
                 itemSize: 20.r,
                 unratedColor: AppColors.greyColorD9,
-                onRatingUpdate: (onRatingUpdate) {},
+                onRatingUpdate: onRatingUpdate,
               ),
             ),
           ),

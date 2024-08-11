@@ -41,13 +41,6 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
     super.initState();
   }
 
-  List<String> itemsList = [
-    "data1",
-    "data2",
-    "data3",
-    "data4",
-    "data5",
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -239,7 +232,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                   },
                 ),
                 const CustomSizedBox(
-                  height: 18,
+                  height: 16,
                 ),
                 const CarTypeList(),
                 const CustomSizedBox(

@@ -6,7 +6,8 @@ import '../shared_widgets/custom_sized_box.dart';
 import 'car_type_widget.dart';
 
 class CarTypeList extends StatefulWidget {
-  const CarTypeList({super.key});
+  final bool? shrinkWrap;
+  const CarTypeList({super.key, this.shrinkWrap});
 
   @override
   State<CarTypeList> createState() => _CarTypeListState();
@@ -34,7 +35,7 @@ class _CarTypeListState extends State<CarTypeList> {
                   child: CircularProgressIndicator.adaptive(),
                 )
               : ListView.separated(
-                  // shrinkWrap: true,
+                  shrinkWrap: widget.shrinkWrap==null?false:true,
                   padding: EdgeInsets.zero,
                   itemBuilder: (_, index) {
                     return CarTypeWidget(

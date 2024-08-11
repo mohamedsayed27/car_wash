@@ -110,7 +110,7 @@ class _MonthlySubscriptionsComponentState
                                   price:
                                       cubit.plansList[index].price.toString(),
                                   onPressed: () {
-                                    OrdersCubit.get(context).removeIndex();
+                                    // OrdersCubit.get(context).removeIndex();
                                     cubit.changePlan(
                                       index,
                                       cubit.plansList[index],
@@ -132,12 +132,12 @@ class _MonthlySubscriptionsComponentState
                                   onPressed:
                                       cubit.plansList[index].isSubscribed == 1
                                           ? () {
-                                              if (OrdersCubit.get(context)
-                                                      .servicesCurrentIndex !=
-                                                  null) {
-                                                OrdersCubit.get(context)
-                                                    .removeIndex();
-                                              }
+                                              // if (OrdersCubit.get(context)
+                                              //         .servicesCurrentIndex !=
+                                              //     null) {
+                                                // OrdersCubit.get(context)
+                                                //     .removeIndex();
+                                              // }
                                               cubit.changePlan(index,
                                                   cubit.plansList[index]);
                                             }

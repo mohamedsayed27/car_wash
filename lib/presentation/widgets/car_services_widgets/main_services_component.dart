@@ -58,9 +58,10 @@ class _MainServicesComponentState extends State<MainServicesComponent> {
                       return CarServicesCheckButton(
                         isSelected: index == cubit.servicesCurrentIndex,
                         imagePath: cubit.servicesModel!.result![index].image!,
+                        price: cubit.servicesModel!.result![index].price.toString(),
                         title: cubit.servicesModel!.result![index].name!,
                         onPressed: () {
-                            PlansCubit.get(context).removeIndex();
+                            // PlansCubit.get(context).removeIndex();
                           cubit.changeServicesType(
                             index,
                             cubit.servicesModel!.result![index],

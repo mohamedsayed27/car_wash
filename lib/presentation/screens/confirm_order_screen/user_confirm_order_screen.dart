@@ -1,3 +1,7 @@
+import 'package:car_wash/business_logic/address_cubit/address_cubit.dart';
+import 'package:car_wash/main.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
+
 import '../../../business_logic/orders_cubit/orders_cubit.dart';
 import '../../../business_logic/plans_cubit/plans_cubit.dart';
 import '../../../core/parameters/orders_parameters/add_orders_parameters.dart';
@@ -48,6 +52,7 @@ class _UserConfirmOrderScreenState extends State<UserConfirmOrderScreen> {
         children: [
           UserConfirmOrderContainer(
             userConfirmOrderArguments: widget.userConfirmOrderArguments,
+            usePlan: usePlan,
           ),
           if (PlansCubit.get(context).plansList.any((e) => e.isSubscribed != 0))
             const CustomSizedBox(
@@ -85,11 +90,9 @@ class _UserConfirmOrderScreenState extends State<UserConfirmOrderScreen> {
                   errorType: 0,
                   message: state.baseResponseModel.message ?? "",
                 );
-                Navigator.pushNamedAndRemoveUntil(
-                  context,
-                  ScreenName.userHomeScreen,
-                  (route) => false,
-                );
+                navigatorKey = GlobalKey<NavigatorState>();
+                Phoenix.rebirth(context);
+
               }
               if (state is MakeOrderLoadingState) {
                 showProgressIndicator(context);
@@ -116,10 +119,8 @@ class _UserConfirmOrderScreenState extends State<UserConfirmOrderScreen> {
                   //             .userIdPlan
                   //             .toString()
                   //         : null,
-                  //     serviceId: !usePlan
-                  //         ? widget.userConfirmOrderArguments.servicesModel?.id
-                  //             .toString()
-                  //         : null,
+                  //     serviceId: widget.userConfirmOrderArguments.servicesModel?.id
+                  //             .toString(),
                   //     carTypeId: widget.userConfirmOrderArguments
                   //         .carServicesArgument?.contentImageModel!.id
                   //         .toString(),
@@ -129,14 +130,22 @@ class _UserConfirmOrderScreenState extends State<UserConfirmOrderScreen> {
                   //     orderTimeId: widget
                   //         .userConfirmOrderArguments.timeModel?.id
                   //         .toString(),
-                  //   ),
+                  //   ).toJson(),
                   // );
+
+
                   cubit.makeOrder(
                     addOrderParameters: AddOrderParameters(
-                      userPlanId: usePlan? PlansCubit.get(context).plansList.firstWhere((element)=>element.isSubscribed==1).userIdPlan.toString():null,
-                      serviceId: !usePlan?widget
-                          .userConfirmOrderArguments.servicesModel?.id
-                          .toString():null,
+                      userPlanId: usePlan
+                          ? PlansCubit.get(context)
+                          .plansList
+                          .firstWhere(
+                              (element) => element.isSubscribed == 1)
+                          .userIdPlan
+                          .toString()
+                          : null,
+                      serviceId: widget.userConfirmOrderArguments.servicesModel?.id
+                          .toString(),
                       carTypeId: widget.userConfirmOrderArguments
                           .carServicesArgument?.contentImageModel!.id
                           .toString(),
@@ -146,8 +155,11 @@ class _UserConfirmOrderScreenState extends State<UserConfirmOrderScreen> {
                       orderTimeId: widget
                           .userConfirmOrderArguments.timeModel?.id
                           .toString(),
-                    ),
+                    )
                   );
+
+
+
                   // Navigator.pushNamed(context, ScreenName.choosePaymentScreen);
                 },
                 width: double.infinity,
@@ -161,3 +173,16 @@ class _UserConfirmOrderScreenState extends State<UserConfirmOrderScreen> {
     );
   }
 }
+
+
+/*
+* Orders cubit selectedDateScheduleModel
+* orders  carCurrentIndex
+   orders carContentImageModel
+   * orders selectedTimeModel
+   *
+   *orders  removeIndex()
+   * plans removeIndex()
+   * address addressModel
+   * address current location
+* */

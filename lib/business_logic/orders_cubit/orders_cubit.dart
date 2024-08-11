@@ -45,6 +45,7 @@ class OrdersCubit extends Cubit<OrdersState> {
     servicesContentImageModel = null;
     emit(ChangeCarType());
   }
+
   void changeSelectedDateScheduleModel(TimeScheduleModel timeScheduleModel) {
     selectedDateScheduleModel = timeScheduleModel;
     selectedTimeModel = null;
@@ -52,12 +53,14 @@ class OrdersCubit extends Cubit<OrdersState> {
   }
 
   TimeModel? selectedTimeModel;
+
   void changeSelectedTimeScheduleModel(TimeModel? timeScheduleModel) {
     selectedTimeModel = timeScheduleModel;
     emit(ChangeSelectedTimeSchedule());
   }
 
   bool getCarTypesLoading = false;
+
   void getCarTypes() async {
     getCarTypesLoading = true;
     emit(GetCarTypesLoadingStates());
@@ -98,10 +101,10 @@ class OrdersCubit extends Cubit<OrdersState> {
     );
   }
 
-
   bool getTimeScheduleLoading = false;
   List<TimeScheduleModel> timeList = [];
   TimeScheduleModel? selectedDateScheduleModel;
+
   void getTimeSchedule() async {
     getTimeScheduleLoading = true;
     emit(GetTimeScheduleLoadingStates());
@@ -114,22 +117,22 @@ class OrdersCubit extends Cubit<OrdersState> {
         emit(GetTimeScheduleErrorStates(error: l.baseErrorModel.message));
       },
       (r) {
-        timeList = r.result??<TimeScheduleModel>[];
+        timeList = r.result ?? <TimeScheduleModel>[];
         getTimeScheduleLoading = false;
         emit(GetTimeScheduleSuccessStates());
       },
     );
   }
 
-
-
   bool addOrderLoading = false;
+
   void makeOrder({required AddOrderParameters addOrderParameters}) async {
     addOrderLoading = true;
     emit(MakeOrderLoadingState());
-    final response = await _ordersRemoteDatasource.addOrder(parameters: addOrderParameters);
+    final response =
+        await _ordersRemoteDatasource.addOrder(parameters: addOrderParameters);
     response.fold(
-          (l) {
+      (l) {
         baseErrorModel = l.baseErrorModel;
         addOrderLoading = false;
         emit(
@@ -140,28 +143,29 @@ class OrdersCubit extends Cubit<OrdersState> {
           ),
         );
       },
-          (r) async {
-            addOrderLoading = false;
-        emit(MakeOrderSuccessState(baseResponseModel: r),);
+      (r) async {
+        addOrderLoading = false;
+        emit(
+          MakeOrderSuccessState(baseResponseModel: r),
+        );
       },
     );
   }
 
-
-
   bool getSingleOrderLoading = false;
   SingleOrderModel? getSingleOrderModel;
+
   void getSingleOrder({required int id}) async {
     getSingleOrderLoading = true;
     emit(GetSingleOrderLoadingStates());
     final response = await _ordersRemoteDatasource.getSingleOrder(orderId: id);
     response.fold(
-          (l) {
+      (l) {
         baseErrorModel = l.baseErrorModel;
         getSingleOrderLoading = false;
         emit(GetSingleOrderErrorStates(error: l.baseErrorModel.message ?? ""));
       },
-          (r) {
+      (r) {
         getSingleOrderModel = r.result;
         getSingleOrderLoading = false;
         emit(GetSingleOrderSuccessStates(singleOrderModel: r.result));
@@ -169,21 +173,42 @@ class OrdersCubit extends Cubit<OrdersState> {
     );
   }
 
+  bool deleteOrderLoading = false;
+  SingleOrderModel? deleteOrderModel;
+
+  void deleteOrder({required String id}) async {
+    deleteOrderLoading = true;
+    emit(DeleteOrderLoadingStates());
+    final response = await _ordersRemoteDatasource.deleteOrder(orderId: id);
+    response.fold(
+      (l) {
+        baseErrorModel = l.baseErrorModel;
+        deleteOrderLoading = false;
+        emit(DeleteOrderErrorStates(error: l.baseErrorModel.message ?? ""));
+      },
+      (r) {
+        deleteOrderModel = r.result;
+        deleteOrderLoading = false;
+        emit(DeleteOrderSuccessStates(baseResponseModel: r.result));
+      },
+    );
+  }
 
   GetAllOrdersModel? getAllOrdersModel;
   bool getAllOrdersLoading = false;
+
   void getAllOrder() async {
     getAllOrdersLoading = true;
     emit(GetAllOrderLoadingStates());
     final response = await _ordersRemoteDatasource.getOrders();
 
     response.fold(
-          (l) {
+      (l) {
         baseErrorModel = l.baseErrorModel;
         getAllOrdersLoading = false;
         emit(GetAllOrderErrorStates(error: l.baseErrorModel.message ?? ""));
       },
-          (r) {
+      (r) {
         getAllOrdersModel = r;
         getAllOrdersLoading = false;
         emit(GetAllOrderSuccessStates());
@@ -191,4 +216,34 @@ class OrdersCubit extends Cubit<OrdersState> {
     );
   }
 
+  void rateOrder({
+    required String orderId,
+    required String rate,
+    required String review,
+  }) async {
+    emit(RateOrderLoadingStates());
+    final response = await _ordersRemoteDatasource.rateOrder(
+      orderId: orderId,
+      rate: rate,
+      review: review,
+    );
+
+    print(response);
+    response.fold(
+      (l) {
+        baseErrorModel = l.baseErrorModel;
+        emit(RateOrderErrorStates(error: l.baseErrorModel.message ?? ""));
+      },
+      (r) {
+        getAllOrdersLoading = false;
+        emit(RateOrderSuccessStates());
+      },
+    );
+  }
+
+  int rating = 0;
+
+  updateRating(value) {
+    rating = value.round();
+  }
 }

@@ -3,11 +3,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../core/app_theme/custom_font_weights.dart';
 import '../../../core/app_theme/custom_themes.dart';
+import '../../../data/models/order_models/single_order_model.dart';
 import '../shared_widgets/agent_details_widget.dart';
 import '../shared_widgets/custom_sized_box.dart';
 
 class AgentComponent extends StatelessWidget {
-  const AgentComponent({super.key});
+  final Representative? representative;
+  const AgentComponent({super.key, this.representative});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +26,7 @@ class AgentComponent extends StatelessWidget {
         const CustomSizedBox(
           height: 16,
         ),
-        const AgentDetailsWidget(),
+        AgentDetailsWidget(representative: representative,),
       ],
     );
   }
