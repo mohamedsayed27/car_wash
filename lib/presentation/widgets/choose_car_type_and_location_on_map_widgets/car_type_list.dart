@@ -37,6 +37,7 @@ class _CarTypeListState extends State<CarTypeList> {
               : ListView.separated(
                   shrinkWrap: widget.shrinkWrap==null?false:true,
                   padding: EdgeInsets.zero,
+                  physics: widget.shrinkWrap==null?null:const NeverScrollableScrollPhysics(),
                   itemBuilder: (_, index) {
                     return CarTypeWidget(
                       isSelected: cubit.carCurrentIndex == index,
@@ -46,10 +47,14 @@ class _CarTypeListState extends State<CarTypeList> {
                       description:
                           cubit.carTypesModel?.result?[index].content ?? "",
                       onPressed: () {
-                        cubit.changeCarType(
+                        if( cubit.carCurrentIndex == index){
+                          cubit.removeSelection();
+                        }else {
+                          cubit.changeCarType(
                           index,
                           cubit.carTypesModel!.result![index],
                         );
+                        }
                       },
                     );
                   },

@@ -31,6 +31,8 @@ class AuthRemoteDataSource {
       );
       return Right(LoginModel.fromJson(response.data));
     } catch (e) {
+      print("llllloooogggg");
+      print(e);
       if (e is DioException) {
         if(e.response!.statusCode==500){
           return const Left(
@@ -57,6 +59,7 @@ class AuthRemoteDataSource {
 
   Future<Either<ErrorException, BaseResponseModel>> sendOtp({
     required String otpCode,
+    required String token,
   }) async {
     try {
       final response = await dioHelper.postData(
@@ -66,11 +69,10 @@ class AuthRemoteDataSource {
           maxRedirects: 0,
           validateStatus: (status) => status! < 500,
         ),
-        data: FormData.fromMap(
-          {
-            "code": otpCode,
-          },
-        ),
+        addToken: token,
+        data: FormData.fromMap({
+          "code": otpCode,
+        },),
       );
       return Right(
         BaseResponseModel.fromJson(
@@ -78,6 +80,7 @@ class AuthRemoteDataSource {
         ),
       );
     } catch (e) {
+      print(e);
       if (e is DioException) {
         return Left(
           ErrorException(
@@ -108,6 +111,7 @@ class AuthRemoteDataSource {
       );
       return Right(RegisterModel.fromJson(response.data));
     } catch (e) {
+      print(e);
       if (e is DioException) {
         if(e.response!.statusCode==500){
           return const Left(

@@ -9,7 +9,9 @@ import '../../../core/app_theme/custom_themes.dart';
 class RatingWidget extends StatelessWidget {
   final String title;
   final void Function(double) onRatingUpdate;
-  const RatingWidget({super.key, required this.title, required this.onRatingUpdate});
+  final double? initialRate;
+  final bool ignoreGestures;
+  const RatingWidget({super.key, required this.title, required this.onRatingUpdate, this.initialRate, this.ignoreGestures = false});
 
   @override
   Widget build(BuildContext context) {
@@ -44,8 +46,9 @@ class RatingWidget extends StatelessWidget {
                     Icons.star,
                   );
                 },
-                initialRating: 0,
+                initialRating: initialRate??0,
                 itemSize: 20.r,
+                ignoreGestures: ignoreGestures,
                 unratedColor: AppColors.greyColorD9,
                 onRatingUpdate: onRatingUpdate,
               ),

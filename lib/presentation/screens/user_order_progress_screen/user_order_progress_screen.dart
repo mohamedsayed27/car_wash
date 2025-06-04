@@ -2,6 +2,7 @@ import 'package:car_wash/core/enums/order_status_enum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lottie/lottie.dart';
 
 import '../../../business_logic/orders_cubit/orders_cubit.dart';
 import '../../../core/app_theme/custom_font_weights.dart';
@@ -9,6 +10,7 @@ import '../../../core/app_theme/custom_themes.dart';
 import '../../../core/constants/constants.dart';
 import '../../widgets/order_widgets/first_index_component.dart';
 import '../../widgets/order_widgets/orders_nav_bar_widget.dart';
+import '../../widgets/order_widgets/rating_widget.dart';
 import '../../widgets/order_widgets/second_index_component.dart';
 import '../../widgets/order_widgets/stepper_widget.dart';
 import '../../widgets/order_widgets/third_index_component.dart';
@@ -29,7 +31,6 @@ class _UserOrderProgressScreenState extends State<UserOrderProgressScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print(index);
     return BlocConsumer<OrdersCubit, OrdersState>(
       listener: (context, state) {
         // TODO: implement listener
@@ -101,8 +102,25 @@ class _UserOrderProgressScreenState extends State<UserOrderProgressScreen> {
                         OrderStatusEnum.started.name)
                        SecondIndexComponent(orderId: cubit.getSingleOrderModel?.id.toString()??"",),
                     if (cubit.getSingleOrderModel!.orderStatus ==
-                        OrderStatusEnum.finished.name)
+                        OrderStatusEnum.finished.name&&cubit.getSingleOrderModel?.orderRate==null)
                       const ThirdIndexComponent(),
+                    if (cubit.getSingleOrderModel!.orderStatus ==
+                        OrderStatusEnum.finished.name&&cubit.getSingleOrderModel?.orderRate!=null) Column(
+                          children: [
+                            const CustomSizedBox(height: 16,),
+                            RatingWidget(
+                              title: 'قمت بتقييم المندوب',
+                              onRatingUpdate: (double){
+
+                              },
+                              ignoreGestures: true,
+                              initialRate: cubit.getSingleOrderModel!.orderRate!.toDouble(),
+                            ),
+                            const CustomSizedBox(height: 24,),
+                            Center(child: Lottie.asset("assets/lottie/notEditLottie.json"),),
+
+                          ],
+                        ),
                     const CustomSizedBox(
                       height: 48,
                     ),

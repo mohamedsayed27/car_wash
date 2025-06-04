@@ -70,6 +70,9 @@ class CustomTextField extends StatelessWidget {
         fontWeight: CustomFontWeights.w500,
       ),
       validator: validator,
+      onTapOutside: (pointer){
+        FocusScope.of(context).requestFocus(FocusNode());
+      },
       decoration: InputDecoration(
         border: border,
         focusedBorder: focusedBorder,

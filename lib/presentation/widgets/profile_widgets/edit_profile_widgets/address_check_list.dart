@@ -66,7 +66,7 @@ class _AddressCheckListState extends State<AddressCheckList> {
                     height: 8,
                   );
                 },
-                itemCount: cubit.getAddressesModel!.result!.length,
+                itemCount: cubit.getAddressesModel!.result?.length??0,
               );
       },
     );

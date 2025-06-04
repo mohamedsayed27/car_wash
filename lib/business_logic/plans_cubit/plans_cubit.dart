@@ -33,6 +33,7 @@ class PlansCubit extends Cubit<PlansState> {
     emit(ChangeUserPlansState());
   }
 
+
   void removeIndex() {
     userPlansCurrentIndex = null;
     userPlansModel=null;
@@ -64,7 +65,9 @@ class PlansCubit extends Cubit<PlansState> {
       },
       (r) async {
         getAllPlansModel = r;
+        print(getAllPlansModel?.result);
         plansList = r.result??[];
+        print(plansList.where((element)=>element.isSubscribed==1));
         getUserPlansLoading = false;
         emit(GetAllPlansSuccessState());
       },

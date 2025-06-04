@@ -42,6 +42,7 @@ class DioHelper {
     dynamic data,
     String lang = 'en',
     Options? options,
+    String? addToken,
   }) async {
 
      getToken();
@@ -50,6 +51,7 @@ class DioHelper {
       'lang': '',
       'User-Agent': 'Chrome/96.0.4664.110',
       if (token != null) "Authorization": "Bearer $token",
+      if (addToken != null) "Authorization": "Bearer $addToken",
       'Accept': 'text/plain',
     };
     return await dio.post(url, queryParameters: query, data: data,options: options);

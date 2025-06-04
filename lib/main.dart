@@ -1,4 +1,4 @@
-import 'package:car_wash/bloc_observer.dart';
+import '../bloc_observer.dart';
 import '../../../business_logic/address_cubit/address_cubit.dart';
 import '../../../business_logic/auth_cubit/auth_cubit.dart';
 import '../../../business_logic/chat_cubit/chat_cubit.dart';
@@ -22,6 +22,7 @@ import 'core/app_theme/app_theme.dart';
 import 'firebase_options.dart';
 
 var navigatorKey = GlobalKey<NavigatorState>();
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   DioHelper.init();
@@ -34,14 +35,8 @@ void main() async {
   runApp(Phoenix(child: const MyApp()));
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {

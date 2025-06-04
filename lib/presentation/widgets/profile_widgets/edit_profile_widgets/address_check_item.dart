@@ -111,28 +111,28 @@ class AddressCheckButtonWidget extends StatelessWidget {
         const CustomSizedBox(
           width: 12,
         ),
-        CustomSizedBox(
-          height: 20,
-          width: 20,
-          child: IconButton(
-            onPressed: () {
-
-            },
-            icon: SvgPicture.asset(
-              SvgPath.edit,
-              width: 20.w,
-              height: 20.h,
-              colorFilter: const ColorFilter.mode(
-                AppColors.primaryColor,
-                BlendMode.srcIn,
-              ),
-            ),
-            padding: EdgeInsets.zero,
-          ),
-        ),
-        const CustomSizedBox(
-          width: 8,
-        ),
+        // CustomSizedBox(
+        //   height: 20,
+        //   width: 20,
+        //   child: IconButton(
+        //     onPressed: () {
+        //
+        //     },
+        //     icon: SvgPicture.asset(
+        //       SvgPath.edit,
+        //       width: 20.w,
+        //       height: 20.h,
+        //       colorFilter: const ColorFilter.mode(
+        //         AppColors.primaryColor,
+        //         BlendMode.srcIn,
+        //       ),
+        //     ),
+        //     padding: EdgeInsets.zero,
+        //   ),
+        // ),
+        // const CustomSizedBox(
+        //   width: 8,
+        // ),
         CustomSizedBox(
           height: 20,
           width: 20,

@@ -77,13 +77,13 @@ class CustomDropDownButton<T> extends StatelessWidget {
         errorBorder: errorBorderColor,
       ),
       iconSize: 40.r,
-      icon: Ink(
+      icon: Container(
         height: 40.h,
         width: 40.w,
         padding: EdgeInsets.all(10.r),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(4.r),
-          color: AppColors.primaryColor,
+          // color: AppColors.primaryColor,
         ),
         child: SvgPicture.asset(
           SvgPath.arrowDown,

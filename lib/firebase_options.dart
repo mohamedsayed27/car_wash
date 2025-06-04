@@ -51,18 +51,21 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyAYGxwkqpfJR0CwaX0AuqfZKFrMPaOe_AY',
-    appId: '1:548939689085:android:985772c7dcf637c56bd514',
+    appId: '1:548939689085:android:cc479e540a4258486bd514',
     messagingSenderId: '548939689085',
     projectId: 'car-cash-dd946',
+    databaseURL: 'https://car-cash-dd946-default-rtdb.firebaseio.com',
     storageBucket: 'car-cash-dd946.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyDMqj_ZXI69-s05GbQQxr99KoqmdQHFMGU',
-    appId: '1:548939689085:ios:694e523632e788d36bd514',
+    appId: '1:548939689085:ios:723448ab4f3db0b56bd514',
     messagingSenderId: '548939689085',
     projectId: 'car-cash-dd946',
+    databaseURL: 'https://car-cash-dd946-default-rtdb.firebaseio.com',
     storageBucket: 'car-cash-dd946.appspot.com',
-    iosBundleId: 'com.example.carWash',
+    iosBundleId: 'com.ocoda.carWash',
   );
+
 }

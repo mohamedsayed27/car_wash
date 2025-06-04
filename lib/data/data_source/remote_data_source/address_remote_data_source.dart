@@ -10,26 +10,29 @@ import '../../../core/network/api_end_points.dart';
 import '../../../core/network/dio_helper.dart';
 import '../../../core/network/error_message_model.dart';
 
-class AddressRemoteDatasource{
+class AddressRemoteDatasource {
   final DioHelper dioHelper;
   AddressRemoteDatasource({required this.dioHelper});
-
 
   Future<Either<ErrorException, GetAddressesModel>> getAddress() async {
     try {
       final response = await dioHelper.getData(
         url: EndPoints.addresses,
       );
-      return Right(GetAddressesModel.fromJson(response.data),);
+      return Right(
+        GetAddressesModel.fromJson(response.data),
+      );
     } catch (e) {
+      print(e);
       if (e is DioException) {
-        if(e.response!.statusCode==500){
+        if (e.response!.statusCode == 500) {
           return const Left(
             ErrorException(
-              baseErrorModel: BaseErrorModel(message: "Server Error", success: false, code: 500, errors: ["Server Error"]),
+              baseErrorModel: BaseErrorModel(
+                  message: "Server Error", success: false, code: 500, errors: ["Server Error"]),
             ),
           );
-        }else{
+        } else {
           return Left(
             ErrorException(
               baseErrorModel: BaseErrorModel.fromJson(e.response!.data),
@@ -39,13 +42,16 @@ class AddressRemoteDatasource{
       } else {
         return Left(
           ErrorException(
-            baseErrorModel: BaseErrorModel(message: "Error ${e.toString()}", success: false, code: 300, errors: ["Error ${e.toString()}"]),
+            baseErrorModel: BaseErrorModel(
+                message: "Error ${e.toString()}",
+                success: false,
+                code: 300,
+                errors: ["Error ${e.toString()}"]),
           ),
         );
       }
     }
   }
-
 
   Future<Either<ErrorException, BaseResponseModel>> addAddress({
     required AddAddressParameters parameters,
@@ -60,13 +66,14 @@ class AddressRemoteDatasource{
       return Right(BaseResponseModel.fromJson(response.data));
     } catch (e) {
       if (e is DioException) {
-        if(e.response!.statusCode==500){
+        if (e.response!.statusCode == 500) {
           return const Left(
             ErrorException(
-              baseErrorModel: BaseErrorModel(message: "Server Error", success: false, code: 500, errors: ["Server Error"]),
+              baseErrorModel: BaseErrorModel(
+                  message: "Server Error", success: false, code: 500, errors: ["Server Error"]),
             ),
           );
-        }else{
+        } else {
           return Left(
             ErrorException(
               baseErrorModel: BaseErrorModel.fromJson(e.response!.data),
@@ -76,13 +83,16 @@ class AddressRemoteDatasource{
       } else {
         return Left(
           ErrorException(
-            baseErrorModel: BaseErrorModel(message: "Error ${e.toString()}", success: false, code: 300, errors: ["Error ${e.toString()}"]),
+            baseErrorModel: BaseErrorModel(
+                message: "Error ${e.toString()}",
+                success: false,
+                code: 300,
+                errors: ["Error ${e.toString()}"]),
           ),
         );
       }
     }
   }
-
 
   Future<Either<ErrorException, BaseResponseModel>> updateAddress({
     required UpdateAddressParameters parameters,
@@ -97,13 +107,14 @@ class AddressRemoteDatasource{
       return Right(BaseResponseModel.fromJson(response.data));
     } catch (e) {
       if (e is DioException) {
-        if(e.response!.statusCode==500){
+        if (e.response!.statusCode == 500) {
           return const Left(
             ErrorException(
-              baseErrorModel: BaseErrorModel(message: "Server Error", success: false, code: 500, errors: ["Server Error"]),
+              baseErrorModel: BaseErrorModel(
+                  message: "Server Error", success: false, code: 500, errors: ["Server Error"]),
             ),
           );
-        }else{
+        } else {
           return Left(
             ErrorException(
               baseErrorModel: BaseErrorModel.fromJson(e.response!.data),
@@ -113,13 +124,16 @@ class AddressRemoteDatasource{
       } else {
         return Left(
           ErrorException(
-            baseErrorModel: BaseErrorModel(message: "Error ${e.toString()}", success: false, code: 300, errors: ["Error ${e.toString()}"]),
+            baseErrorModel: BaseErrorModel(
+                message: "Error ${e.toString()}",
+                success: false,
+                code: 300,
+                errors: ["Error ${e.toString()}"]),
           ),
         );
       }
     }
   }
-
 
   Future<Either<ErrorException, BaseResponseModel>> deleteAddress({
     required String addressId,
@@ -129,20 +143,21 @@ class AddressRemoteDatasource{
         url: EndPoints.deleteAddress,
         data: FormData.fromMap(
           {
-            "address_id":addressId,
+            "address_id": addressId,
           },
         ),
       );
       return Right(BaseResponseModel.fromJson(response.data));
     } catch (e) {
       if (e is DioException) {
-        if(e.response!.statusCode==500){
+        if (e.response!.statusCode == 500) {
           return const Left(
             ErrorException(
-              baseErrorModel: BaseErrorModel(message: "Server Error", success: false, code: 500, errors: ["Server Error"]),
+              baseErrorModel: BaseErrorModel(
+                  message: "Server Error", success: false, code: 500, errors: ["Server Error"]),
             ),
           );
-        }else{
+        } else {
           return Left(
             ErrorException(
               baseErrorModel: BaseErrorModel.fromJson(e.response!.data),
@@ -152,7 +167,11 @@ class AddressRemoteDatasource{
       } else {
         return Left(
           ErrorException(
-            baseErrorModel: BaseErrorModel(message: "Error ${e.toString()}", success: false, code: 300, errors: ["Error ${e.toString()}"]),
+            baseErrorModel: BaseErrorModel(
+                message: "Error ${e.toString()}",
+                success: false,
+                code: 300,
+                errors: ["Error ${e.toString()}"]),
           ),
         );
       }

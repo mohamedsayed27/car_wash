@@ -60,19 +60,24 @@ class _VendorInProgressOrderScreenState
   final GoogleMapsServices googleMapsServices = GoogleMapsServices();
   List<LatLng> polyLineCoordinates = [];
 
-  void getPolyLinePoints(Position? currentLocation,
-      {double? lat, double? lng}) async {
+  void getPolyLinePoints(
+    Position? currentLocation, {
+    double? lat,
+    double? lng,
+  }) async {
     PolylinePoints polylinePoints = PolylinePoints();
     PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
-      "AIzaSyDcWIxw6lRSHR9O8ts9R76d9Z7ZzsFmDa0",
-      PointLatLng(
-        currentLocation!.latitude,
-        currentLocation.longitude,
-      ),
-      PointLatLng(
-        lat!,
-        lng!,
-      ),
+      googleApiKey: "AIzaSyDcWIxw6lRSHR9O8ts9R76d9Z7ZzsFmDa0",
+      request: PolylineRequest(
+          origin: PointLatLng(
+            currentLocation!.latitude,
+            currentLocation.longitude,
+          ),
+          destination: PointLatLng(
+            lat!,
+            lng!,
+          ),
+          mode: TravelMode.driving),
     );
     if (result.points.isNotEmpty) {
       polyLineCoordinates.clear();

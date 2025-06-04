@@ -15,9 +15,9 @@
 	<key>CFBundleName</key>
 	<string>car_wash</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-    <string>We need your location for...</string>
+    <string>We need your location to reach our services to you</string>
     <key>NSLocationAlwaysUsageDescription</key>
-    <string>We need your location for...</string>
+    <string>We need your location to reach our services to you</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>

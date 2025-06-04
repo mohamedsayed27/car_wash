@@ -6,6 +6,7 @@ import 'package:car_wash/presentation/screens/car_services_screen/car_services_s
 import 'package:car_wash/presentation/widgets/shared_widgets/custom_text_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../business_logic/address_cubit/address_cubit.dart';
 import '../../../core/app_router/screens_name.dart';
@@ -40,7 +41,6 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
     AddressCubit.get(context).getAddress();
     super.initState();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +82,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
               title: "الشروط والاحكام",
               onPressed: () {
                 PagesCubit.get(context).termsAndConditions();
-                Navigator.pushNamed(context, ScreenName.pageScreen,arguments: "الشروط والاحكام");
+                Navigator.pushNamed(context, ScreenName.pageScreen, arguments: "الشروط والاحكام");
               },
             ),
             CustomDrawerButton(
@@ -90,7 +90,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
               title: "سياسة الخصوصيه",
               onPressed: () {
                 PagesCubit.get(context).privacyPolicy();
-                Navigator.pushNamed(context, ScreenName.pageScreen,arguments: "سياسة الخصوصيه");
+                Navigator.pushNamed(context, ScreenName.pageScreen, arguments: "سياسة الخصوصيه");
               },
             ),
             CustomDrawerButton(
@@ -98,7 +98,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
               title: "عن التطبيق",
               onPressed: () {
                 PagesCubit.get(context).aboutUs();
-                Navigator.pushNamed(context, ScreenName.pageScreen,arguments: "عن التطبيق");
+                Navigator.pushNamed(context, ScreenName.pageScreen, arguments: "عن التطبيق");
               },
             ),
             const CustomSizedBox(
@@ -107,12 +107,13 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
             CustomDrawerButton(
               iconPath: SvgPath.logout,
               title: "تسجيل الخروج",
-              onPressed: () {
+              onPressed: () async {
                 showProgressIndicator(context);
-                CacheHelper.clearAllCache().then((value) {
+                final val = await CacheHelper.clearAllCache();
+                if (val) {
                   Navigator.pop(context);
-                  Navigator.pushNamedAndRemoveUntil(context, ScreenName.loginScreen, (route) => false);
-                });
+                  Phoenix.rebirth(context);
+                }
               },
             ),
             // Add more items as needed
@@ -183,32 +184,33 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                         : Row(
                             children: [
                               Expanded(
-                                child: cubit.getAddressesModel!.result != null?CustomDropDownButton<AddressModel>(
-                                  items: cubit.getAddressesModel!.result != null
-                                      ? cubit.getAddressesModel!.result!
-                                          .map(
-                                            (e) => DropdownMenuItem(
-                                              value: e,
-                                              child: Text(e.streetName ?? ""),
-                                            ),
-                                          )
-                                          .toList()
-                                      : [],
-                                  value: cubit.addressModel,
-                                  borderColor: cubit.addressModel == null
-                                      ? null
-                                      : AppColors.primaryColor,
-                                  hintText: "اختر المكان",
-                                  onChanged: cubit.chooseSelectedAddress,
-                                ):Text(
-                                  "لم تقم باضافة عنوان",
-                                  textAlign: TextAlign.start,
-                                  style:
-                                  CustomThemes.greyColor71TextTheme(context).copyWith(
-                                    fontSize: 14.sp,
-                                    fontWeight: CustomFontWeights.w500,
-                                  ),
-                                ),
+                                child: cubit.getAddressesModel?.result != null
+                                    ? CustomDropDownButton<AddressModel>(
+                                        items: cubit.getAddressesModel?.result != null
+                                            ? cubit.getAddressesModel!.result!
+                                                .map(
+                                                  (e) => DropdownMenuItem(
+                                                    value: e,
+                                                    child: Text(e.streetName ?? ""),
+                                                  ),
+                                                )
+                                                .toList()
+                                            : [],
+                                        value: cubit.addressModel,
+                                        borderColor: cubit.addressModel == null
+                                            ? null
+                                            : AppColors.primaryColor,
+                                        hintText: "اختر المكان",
+                                        onChanged: cubit.chooseSelectedAddress,
+                                      )
+                                    : Text(
+                                        "لم تقم باضافة عنوان",
+                                        textAlign: TextAlign.start,
+                                        style: CustomThemes.greyColor71TextTheme(context).copyWith(
+                                          fontSize: 14.sp,
+                                          fontWeight: CustomFontWeights.w500,
+                                        ),
+                                      ),
                               ),
                               const CustomSizedBox(
                                 width: 16,
@@ -218,9 +220,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                                 onPressed: () {
                                   Navigator.pushNamed(context, ScreenName.addAddressScreen);
                                 },
-                                style:
-                                    CustomThemes.primaryColorTextTheme(context)
-                                        .copyWith(
+                                style: CustomThemes.primaryColorTextTheme(context).copyWith(
                                   fontSize: 14.sp,
                                   fontWeight: FontWeight.w700,
                                   decoration: TextDecoration.underline,
@@ -240,7 +240,6 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                 ),
                 CustomElevatedButton(
                   backgroundColor: AppColors.primaryColor,
-
                   onPressed: () {
                     if (AddressCubit.get(context).addressModel != null &&
                         OrdersCubit.get(context).carContentImageModel != null) {
@@ -249,14 +248,14 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                         ScreenName.carServicesScreen,
                         arguments: CarServicesArgument(
                           addressModel: AddressCubit.get(context).addressModel!,
-                          contentImageModel:
-                              OrdersCubit.get(context).carContentImageModel,
+                          contentImageModel: OrdersCubit.get(context).carContentImageModel,
                         ),
                       );
                     } else {
                       showToast(
-                          errorType: 1,
-                          message: "من فضلك بأختيار العنوان ونوع السيارة",);
+                        errorType: 1,
+                        message: "من فضلك بأختيار العنوان ونوع السيارة",
+                      );
                     }
                   },
                   width: double.infinity,

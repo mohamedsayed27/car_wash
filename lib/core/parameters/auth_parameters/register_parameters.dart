@@ -22,6 +22,7 @@ class RegisterParameters extends Equatable {
       "name": name,
       "mobile_number": mobileNumber,
       "password": password,
+      "type":"client",
       if(avatar!=null)"avatar": await MultipartFile.fromFile(
         avatar!.path,
         filename: path.basename(avatar!.path),

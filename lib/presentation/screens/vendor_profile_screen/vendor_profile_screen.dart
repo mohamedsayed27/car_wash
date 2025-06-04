@@ -170,7 +170,7 @@ class _VendorProfileScreenState extends State<VendorProfileScreen> {
                           updateProfileParameters: UpdateProfileParameters(
                             name: cubit.nameController.text,
                             email: cubit.emailController.text,
-                            phone: cubit.phoneController.initialValue.nsn, avatar: cubit.profileImage,
+                            phone: cubit.phoneController.text, avatar: cubit.profileImage,
                           ),
                         );
                         // Navigator.pushNamedAndRemoveUntil(context,

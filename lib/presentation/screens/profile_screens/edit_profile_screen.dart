@@ -7,7 +7,6 @@ import '../../../presentation/widgets/shared_widgets/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:phone_form_field/phone_form_field.dart';
 
 import '../../../core/app_theme/custom_font_weights.dart';
 import '../../../core/app_theme/custom_themes.dart';
@@ -108,7 +107,7 @@ class EditProfileScreen extends StatelessWidget {
             height: 8,
           ),
           PhoneAuthField(
-            textEditingController: PhoneController(initialValue: PhoneNumber(isoCode: IsoCode.EG, nsn:phone!)),
+            textEditingController: TextEditingController(text:phone!),
           ),
           const CustomSizedBox(
             height: 8,

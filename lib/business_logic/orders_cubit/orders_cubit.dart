@@ -33,6 +33,11 @@ class OrdersCubit extends Cubit<OrdersState> {
     carContentImageModel = contentImageModel;
     emit(ChangeCarType());
   }
+  void removeSelection() {
+    carCurrentIndex = null;
+    carContentImageModel = null;
+    emit(ChangeCarType());
+  }
 
   void changeServicesType(int index, ContentImageModel contentImageModel) {
     servicesCurrentIndex = index;
@@ -168,6 +173,7 @@ class OrdersCubit extends Cubit<OrdersState> {
       (r) {
         getSingleOrderModel = r.result;
         getSingleOrderLoading = false;
+        print(getSingleOrderModel?.orderRate);
         emit(GetSingleOrderSuccessStates(singleOrderModel: r.result));
       },
     );

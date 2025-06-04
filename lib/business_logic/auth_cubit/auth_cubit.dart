@@ -5,7 +5,6 @@ import 'package:car_wash/data/models/auth_models/register_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:phone_form_field/phone_form_field.dart';
 
 import '../../core/cache_helper/cache_keys.dart';
 import '../../core/cache_helper/shared_pref_methods.dart';
@@ -31,13 +30,11 @@ class AuthCubit extends Cubit<AuthState> {
   BaseErrorModel? baseErrorModel;
   LoginModel? loginModel;
   RegisterModel? registerModel;
-  final PhoneController loginPhoneController = PhoneController();
-  final TextEditingController loginPasswordController = TextEditingController();
   final TextEditingController registerFirstNameController =
       TextEditingController();
   final TextEditingController registerLastNameController =
       TextEditingController();
-  final PhoneController registerPhoneController = PhoneController();
+  final TextEditingController registerPhoneController = TextEditingController();
   final TextEditingController registerPasswordController =
       TextEditingController();
   final TextEditingController registerEmailController = TextEditingController();
@@ -48,6 +45,8 @@ class AuthCubit extends Cubit<AuthState> {
 
   File? profileImage;
 
+   TextEditingController loginPhoneController = TextEditingController();
+   TextEditingController loginPasswordController = TextEditingController();
   Future<void> getImagePick() async {
     final pickedFile = await _picker.pickImage(
       source: ImageSource.gallery,
@@ -97,13 +96,17 @@ class AuthCubit extends Cubit<AuthState> {
 
   void sendOtp({
     required String code,
+    required String token,
   }) async {
     emit(SendOtpLoadingState());
+    print(code);
+    print(token);
     final response = await _authRemoteDataSource.sendOtp(
-      otpCode: code,
+      otpCode: code, token: token,
     );
     response.fold(
       (l) {
+        print(l);
         baseErrorModel = l.baseErrorModel;
         emit(
           SendOtpErrorState(
@@ -114,6 +117,8 @@ class AuthCubit extends Cubit<AuthState> {
         );
       },
       (r) async {
+        print("loginModelloginModelloginModelloginModel");
+        print(loginModel);
         handleCache(
           token: loginModel?.token,
           userId: loginModel?.result?.id,
@@ -144,6 +149,7 @@ class AuthCubit extends Cubit<AuthState> {
     response.fold(
       (l) {
         baseErrorModel = l.baseErrorModel;
+        print(l);
         emit(
           RegisterErrorState(
             error: l.baseErrorModel.errors != null
@@ -195,7 +201,7 @@ class AuthCubit extends Cubit<AuthState> {
 
   TextEditingController emailController = TextEditingController();
   TextEditingController nameController = TextEditingController();
-  PhoneController phoneController = PhoneController();
+  TextEditingController phoneController = TextEditingController();
   String? image;
   bool getUserDataLoading = false;
 
@@ -220,11 +226,9 @@ class AuthCubit extends Cubit<AuthState> {
         getUserDataLoading = false;
         emailController = TextEditingController(text: r.result?.email ?? "");
         nameController = TextEditingController(text: r.result?.name ?? "");
-        phoneController = PhoneController(
-          initialValue: PhoneNumber(
-            isoCode: IsoCode.EG,
-            nsn: r.result?.mobile ?? "",
-          ),
+        phoneController = TextEditingController(
+
+            text: r.result?.mobile ?? "",
         );
         image = r.result?.avatar;
         emit(GetUserDataSuccessState());

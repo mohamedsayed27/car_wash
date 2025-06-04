@@ -111,10 +111,17 @@ class _MonthlySubscriptionsComponentState
                                       cubit.plansList[index].price.toString(),
                                   onPressed: () {
                                     // OrdersCubit.get(context).removeIndex();
-                                    cubit.changePlan(
-                                      index,
-                                      cubit.plansList[index],
-                                    );
+                                    print(cubit.userPlansCurrentIndex);
+                                    print(index);
+                                    if(cubit.userPlansCurrentIndex==index){
+                                      cubit.removeIndex();
+                                    }else{
+                                      cubit.changePlan(
+                                        index,
+                                        cubit.plansList[index],
+                                      );
+                                    }
+
                                   },
                                   isChecked:
                                       index == cubit.userPlansCurrentIndex,
@@ -138,8 +145,14 @@ class _MonthlySubscriptionsComponentState
                                                 // OrdersCubit.get(context)
                                                 //     .removeIndex();
                                               // }
-                                              cubit.changePlan(index,
-                                                  cubit.plansList[index]);
+                                        if(cubit.userPlansCurrentIndex==index){
+                                          cubit.removeIndex();
+                                        }else{
+                                          cubit.changePlan(
+                                            index,
+                                            cubit.plansList[index],
+                                          );
+                                        }
                                             }
                                           : null,
                                   isChecked:

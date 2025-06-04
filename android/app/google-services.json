@@ -1,15 +1,16 @@
 {
   "project_info": {
     "project_number": "548939689085",
+    "firebase_url": "https://car-cash-dd946-default-rtdb.firebaseio.com",
     "project_id": "car-cash-dd946",
     "storage_bucket": "car-cash-dd946.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:548939689085:android:985772c7dcf637c56bd514",
+        "mobilesdk_app_id": "1:548939689085:android:cc479e540a4258486bd514",
         "android_client_info": {
-          "package_name": "com.example.car_wash"
+          "package_name": "com.ocoda.carWash"
         }
       },
       "oauth_client": [],

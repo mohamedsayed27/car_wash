@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:phone_form_field/phone_form_field.dart';
 
 import '../../../business_logic/auth_cubit/auth_cubit.dart';
 import '../../../core/app_router/screens_name.dart';
@@ -34,12 +33,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       TextEditingController();
   final TextEditingController registerLastNameController =
       TextEditingController();
-  final PhoneController registerPhoneController = PhoneController(
-    initialValue: const PhoneNumber(
-      isoCode: IsoCode.EG,
-      nsn: "",
-    ),
-  );
+  final TextEditingController registerPhoneController = TextEditingController(
+      text: "",
+    );
   final TextEditingController registerPasswordController =
       TextEditingController();
   final TextEditingController registerEmailController = TextEditingController();
@@ -69,14 +65,20 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               Navigator.pop(context);
 
               cubit.profileImage = null;
-              showToast(errorType: 0, message: "تم التسجيل بنجاح اذهب لتسجيل الدخول",);
+              showToast(
+                errorType: 0,
+                message: "تم التسجيل بنجاح اذهب لتسجيل الدخول",
+              );
             }
             if (state is RegisterLoadingState) {
               showProgressIndicator(context);
             }
             if (state is RegisterErrorState) {
               Navigator.pop(context);
-              showToast(errorType: 1, message: state.error,);
+              showToast(
+                errorType: 1,
+                message: state.error,
+              );
             }
           },
           builder: (context, state) {
@@ -179,19 +181,20 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 ),
                 CustomElevatedButton(
                   onPressed: () {
-                    cubit.register(
+                    if(cubit.profileImage!=null) {
+                      cubit.register(
                       registerParameters: RegisterParameters(
                         name:
-                            "${registerFirstNameController.text} ${registerLastNameController.text}",
+                            "${registerFirstNameController.text.trim()} ${registerLastNameController.text.trim()}",
                         mobileNumber:
-                            registerPhoneController.value.isoCode.name ==
-                                    IsoCode.EG.name
-                                ? "0${registerPhoneController.value.nsn}"
-                                : registerPhoneController.value.nsn,
+                            registerPhoneController.text,
                         password: registerPasswordController.text,
                         avatar: cubit.profileImage!,
                       ),
                     );
+                    }else{
+                      showToast(errorType: 1, message: "برجاء اختيار صورة",);
+                    }
                   },
                   text: "تسجيل",
                   width: double.infinity,

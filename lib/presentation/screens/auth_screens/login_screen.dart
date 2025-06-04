@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:phone_form_field/phone_form_field.dart';
 
 import '../../../business_logic/auth_cubit/auth_cubit.dart';
 import '../../../core/app_router/screens_name.dart';
@@ -31,9 +30,6 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   late final AuthCubit cubit;
 
-  final PhoneController loginPhoneController = PhoneController(
-      initialValue: const PhoneNumber(isoCode: IsoCode.EG, nsn: ""));
-  final TextEditingController loginPasswordController = TextEditingController();
 
   @override
   void initState() {
@@ -41,184 +37,192 @@ class _LoginScreenState extends State<LoginScreen> {
     super.initState();
   }
 
+  final formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: ListView(
-          padding: EdgeInsets.symmetric(
-            horizontal: 16.w,
-            vertical: 32.h,
-          ),
-          children: [
-            const CustomSizedBox(
-              height: 24,
+        child: Form(
+          key: formKey,
+          child: ListView(
+            padding: EdgeInsets.symmetric(
+              horizontal: 16.w,
+              vertical: 32.h,
             ),
-            Text(
-              "تسجيل الدخول",
-              textAlign: TextAlign.center,
-              style: CustomThemes.primaryColorTextTheme(context).copyWith(
-                fontSize: 18.sp,
-                fontWeight: CustomFontWeights.bold,
+            children: [
+              const CustomSizedBox(
+                height: 24,
               ),
-            ),
-            const CustomSizedBox(
-              height: 8,
-            ),
-            Text(
-              "لقد تم توليد هذا النص من مولد النص العربى",
-              textAlign: TextAlign.center,
-              style: CustomThemes.greyColor7DTextTheme(context).copyWith(
-                fontSize: 14.sp,
-                fontWeight: CustomFontWeights.w400,
+              Text(
+                "تسجيل الدخول",
+                textAlign: TextAlign.center,
+                style: CustomThemes.primaryColorTextTheme(context).copyWith(
+                  fontSize: 18.sp,
+                  fontWeight: CustomFontWeights.bold,
+                ),
               ),
-            ),
-            const CustomSizedBox(
-              height: 39,
-            ),
-            SvgPicture.asset(
-              SvgPath.loginImage,
-              height: 217.h,
-              width: 203.w,
-            ),
-            const CustomSizedBox(
-              height: 24,
-            ),
-            PhoneAuthField(
-              textEditingController: loginPhoneController,
-            ),
-            // const CustomSizedBox(
-            //   height: 16,
-            // ),
-            const CustomSizedBox(
-              height: 16,
-            ),
-            CustomTextField(
-              hintText: "ادخل كلمة المرور",
-              // enabled: enabled,
-              // filled: enabled == false ? true : null,
-              // fillColor: enabled == false ? AppColors.greyColorB0 : null,
-              controller: loginPasswordController,
-            ),
-            const CustomSizedBox(
-              height: 32,
-            ),
-            BlocConsumer<AuthCubit, AuthState>(
-              listener: (context, state) {
-                if (state is LoginSuccessState) {
-                  Navigator.pop(context);
-                  if (state.loginModel?.otpCode != null) {
-                    showDialog(
-                      context: context,
-                      builder: (_) => OtpDialog(
-                        phoneNumber: state.loginModel?.result?.mobile,
-                        otpCode: state.loginModel?.otpCode?.toString() ?? "",
-                        // isUser: true,
-                      ),
-                    );
-                  } else {
-                    AuthCubit.get(context).handleCache(
-                      token: state.loginModel?.token,
-                      userType: state.loginModel?.result?.type?.toLowerCase(),
-                      userId: state.loginModel?.result?.id,
-                      name: state.loginModel?.result?.name,
-                      email: state.loginModel?.result?.email,
-                      phone: state.loginModel?.result?.mobile,
-                    );
-                    showToast(
-                      errorType: 0,
-                      message: state.loginModel?.message ?? "",
-                    );
-                    if (state.loginModel?.result?.type?.toLowerCase() ==
-                        UserTypeEnum.client.name) {
-                      Navigator.pushNamedAndRemoveUntil(
-                        context,
-                        ScreenName.userHomeScreen,
-                        (route) => false,
+              const CustomSizedBox(
+                height: 8,
+              ),
+              Text(
+                "لقد تم توليد هذا النص من مولد النص العربى",
+                textAlign: TextAlign.center,
+                style: CustomThemes.greyColor7DTextTheme(context).copyWith(
+                  fontSize: 14.sp,
+                  fontWeight: CustomFontWeights.w400,
+                ),
+              ),
+              const CustomSizedBox(
+                height: 39,
+              ),
+              SvgPicture.asset(
+                SvgPath.loginImage,
+                height: 217.h,
+                width: 203.w,
+              ),
+              const CustomSizedBox(
+                height: 24,
+              ),
+              PhoneAuthField(
+                textEditingController: cubit.loginPhoneController,
+              ),
+              const CustomSizedBox(
+                height: 16,
+              ),
+              CustomTextField(
+                hintText: "ادخل كلمة المرور",
+                isNotVisible: true,
+                maxLines: 1,
+                validator: (value){
+                  if(value!.isEmpty){
+                    return "ادخل الرقم السري";
+                  }
+                  return null;
+                },
+                controller: cubit.loginPasswordController,
+              ),
+              const CustomSizedBox(
+                height: 32,
+              ),
+              BlocConsumer<AuthCubit, AuthState>(
+                listener: (context, state) {
+                  if (state is LoginSuccessState) {
+                    Navigator.pop(context);
+                    if (state.loginModel?.otpCode != null) {
+                      showDialog(
+                        context: context,
+                        builder: (_) => OtpDialog(
+                          phoneNumber: state.loginModel?.result?.mobile,
+                          otpCode: state.loginModel?.otpCode?.toString() ?? "",
+                          token: state.loginModel?.token,
+                          // isUser: true,
+                        ),
                       );
+
                     } else {
-                      Navigator.pushNamedAndRemoveUntil(
-                        context,
-                        ScreenName.vendorHomeScreen,
-                        (route) => false,
+                      AuthCubit.get(context).handleCache(
+                        token: state.loginModel?.token,
+                        userType: state.loginModel?.result?.type?.toLowerCase(),
+                        userId: state.loginModel?.result?.id,
+                        name: state.loginModel?.result?.name,
+                        email: state.loginModel?.result?.email,
+                        phone: state.loginModel?.result?.mobile,
                       );
+                      showToast(
+                        errorType: 0,
+                        message: state.loginModel?.message ?? "",
+                      );
+                      if (state.loginModel?.result?.type?.toLowerCase() ==
+                          UserTypeEnum.client.name) {
+                        Navigator.pushNamedAndRemoveUntil(
+                          context,
+                          ScreenName.userHomeScreen,
+                          (route) => false,
+                        );
+                      } else {
+                        Navigator.pushNamedAndRemoveUntil(
+                          context,
+                          ScreenName.vendorHomeScreen,
+                          (route) => false,
+                        );
+                      }
                     }
                   }
-                }
-                if (state is LoginLoadingState) {
-                  showProgressIndicator(context);
-                }
-                if (state is LoginErrorState) {
-                  Navigator.pop(context);
-                  showToast(
-                    errorType: 1,
-                    message: state.error,
-                  );
-                }
-              },
-              builder: (context, state) {
-                return CustomElevatedButton(
-                  borderRadius: null,
-                  onPressed: () {
-                    cubit.login(
-                      loginParameters: LoginParameters(
-                        mobileNumber: loginPhoneController.value.isoCode.name ==
-                                IsoCode.EG.name
-                            ? "0${loginPhoneController.value.nsn}"
-                            : loginPhoneController.value.nsn,
-                        password: loginPasswordController.text,
-                      ),
+                  if (state is LoginLoadingState) {
+                    showProgressIndicator(context);
+                  }
+                  if (state is LoginErrorState) {
+                    Navigator.pop(context);
+                    showToast(
+                      errorType: 1,
+                      message: state.error,
                     );
-                  },
-                  text: "ارسال الرمز",
-                  width: double.infinity,
-                  padding: EdgeInsets.symmetric(vertical: 16.h),
-                );
-              },
-            ),
-            const CustomSizedBox(
-              height: 24,
-            ),
-            RichText(
-              textAlign: TextAlign.center,
-              text: TextSpan(
-                text: "ليس لديك جساب؟  ",
-                style: CustomThemes.primaryColorTextTheme(context).copyWith(
-                    fontWeight: CustomFontWeights.w500, fontSize: 16.sp),
-                children: [
-                  WidgetSpan(
-                    child: CustomTextButton(
-                      height: 26,
-                      onPressed: () {
-                        Navigator.pushNamed(
-                          context,
-                          ScreenName.registerScreen,
-                        );
-                      },
-                      child: Text(
-                        "سجل الان",
-                        style: CustomThemes.primaryColorTextTheme(context)
-                            .copyWith(
-                          fontWeight: CustomFontWeights.bold,
-                          fontSize: 16.sp,
-                          decoration: TextDecoration.underline,
-                          decorationColor: AppColors.primaryColor,
+                  }
+                },
+                builder: (context, state) {
+                  return CustomElevatedButton(
+                    borderRadius: null,
+                    onPressed: () {
+
+                     if(formKey.currentState!.validate()){
+                       cubit.login(
+                         loginParameters: LoginParameters(
+                           mobileNumber: cubit.loginPhoneController.text,
+                           password: cubit.loginPasswordController.text,
+                         ),
+                       );
+                     }
+                    },
+                    text: "ارسال الرمز",
+                    width: double.infinity,
+                    padding: EdgeInsets.symmetric(vertical: 16.h),
+                  );
+                },
+              ),
+              const CustomSizedBox(
+                height: 24,
+              ),
+              RichText(
+                textAlign: TextAlign.center,
+                text: TextSpan(
+                  text: "ليس لديك جساب؟  ",
+                  style: CustomThemes.primaryColorTextTheme(context).copyWith(
+                      fontWeight: CustomFontWeights.w500, fontSize: 16.sp),
+                  children: [
+                    WidgetSpan(
+                      child: CustomTextButton(
+                        height: 26,
+                        onPressed: () {
+                          Navigator.pushNamed(
+                            context,
+                            ScreenName.registerScreen,
+                          );
+                        },
+                        child: Text(
+                          "سجل الان",
+                          style: CustomThemes.primaryColorTextTheme(context)
+                              .copyWith(
+                            fontWeight: CustomFontWeights.bold,
+                            fontSize: 16.sp,
+                            decoration: TextDecoration.underline,
+                            decorationColor: AppColors.primaryColor,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            const CustomSizedBox(
-              height: 32,
-            ),
-            Image.asset(
-              ImagesPath.loginLogo,
-              width: 96.w,
-              height: 94.h,
-            ),
-          ],
+              const CustomSizedBox(
+                height: 32,
+              ),
+              Image.asset(
+                ImagesPath.loginLogo,
+                width: 96.w,
+                height: 94.h,
+              ),
+            ],
+          ),
         ),
       ),
     );
