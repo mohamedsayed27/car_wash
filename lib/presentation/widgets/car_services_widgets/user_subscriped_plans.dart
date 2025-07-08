@@ -6,7 +6,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'package:car_wash/presentation/widgets/shared_widgets/custom_check_box.dart';
-import '../../../business_logic/orders_cubit/orders_cubit.dart';
 import '../../../core/app_theme/app_colors.dart';
 import '../../../core/app_theme/custom_font_weights.dart';
 import '../../../core/app_theme/custom_themes.dart';
@@ -20,12 +19,10 @@ class MonthlySubscriptionsComponent extends StatefulWidget {
   const MonthlySubscriptionsComponent({super.key});
 
   @override
-  State<MonthlySubscriptionsComponent> createState() =>
-      _MonthlySubscriptionsComponentState();
+  State<MonthlySubscriptionsComponent> createState() => _MonthlySubscriptionsComponentState();
 }
 
-class _MonthlySubscriptionsComponentState
-    extends State<MonthlySubscriptionsComponent> {
+class _MonthlySubscriptionsComponentState extends State<MonthlySubscriptionsComponent> {
   @override
   void initState() {
     if (PlansCubit.get(context).plansList.isEmpty) {
@@ -97,66 +94,55 @@ class _MonthlySubscriptionsComponentState
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
                         itemBuilder: (_, index) {
-                          return !cubit.plansList
-                                  .any((e) => e.isSubscribed == 1)
+                          return !cubit.plansList.any((e) => e.isSubscribed == 1)
                               ? CarServicesCheckButton(
-                                  isSelected:
-                                      index == cubit.userPlansCurrentIndex,
+                                  isSelected: index == cubit.userPlansCurrentIndex,
                                   imagePath: SvgPath.washingMachine,
                                   isSvg: true,
-                                  washNumber: cubit.plansList[index].washNumber
-                                      .toString(),
+                                  washNumber: cubit.plansList[index].washNumber.toString(),
                                   title: cubit.plansList[index].name ?? "",
-                                  price:
-                                      cubit.plansList[index].price.toString(),
+                                  price: cubit.plansList[index].price.toString(),
                                   onPressed: () {
                                     // OrdersCubit.get(context).removeIndex();
                                     print(cubit.userPlansCurrentIndex);
                                     print(index);
-                                    if(cubit.userPlansCurrentIndex==index){
+                                    if (cubit.userPlansCurrentIndex == index) {
                                       cubit.removeIndex();
-                                    }else{
+                                    } else {
                                       cubit.changePlan(
                                         index,
                                         cubit.plansList[index],
                                       );
                                     }
-
                                   },
-                                  isChecked:
-                                      index == cubit.userPlansCurrentIndex,
+                                  isChecked: index == cubit.userPlansCurrentIndex,
                                 )
                               : CarServicesCheckButton(
-                                  isSelected:
-                                      cubit.plansList[index].isSubscribed == 1,
+                                  isSelected: cubit.plansList[index].isSubscribed == 1,
                                   imagePath: SvgPath.washingMachine,
                                   isSvg: true,
-                                  washNumber: cubit.plansList[index].washNumber
-                                      .toString(),
+                                  washNumber: cubit.plansList[index].washNumber.toString(),
                                   title: cubit.plansList[index].name ?? "",
-                                  price:
-                                      cubit.plansList[index].price.toString(),
-                                  onPressed:
-                                      cubit.plansList[index].isSubscribed == 1
-                                          ? () {
-                                              // if (OrdersCubit.get(context)
-                                              //         .servicesCurrentIndex !=
-                                              //     null) {
-                                                // OrdersCubit.get(context)
-                                                //     .removeIndex();
-                                              // }
-                                        if(cubit.userPlansCurrentIndex==index){
-                                          cubit.removeIndex();
-                                        }else{
-                                          cubit.changePlan(
-                                            index,
-                                            cubit.plansList[index],
-                                          );
+                                  price: cubit.plansList[index].price.toString(),
+                                  onPressed: cubit.plansList[index].isSubscribed == 1
+                                      ? () {
+                                          // if (OrdersCubit.get(context)
+                                          //         .servicesCurrentIndex !=
+                                          //     null) {
+                                          // OrdersCubit.get(context)
+                                          //     .removeIndex();
+                                          // }
+                                          if (cubit.userPlansCurrentIndex == index) {
+                                            cubit.removeIndex();
+                                          } else {
+                                            cubit.changePlan(
+                                              index,
+                                              cubit.plansList[index],
+                                            );
+                                          }
                                         }
-                                            }
-                                          : null,
-                                  isChecked:
-                                      index == cubit.userPlansCurrentIndex,
+                                      : null,
+                                  isChecked: index == cubit.userPlansCurrentIndex,
                                 );
                         },
                         separatorBuilder: (_, index) {
@@ -170,8 +156,7 @@ class _MonthlySubscriptionsComponentState
                         child: Text(
                           "لم يتم الاشتارك في اي باقة",
                           textAlign: TextAlign.center,
-                          style: CustomThemes.greyColor71TextTheme(context)
-                              .copyWith(
+                          style: CustomThemes.greyColor71TextTheme(context).copyWith(
                             fontSize: 14.sp,
                             fontWeight: CustomFontWeights.w500,
                           ),
@@ -212,9 +197,7 @@ class CarServicesCheckButton extends StatelessWidget {
       borderColor: isSelected ? AppColors.primaryColor : AppColors.greyColorB0,
       borderRadius: 8,
       onPressed: onPressed,
-      backgroundColor: isSelected
-          ? AppColors.primaryColor.withOpacity(0.08)
-          : AppColors.whiteColor,
+      backgroundColor: isSelected ? AppColors.primaryColor.withOpacity(0.08) : AppColors.whiteColor,
       foregroundColor: AppColors.primaryColor,
       padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 14.h),
       child: Row(

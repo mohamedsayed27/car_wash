@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../business_logic/orders_cubit/orders_cubit.dart';
-import '../../../business_logic/plans_cubit/plans_cubit.dart';
 import '../../../core/app_theme/custom_font_weights.dart';
 import '../../../core/app_theme/custom_themes.dart';
 import '../../../core/constants/extensions.dart';
@@ -61,7 +60,7 @@ class _MainServicesComponentState extends State<MainServicesComponent> {
                         price: cubit.servicesModel!.result![index].price.toString(),
                         title: cubit.servicesModel!.result![index].name!,
                         onPressed: () {
-                            // PlansCubit.get(context).removeIndex();
+                          // PlansCubit.get(context).removeIndex();
                           cubit.changeServicesType(
                             index,
                             cubit.servicesModel!.result![index],

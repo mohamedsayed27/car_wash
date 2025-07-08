@@ -1,4 +1,3 @@
-import 'package:car_wash/business_logic/address_cubit/address_cubit.dart';
 import 'package:car_wash/main.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 
@@ -10,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../core/app_router/screens_name.dart';
 import '../../../core/constants/constants.dart';
 import '../../widgets/confirm_order_widgets/confirm_order_details_container.dart';
 import '../../widgets/shared_widgets/custom_app_bar.dart';
@@ -63,10 +61,12 @@ class _UserConfirmOrderScreenState extends State<UserConfirmOrderScreen> {
               children: [
                 Checkbox(
                   value: usePlan,
-                  onChanged: widget.userConfirmOrderArguments.servicesModel!=null?(value) {
-                    usePlan = value!;
-                    setState(() {});
-                  }:null,
+                  onChanged: widget.userConfirmOrderArguments.servicesModel != null
+                      ? (value) {
+                          usePlan = value!;
+                          setState(() {});
+                        }
+                      : null,
                   visualDensity: const VisualDensity(
                     vertical: VisualDensity.minimumDensity,
                     horizontal: VisualDensity.minimumDensity,
@@ -92,7 +92,6 @@ class _UserConfirmOrderScreenState extends State<UserConfirmOrderScreen> {
                 );
                 navigatorKey = GlobalKey<NavigatorState>();
                 Phoenix.rebirth(context);
-
               }
               if (state is MakeOrderLoadingState) {
                 showProgressIndicator(context);
@@ -133,32 +132,24 @@ class _UserConfirmOrderScreenState extends State<UserConfirmOrderScreen> {
                   //   ).toJson(),
                   // );
 
-
                   cubit.makeOrder(
-                    addOrderParameters: AddOrderParameters(
-                      userPlanId: usePlan
-                          ? PlansCubit.get(context)
-                          .plansList
-                          .firstWhere(
-                              (element) => element.isSubscribed == 1)
-                          .userIdPlan
-                          .toString()
-                          : null,
-                      serviceId: widget.userConfirmOrderArguments.servicesModel?.id
-                          .toString(),
-                      carTypeId: widget.userConfirmOrderArguments
-                          .carServicesArgument?.contentImageModel!.id
-                          .toString(),
-                      userAddressId: widget.userConfirmOrderArguments
-                          .carServicesArgument?.addressModel.id
-                          .toString(),
-                      orderTimeId: widget
-                          .userConfirmOrderArguments.timeModel?.id
-                          .toString(),
-                    )
-                  );
-
-
+                      addOrderParameters: AddOrderParameters(
+                    userPlanId: usePlan
+                        ? PlansCubit.get(context)
+                            .plansList
+                            .firstWhere((element) => element.isSubscribed == 1)
+                            .userIdPlan
+                            .toString()
+                        : null,
+                    serviceId: widget.userConfirmOrderArguments.servicesModel?.id.toString(),
+                    carTypeId: widget
+                        .userConfirmOrderArguments.carServicesArgument?.contentImageModel!.id
+                        .toString(),
+                    userAddressId: widget
+                        .userConfirmOrderArguments.carServicesArgument?.addressModel.id
+                        .toString(),
+                    orderTimeId: widget.userConfirmOrderArguments.timeModel?.id.toString(),
+                  ));
 
                   // Navigator.pushNamed(context, ScreenName.choosePaymentScreen);
                 },

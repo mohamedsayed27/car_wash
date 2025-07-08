@@ -21,8 +21,8 @@ class AppColors {
     return MaterialColor(color.value, swatch);
   }
 
-  static const primaryColor = Color(0xff152F4E);
-  static const secondaryColor = Color(0xffF6B551);
+  static const primaryColor = Color(0xff231F20);
+  static const secondaryColor = Color(0xffFBED22);
   static const whiteColor = Color(0xffFFFFFF);
   static const greyColorFA = Color(0xffFAFAFA);
   static const greenColor = Color(0xff0F8205);

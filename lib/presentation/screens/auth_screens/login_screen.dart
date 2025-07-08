@@ -30,7 +30,6 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   late final AuthCubit cubit;
 
-
   @override
   void initState() {
     cubit = AuthCubit.get(context);
@@ -76,7 +75,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: 39,
               ),
               SvgPicture.asset(
-                SvgPath.loginImage,
+                SvgPath.fastWashLoginIcon,
                 height: 217.h,
                 width: 203.w,
               ),
@@ -93,8 +92,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 hintText: "ادخل كلمة المرور",
                 isNotVisible: true,
                 maxLines: 1,
-                validator: (value){
-                  if(value!.isEmpty){
+                validator: (value) {
+                  if (value!.isEmpty) {
                     return "ادخل الرقم السري";
                   }
                   return null;
@@ -118,7 +117,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           // isUser: true,
                         ),
                       );
-
                     } else {
                       AuthCubit.get(context).handleCache(
                         token: state.loginModel?.token,
@@ -163,15 +161,14 @@ class _LoginScreenState extends State<LoginScreen> {
                   return CustomElevatedButton(
                     borderRadius: null,
                     onPressed: () {
-
-                     if(formKey.currentState!.validate()){
-                       cubit.login(
-                         loginParameters: LoginParameters(
-                           mobileNumber: cubit.loginPhoneController.text,
-                           password: cubit.loginPasswordController.text,
-                         ),
-                       );
-                     }
+                      if (formKey.currentState!.validate()) {
+                        cubit.login(
+                          loginParameters: LoginParameters(
+                            mobileNumber: cubit.loginPhoneController.text,
+                            password: cubit.loginPasswordController.text,
+                          ),
+                        );
+                      }
                     },
                     text: "ارسال الرمز",
                     width: double.infinity,
@@ -186,8 +183,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 textAlign: TextAlign.center,
                 text: TextSpan(
                   text: "ليس لديك جساب؟  ",
-                  style: CustomThemes.primaryColorTextTheme(context).copyWith(
-                      fontWeight: CustomFontWeights.w500, fontSize: 16.sp),
+                  style: CustomThemes.primaryColorTextTheme(context)
+                      .copyWith(fontWeight: CustomFontWeights.w500, fontSize: 16.sp),
                   children: [
                     WidgetSpan(
                       child: CustomTextButton(
@@ -200,8 +197,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         },
                         child: Text(
                           "سجل الان",
-                          style: CustomThemes.primaryColorTextTheme(context)
-                              .copyWith(
+                          style: CustomThemes.primaryColorTextTheme(context).copyWith(
                             fontWeight: CustomFontWeights.bold,
                             fontSize: 16.sp,
                             decoration: TextDecoration.underline,
@@ -216,8 +212,8 @@ class _LoginScreenState extends State<LoginScreen> {
               const CustomSizedBox(
                 height: 32,
               ),
-              Image.asset(
-                ImagesPath.loginLogo,
+              SvgPicture.asset(
+                SvgPath.fastWashLogo,
                 width: 96.w,
                 height: 94.h,
               ),

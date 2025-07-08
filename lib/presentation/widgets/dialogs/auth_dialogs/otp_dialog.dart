@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../business_logic/auth_cubit/auth_cubit.dart';
-import '../../../../core/app_router/screens_name.dart';
 import '../../../../core/app_theme/app_colors.dart';
 import '../../../../core/app_theme/custom_font_weights.dart';
 import '../../../../core/app_theme/custom_themes.dart';
@@ -12,7 +11,6 @@ import '../../../../core/constants/constants.dart';
 import '../../auth_widgets/otp_builder.dart';
 import '../../shared_widgets/custom_elevated_button.dart';
 import '../../shared_widgets/custom_sized_box.dart';
-import '../../shared_widgets/custom_text_button.dart';
 
 class OtpDialog extends StatelessWidget {
   final String? otpCode;
@@ -22,7 +20,8 @@ class OtpDialog extends StatelessWidget {
   const OtpDialog({
     super.key,
     this.otpCode,
-    this.phoneNumber, this.token,
+    this.phoneNumber,
+    this.token,
   });
 
   @override
@@ -54,12 +53,11 @@ class OtpDialog extends StatelessWidget {
               style: CustomThemes.greyColor7DTextTheme(context).copyWith(
                 fontSize: 14.sp,
                 height: 1.5.h,
-
                 fontWeight: CustomFontWeights.w400,
               ),
               children: [
                 TextSpan(
-                  text: "*"*phoneNumber!.length,
+                  text: "*" * phoneNumber!.length,
                   style: CustomThemes.greyColor7DTextTheme(context).copyWith(
                     fontSize: 14.sp,
                     height: 1.5.h,
@@ -67,7 +65,8 @@ class OtpDialog extends StatelessWidget {
                   ),
                 ),
                 TextSpan(
-                  text: "${phoneNumber?.substring(phoneNumber!.length - 2)} اكتب الكورد ادناه للتحقق من الرقم",
+                  text:
+                      "${phoneNumber?.substring(phoneNumber!.length - 2)} اكتب الكورد ادناه للتحقق من الرقم",
                   style: CustomThemes.greyColor7DTextTheme(context).copyWith(
                     fontSize: 14.sp,
                     height: 1.2.h,
@@ -103,7 +102,6 @@ class OtpDialog extends StatelessWidget {
                 Navigator.pop(context);
                 Navigator.pop(context);
                 showToast(errorType: 0, message: "تم التفعيل بنجاح");
-
               }
               if (state is SendOtpLoadingState) {
                 showProgressIndicator(context);
@@ -118,7 +116,7 @@ class OtpDialog extends StatelessWidget {
               return CustomElevatedButton(
                 onPressed: () {
                   // print(otpCode);
-                  cubit.sendOtp(code: otpCode ?? "",token:token??"");
+                  cubit.sendOtp(code: otpCode ?? "", token: token ?? "");
                   // Navigator.pushNamed(
                   //   context,
                   //   ScreenName.userHomeScreen,

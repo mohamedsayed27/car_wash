@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:car_wash/core/app_router/screens_name.dart';
 import 'package:car_wash/core/app_theme/app_colors.dart';
-import 'package:car_wash/core/assets_path/images_path.dart';
 import 'package:car_wash/core/assets_path/svg_path.dart';
 import 'package:car_wash/core/cache_helper/cache_keys.dart';
 import 'package:car_wash/core/cache_helper/shared_pref_methods.dart';
@@ -31,13 +30,13 @@ class _SplashScreenState extends State<SplashScreen> {
     Timer(
       const Duration(seconds: 2),
       () {
-        if(token!=null){
-          if(userType == UserTypeEnum.representative.name) {
+        if (token != null) {
+          if (userType == UserTypeEnum.representative.name) {
             Navigator.pushReplacementNamed(context, ScreenName.vendorHomeScreen);
-          }else{
+          } else {
             Navigator.pushReplacementNamed(context, ScreenName.userHomeScreen);
           }
-        }else {
+        } else {
           Navigator.pushReplacementNamed(context, ScreenName.loginScreen);
         }
       },
@@ -47,45 +46,28 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.splashBackgroundColor,
+      backgroundColor: AppColors.primaryColor,
       body: Stack(
         children: [
           Positioned(
-            right: 0,
-            left: 0,
-            bottom: 0,
-            child: Container(
-              height: 200.h,
-              width: double.infinity,
-              color: AppColors.whiteColor,
-            ),
-          ),
-          Positioned(
-            right: 0,
             left: 0,
             bottom: 0,
             child: SvgPicture.asset(
-              SvgPath.splashImage,
-              height: 493.h,
-              width: double.infinity,
-              fit: BoxFit.cover,
+              SvgPath.fastWashSplashImage,
+              fit: BoxFit.scaleDown,
             ),
           ),
           Positioned(
             right: 0,
             left: 0,
             top: 157.h,
-            child: Image.asset(
-              ImagesPath.logo,
-              width: 292.w,
-              height: 86.h,
+            child: SvgPicture.asset(
+              SvgPath.fastWashLogo,
+              width: 166.w,
+              height: 172.h,
             ),
           ),
         ],
-      ),
-      bottomNavigationBar: Container(
-        height: 46.h,
-        color: AppColors.whiteColor,
       ),
     );
   }

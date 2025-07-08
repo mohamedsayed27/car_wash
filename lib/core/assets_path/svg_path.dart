@@ -1,4 +1,4 @@
-class SvgPath{
+class SvgPath {
   static const splashImage = "assets/svg/splashImage.svg";
   static const loginImage = "assets/svg/loginImage.svg";
   static const person = "assets/svg/person.svg";
@@ -19,6 +19,8 @@ class SvgPath{
   static const message = "assets/svg/message.svg";
   static const edit = "assets/svg/edit.svg";
   static const trash = "assets/svg/trash.svg";
+  static const fastWashSplashImage = "assets/svg/fastWashSplashImage.svg";
+  static const fastWashLogo = "assets/svg/fastWashLogo.svg";
   static const location = "assets/svg/location.svg";
   static const profileMessage = "assets/svg/profileMessage.svg";
   static const infoCircle = "assets/svg/infoCircle.svg";
@@ -36,10 +38,10 @@ class SvgPath{
   static const locationOnMapSvg = "assets/svg/locationOnMapSvg.svg";
   static const logout = "assets/svg/logout.svg";
   static const logout1 = "assets/svg/logout1.svg";
+  static const fastWashLoginIcon = "assets/svg/fastWashLoginIcon.svg";
   static const arrowDown = "assets/svg/arrowDown.svg";
   static const termsAndConditions = "assets/svg/termsAndConditions.svg";
   static const privacyPolicy = "assets/svg/privacyPolicy.svg";
   static const aboutUs = "assets/svg/aboutUs.svg";
   SvgPath._();
 }
-

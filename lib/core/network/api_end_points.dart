@@ -1,5 +1,5 @@
 class EndPoints {
-  static const baseUrl = 'https://mobile.carwash-sa.com/api';
+  static const baseUrl = 'https://mobile.fastwash-sa.com/api';
   static const mapProducts = '/products';
   static const auth = '/auth';
   static const notifications = '/notifications';

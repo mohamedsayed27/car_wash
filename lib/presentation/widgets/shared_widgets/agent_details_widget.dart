@@ -1,5 +1,3 @@
-import 'package:car_wash/core/assets_path/images_path.dart';
-import 'package:car_wash/core/assets_path/svg_path.dart';
 import 'package:car_wash/presentation/widgets/shared_widgets/cached_network_image_widget.dart';
 import 'package:car_wash/presentation/widgets/shared_widgets/custom_sized_box.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +6,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../core/app_theme/custom_font_weights.dart';
 import '../../../core/app_theme/custom_themes.dart';
 import '../../../data/models/order_models/single_order_model.dart';
-import 'circle_container.dart';
 
 class AgentDetailsWidget extends StatelessWidget {
   final Representative? representative;
